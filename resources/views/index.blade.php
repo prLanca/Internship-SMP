@@ -18,7 +18,7 @@
         }
 
         .screen {
-            width: calc(50% - 20px); /* Set width for screens to occupy half of the container width */
+            width: calc(50% - 20px) ; /* Set width for screens to occupy half of the container width */
             height: 46vh; /* Adjust height as needed */
             display: flex;
             justify-content: center;
