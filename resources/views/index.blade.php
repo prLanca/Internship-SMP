@@ -113,6 +113,14 @@
             margin-bottom: 10px;
         }
 
+        /* Custom CSS */
+        .preview-btn,
+        .delete-btn {
+            height: 38px; /* Adjust the height as needed */
+            line-height: 1.5; /* Adjust the line-height to vertically center the text */
+        }
+
+
     </style>
 </head>
 
@@ -156,47 +164,68 @@
 <div id="montagem" class="content">
     <!-- File Upload Form -->
 
-
-
     <form action="{{ route('admin.upload.montagem') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div>
-            <label for="file">Choose File:</label>
-            <input type="file" id="file" name="file">
+        <div class="custom-file mb-3">
+            <input type="file" class="custom-file-input" id="file" name="file" onchange="displayFileName(this)">
+            <label class="custom-file-label" id="file-label" for="file">Choose file</label>
         </div>
-        <button type="submit">Upload File</button>
+        <button id="uploadButton" type="submit" class="btn btn-primary">Upload File</button>
     </form>
 
-    <!-- File List Table -->
+    <!-- File List Cards -->
     <h3 class="mt-4">Uploaded Files</h3>
-    <div class="table-responsive">
-        <table class="table mt-2">
-            <thead class="thead-dark">
-            <tr>
-                <th>#</th>
-                <th>File Name</th>
-                <th>Uploaded At</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            @php
-                $montagemFiles = Storage::disk('public')->files('Montagem');
-            @endphp
-            @foreach($montagemFiles as $index => $file)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ basename($file) }}</td>
-                    <td>{{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</td>
-                    <td>
-                        <button type="button" class="btn btn-success" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                        <button type="button" class="btn btn-danger" onclick="deleteFile('{{ $file }}')">Delete</button>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+    <div class="row mt-2">
+        @php
+            $montagemFiles = Storage::disk('public')->files('Montagem');
+            $rowCount = 0;
+        @endphp
+        @foreach($montagemFiles as $index => $file)
+            @if($rowCount % 6 == 0)
     </div>
+
+    <div class="row mt-4">
+
+        @endif
+        <div class="col-md-2 mb-4 d-flex">
+            <div class="card flex-fill position-relative" style="border-radius: 15px;">
+                <div class="card-header" style="height: 8vh;"> <!-- Adjust the height as needed -->
+                    <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">
+                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                    </h5>
+                </div>
+                <div class="card-body d-flex flex-column justify-content-end">
+                    <p class="card-text" style="margin-bottom: 0;">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
+                    @php
+                        $extension = pathinfo($file, PATHINFO_EXTENSION);
+                    @endphp
+                    <p class="mt-4 mb-0">File Format:
+                        @if($extension == 'pdf')
+                            <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
+                        @elseif($extension == 'doc' || $extension == 'docx')
+                            <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
+                        @elseif($extension == 'xls' || $extension == 'xlsx')
+                            <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
+                        @else
+                            <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
+                        @endif
+                    </p>
+                </div>
+                <div class="card-footer justify-content-center"> <!-- Add justify-content-center to align the buttons in the center -->
+                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                    <button type="button" class="btn btn-danger btn-block delete-btn" onclick="deleteFile('{{ $file }}')">Delete</button>
+                </div>
+            </div>
+        </div>
+
+
+        @php
+            $rowCount++;
+        @endphp
+        @endforeach
+
+    </div>
+
 </div>
 
 <!-- Content from screen 2 -->
@@ -325,11 +354,9 @@
     }
 
     /* Show the file name in the text field */
-    function displayFileName() {
-        var input = document.getElementById('file');
-        var fileName = input.files[0].name;
-        var label = document.getElementById('fileLabel');
-        label.innerHTML = fileName;
+    function displayFileName(input) {
+        const fileName = input.files[0].name;
+        document.getElementById('file-label').innerText = fileName;
     }
 
     // Function to parse the URL hash and show the corresponding content
@@ -417,9 +444,6 @@
         document.getElementById('previewModal').style.display = 'none';
         document.getElementById('previewFrame').src = '';
     }
-
-
-
 
     document.addEventListener('DOMContentLoaded', function() {
         // Check if there's an error message in the URL query parameter
