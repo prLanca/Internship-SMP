@@ -18,7 +18,7 @@
         }
 
         .screen {
-            width: calc(50% - 20px) ; /* Set width for screens to occupy half of the container width */
+            width: calc(50% - 20px); /* Set width for screens to occupy half of the container width */
             height: 46vh; /* Adjust height as needed */
             display: flex;
             justify-content: center;
@@ -206,14 +206,17 @@
 <div id="previewModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closePreview()">&times;</span>
-        <iframe id="previewFrame" frameborder="0" width="500vh" height="500vh"></iframe>
+        <iframe id="previewFrame" frameborder="0" width="1920vh" height="1080vh"></iframe>
         <div id="excelPreview"></div> <!-- Place to display Excel content -->
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<script src="{{ asset('path/to/reveal.js/dist/reveal.js') }}"></script>
 
 <script>
+
+
 
     // Function to show content and display back button
     function showContent(contentId) {
