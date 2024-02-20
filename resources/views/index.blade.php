@@ -89,6 +89,30 @@
             overflow: hidden;
         }
 
+        .error-container {
+            display: none; /* Initially hide the error container */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .error-message {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .error-message h2 {
+            color: #ff0000;
+        }
+
+        .error-message p {
+            margin-bottom: 10px;
+        }
+
     </style>
 </head>
 
@@ -131,16 +155,16 @@
 <!-- Content from screen 1 -->
 <div id="montagem" class="content">
     <!-- File Upload Form -->
-    <form id="uploadForm" method="POST" action="{{ route('admin.upload.montagem') }}" enctype="multipart/form-data" class="my-4">
+
+
+
+    <form action="{{ route('admin.upload.montagem') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="form-group">
-            <label for="file" class="form-label">Insert File:</label>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="file" name="file" onchange="displayFileName()">
-                <label class="custom-file-label" for="file" id="fileLabel">Choose file</label>
-            </div>
+        <div>
+            <label for="file">Choose File:</label>
+            <input type="file" id="file" name="file">
         </div>
-        <button type="submit" class="btn btn-danger">Upload</button>
+        <button type="submit">Upload File</button>
     </form>
 
     <!-- File List Table -->
@@ -178,17 +202,51 @@
 <!-- Content from screen 2 -->
 <div id="qualidade" class="content">
 
-    <form id="uploadForm" method="POST" action="{{ route('admin.upload.qualidade') }}" enctype="multipart/form-data" class="my-4">
+    <form action="{{ route('admin.upload.qualidade') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="form-group">
-            <label for="file" class="form-label">Insert File:</label>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="file" name="file" onchange="displayFileName()">
-                <label class="custom-file-label" for="file" id="fileLabel">Choose file</label>
-            </div>
+        <div>
+            <label for="file">Choose File:</label>
+            <input type="file" id="file" name="file">
         </div>
-        <button type="submit" class="btn btn-danger">Upload</button>
+        <button type="submit">Upload File</button>
     </form>
+
+
+    <!-- File List Table -->
+    <h3 class="mt-4">Uploaded Files</h3>
+    <div class="table-responsive">
+        <table class="table mt-2">
+            <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>File Name</th>
+                <th>Uploaded At</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            @php
+                $montagemFiles = Storage::disk('public')->files('Qualidade');
+            @endphp
+
+            @foreach($montagemFiles as $index => $file)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ basename($file) }}</td>
+                    <td>{{ date('Y-m-d H:i', Storage::disk('public')->lastModified($file)) }}</td>
+                    <td>
+                        <button type="button" class="btn btn-success" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteFile('{{ $file }}')">Delete</button>
+                    </td>
+                </tr>
+            @endforeach
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </div>
 
@@ -201,6 +259,10 @@
 <div id="content4" class="content">
     Content for Exemplo 4
 </div>
+
+@if(isset($errorMessage))
+    <div class="error-message">{{ $errorMessage }}</div>
+@endif
 
 <!-- Modal for file preview -->
 <div id="previewModal" class="modal">
@@ -355,6 +417,21 @@
         document.getElementById('previewModal').style.display = 'none';
         document.getElementById('previewFrame').src = '';
     }
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if there's an error message in the URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
+
+        if (error) {
+            // Display the error container and set the error description
+            document.getElementById('error-container').style.display = 'block';
+            document.getElementById('error-description').textContent = error;
+        }
+    });
 
 </script>
 

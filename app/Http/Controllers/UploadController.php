@@ -9,28 +9,40 @@ use function Laravel\Prompts\alert;
 
 class UploadController extends Controller
 {
-    public function upload(Request $request, $storageLocation)
+    public function upload(Request $request, $screen)
     {
-        // Validate the uploaded file
-        $request->validate([
-            'file' => 'required|file|mimes:pdf,xlsx,pptx,xls', // Example validation rules for PDF and Excel files with a maximum size of 2MB
-        ]);
+        try {
+            // Validate the uploaded file
+            $request->validate([
+                'file' => 'required|file|mimes:pdf,xlsx,pptx,xls'
+            ]);
 
-        // Get the current state of the toggled sections from the request
-        $montagemToggled = $request->input('montagem_toggled', false);
-        $qualidadeToggled = $request->input('qualidade_toggled', false);
+            // Get the current state of the toggled sections from the request
+            $montagemToggled = $request->input('montagem_toggled', false);
+            $qualidadeToggled = $request->input('qualidade_toggled', false);
 
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $fileName = $file->getClientOriginalName(); // Generate unique filename
-            $path = $storageLocation . '/' . $fileName; // Construct the file path with storage location
-            Storage::disk('public')->put($path, file_get_contents($file)); // Store the file using Laravel's storage system
+            if ($request->hasFile('file')) {
+                // Get the file from the request
+                $file = $request->file('file');
 
-            // Redirect back to the same page with the toggled states preserved
-            return redirect()->route('index')->with(['montagem_toggled' => $montagemToggled, 'qualidade_toggled' => $qualidadeToggled]);
+                // Define the destination directory based on the screen
+                $destinationDirectory = public_path('storage/' . $screen);
+
+                // Move the uploaded file to the destination directory
+                $fileName = time() . '_' . $file->getClientOriginalName(); // Generate a unique filename
+                $file->move($destinationDirectory, $fileName);
+
+                // Return a success response
+                return redirect()->route('index', ['screen' => $screen])->with(['montagem_toggled' => $montagemToggled, 'qualidade_toggled' => $qualidadeToggled]);
+            }
+
+            $errorMessage = 'No file uploaded';
+            return view('index', compact('errorMessage', 'screen'));
+
+        } catch (\Exception $e) {
+            $errorMessage = 'File upload failed: ' . $e->getMessage();
+            return view('index', compact('errorMessage', 'screen'));
         }
-
-        return view('index')->with('error', 'File upload failed');
     }
 
     public function deleteFile(Request $request) {

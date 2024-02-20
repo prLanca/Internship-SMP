@@ -116,11 +116,10 @@ Route::middleware('role:admin')->group(function (){
 
 
 
-            /* Upload files */
-            Route::post('/upload/montagem', function (Request $request) {
+            Route::post('/upload/Montagem', function (Request $request) {
                 $storageLocation = 'Montagem';
                 $uploadController = new UploadController();
-                return $uploadController->upload($request, $storageLocation);
+                return $uploadController->Upload($request, $storageLocation);
             })->name('upload.montagem');
 
             Route::post('/upload/qualidade', function (Request $request) {
@@ -128,6 +127,7 @@ Route::middleware('role:admin')->group(function (){
                 $uploadController = new UploadController();
                 return $uploadController->upload($request, $storageLocation);
             })->name('upload.qualidade');
+
 
             Route::post('/upload/Example3', function (Request $request) {
                 $storageLocation = 'Example3';
