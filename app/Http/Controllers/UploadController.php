@@ -12,25 +12,24 @@ class UploadController extends Controller
     public function upload(Request $request, $screen)
     {
         try {
-            // Validate the uploaded file
+            // Validate the uploaded files
             $request->validate([
-                'file' => 'required|file|mimes:pdf,xlsx,pptx,xls,docx'
+                'files.*' => 'required|file|mimes:pdf,xlsx,pptx,xls,docx'
             ]);
 
             // Get the current state of the toggled sections from the request
             $montagemToggled = $request->input('montagem_toggled', false);
             $qualidadeToggled = $request->input('qualidade_toggled', false);
 
-            if ($request->hasFile('file')) {
-                // Get the file from the request
-                $file = $request->file('file');
+            if ($request->hasFile('files')) {
+                foreach ($request->file('files') as $file) {
+                    // Define the destination directory based on the screen
+                    $destinationDirectory = public_path('storage/' . $screen);
 
-                // Define the destination directory based on the screen
-                $destinationDirectory = public_path('storage/' . $screen);
-
-                // Move the uploaded file to the destination directory
-                $fileName = time() . '_' . $file->getClientOriginalName(); // Generate a unique filename
-                $file->move($destinationDirectory, $fileName);
+                    // Move the uploaded file to the destination directory
+                    $fileName = $file->getClientOriginalName(); // Generate a unique filename
+                    $file->move($destinationDirectory, $fileName);
+                }
 
                 // Return a success response
                 return redirect()->route('index', ['screen' => $screen])->with(['montagem_toggled' => $montagemToggled, 'qualidade_toggled' => $qualidadeToggled]);
@@ -44,6 +43,7 @@ class UploadController extends Controller
             return view('index', compact('errorMessage', 'screen'));
         }
     }
+
 
     public function deleteFile(Request $request) {
         $filePath = $request->input('filePath');

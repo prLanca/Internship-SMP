@@ -120,6 +120,64 @@
             line-height: 1.5; /* Adjust the line-height to vertically center the text */
         }
 
+        .file-drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            display: block; /* Use block display to ensure the entire label is clickable */
+        }
+
+        .file-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .file-label {
+            font-size: 16px;
+            display: block; /* Ensure the label text is displayed properly */
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* CSS for file drop area when dragging and dropping */
+        .file-drop-area.dragged-over {
+            border-color: #007bff; /* Change border color when dragged over */
+            background-color: rgba(0, 123, 255, 0.1); /* Add a light blue background color when dragged over */
+        }
+
+        /* Additional styling for the file icon when dragged over */
+        .file-drop-area.dragged-over .file-icon {
+            color: #007bff; /* Change color of the file icon when dragged over */
+        }
+
+
+
+
+        .file-item {
+            margin-bottom: 5px; /* Add margin between file items */
+            font-size: 16px; /* Adjust font size as needed */
+            color: #333; /* Text color */
+        }
+
+        .upload-button {
+            margin-top: 10px; /* Add margin above the button */
+            padding: 10px 20px; /* Add padding to the button */
+            background-color: #007bff; /* Button background color */
+            color: #fff; /* Button text color */
+            border: none; /* Remove button border */
+            border-radius: 5px; /* Add border radius to the button */
+            cursor: pointer; /* Add cursor pointer to the button */
+            transition: background-color 0.3s; /* Add transition effect for hover */
+        }
+
+        .upload-button:hover {
+            background-color: #0056b3; /* Darken button background color on hover */
+        }
+
 
     </style>
 </head>
@@ -162,16 +220,29 @@
 
 <!-- Content from screen 1 -->
 <div id="montagem" class="content">
-    <!-- File Upload Form -->
 
-    <form action="{{ route('admin.upload.montagem') }}" method="POST" enctype="multipart/form-data">
+    <form id="montagemForm" action="{{ route('admin.upload.montagem') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="custom-file mb-3">
-            <input type="file" class="custom-file-input" id="file" name="file" onchange="displayFileName(this)">
-            <label class="custom-file-label" id="file-label" for="file">Choose file</label>
-        </div>
-        <button id="uploadButton" type="submit" class="btn btn-primary">Upload File</button>
+        <label class="file-drop-area" id="fileDropArea">
+            <div class="file-icon">
+                <i class="fas fa-file-upload"></i>
+            </div>
+            <input type="file" class="file-input" name="files[]" multiple onchange="uploadFiles(this)">
+            <span class="file-label">Click or Drag & Drop to Upload</span>
+        </label>
     </form>
+
+    <div class=" mt-4">
+        <!-- Container for file cards -->
+        <div id="droppedFilesContainer" class="row">
+
+        </div>
+
+        <button id="uploadButton" class="upload-button" onclick="return uploadFiles(this)" style="display: none;">Upload</button>
+
+    </div>
+
+
 
     <!-- File List Cards -->
     <h3 class="mt-4">Uploaded Files</h3>
@@ -190,9 +261,11 @@
         <div class="col-md-2 mb-4 d-flex">
             <div class="card flex-fill position-relative" style="border-radius: 15px;">
                 <div class="card-header" style="height: 8vh;"> <!-- Adjust the height as needed -->
-                    <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;">
-                        {{ pathinfo($file, PATHINFO_FILENAME) }}
-                    </h5>
+                    <div class="card-title-container">
+                        <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
+                            {{ pathinfo($file, PATHINFO_FILENAME) }}
+                        </h5>
+                    </div>
                 </div>
                 <div class="card-body d-flex flex-column justify-content-end">
                     <p class="card-text" style="margin-bottom: 0;">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
@@ -446,6 +519,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+
         // Check if there's an error message in the URL query parameter
         const urlParams = new URLSearchParams(window.location.search);
         const error = urlParams.get('error');
@@ -456,6 +530,226 @@
             document.getElementById('error-description').textContent = error;
         }
     });
+
+    /* FUNCTIONS TO DRAG AND DROP FILE --------------------------------------------------------------------------------- */
+
+    // Function to handle drag over event
+    function handleDragOver(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.target.classList.add('dragged-over'); // Add 'dragged-over' class to file drop area
+    }
+
+    // Function to handle drag enter event
+    function handleDragEnter(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.target.classList.add('dragged-over'); // Add 'dragged-over' class to file drop area
+    }
+
+    // Function to handle drag leave event
+    function handleDragLeave(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.target.classList.remove('dragged-over'); // Remove 'dragged-over' class from file drop area
+    }
+
+    // Function to handle drop event
+    function handleDrop(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.target.classList.remove('dragged-over'); // Remove 'dragged-over' class from file drop area
+
+        // Get dropped files
+        const files = event.dataTransfer.files;
+
+        // Display dropped files below the box
+        displayDroppedFiles(files);
+    }
+
+    function displayDroppedFiles(files) {
+        const droppedFilesContainer = document.getElementById('droppedFilesContainer');
+
+        // Clear previous files
+        droppedFilesContainer.innerHTML = '';
+
+        // Display file cards with improved design and margin between them
+        Array.from(files).forEach((file, index) => {
+            // Create card container
+            const card = document.createElement('div');
+            card.classList.add('card', 'mb-3', 'rounded', 'shadow'); // Add Bootstrap classes for card, margin, rounded corners, and shadow
+
+            // Card content
+            card.innerHTML =
+                `
+            <div class="card-body d-flex flex-column bg-light">
+                <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
+                    <!-- Add the icon here -->
+                    <p class="card-text mb-0" >${getFileFormatIcon(getFileExtension(file.name))}</p>
+                </div>
+                <div class="card-body m-0 p-1 text-center">
+                    <h6 class="card-title mb-1" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</h6>
+                    <p class="card-text mb-0">${formatFileSize(file.size)}</p>
+                </div>
+            </div>
+        `;
+
+            // Add margin between cards if there are multiple files
+            if (index > 0) {
+                card.style.marginLeft = '10px'; // Adjust the margin as needed
+            }
+
+            // Append card to the container
+            droppedFilesContainer.appendChild(card);
+        });
+
+        // Show upload button if there are files
+        const uploadButton = document.getElementById('uploadButton');
+        if (files.length > 0) {
+            uploadButton.style.display = 'block';
+        } else {
+            uploadButton.style.display = 'none';
+        }
+    }
+
+    // Function to get file extension from file name
+    function getFileExtension(fileName) {
+        return fileName.split('.').pop().toLowerCase();
+    }
+
+    // Function to format file size
+    function formatFileSize(size) {
+        if (size < 1024) {
+            return size + ' bytes';
+        } else if (size >= 1024 && size < 1048576) {
+            return (size / 1024).toFixed(2) + ' KB';
+        } else if (size >= 1048576) {
+            return (size / 1048576).toFixed(2) + ' MB';
+        }
+    }
+
+    // Function to get file format icon based on file extension
+    function getFileFormatIcon(fileExtension) {
+        switch (fileExtension.toLowerCase()) {
+            case 'pdf':
+                return '<img src="{{ asset("img/format_icons/pdf.png") }}" alt="PDF" style="width: 30px; height: 30px;">'; // PDF file icon
+            case 'docx':
+                return '<img src="{{ asset("img/format_icons/word.png") }}" alt="DOCX" style="width: 30px; height: 30px;">'; // DOCX file icon
+            case 'xlsx':
+            case 'xlsm':
+                return '<img src="{{ asset("img/format_icons/xlsx.png") }}" alt="XLSX" style="width: 30px; height: 30px;">'; // XLSX and XLSM file icon
+            case 'pptx':
+                return '<img src="{{ asset("img/format_icons/pptx.png") }}" alt="PPTX" style="width: 30px; height: 30px;">'; // PPTX file icon
+            default:
+                return '<img src="{{ asset("img/format_icons/default.png") }}" alt="File" style="width: 30px; height: 30px;">'; // Default file icon
+        }
+    }
+
+    // Add event listeners for drag events
+    const fileDropArea = document.getElementById('fileDropArea');
+    fileDropArea.addEventListener('dragover', handleDragOver);
+    fileDropArea.addEventListener('dragenter', handleDragEnter);
+    fileDropArea.addEventListener('dragleave', handleDragLeave);
+    fileDropArea.addEventListener('drop', handleDrop);
+
+    // Function to upload files
+    function uploadFiles(files) {
+        const form = document.getElementById('montagemForm'); // Assuming the form id is 'montagemForm'
+        const formData = new FormData(form);
+
+        // Get files from the droppedFilesContainer
+        const droppedFilesContainer = document.getElementById('droppedFilesContainer');
+        const fileCards = droppedFilesContainer.querySelectorAll('.card');
+
+        // Append each file to the FormData object
+        fileCards.forEach(card => {
+            const fileName = card.querySelector('.card-title').innerText;
+            formData.append('files[]', fileName);
+        });
+
+        // Submit the form with FormData
+        $.ajax({
+            url: form.action,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // Reload the page or update UI as needed
+                window.location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+                alert('File upload failed.');
+            }
+        });
+    }
+
+    // Function to upload files from droppedFilesContainer
+    function uploadDroppedFiles() {
+        const form = document.getElementById('montagemForm'); // Assuming the form id is 'montagemForm'
+        const formData = new FormData(form);
+
+        // Get files from the droppedFilesContainer
+        const droppedFilesContainer = document.getElementById('droppedFilesContainer');
+        const fileCards = droppedFilesContainer.querySelectorAll('.card');
+
+        // Append each file to the FormData object
+        fileCards.forEach(card => {
+            const fileName = card.querySelector('.card-title').innerText;
+            formData.append('files[]', fileName);
+        });
+
+        // Submit the form with FormData
+        $.ajax({
+            url: form.action,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // Reload the page or update UI as needed
+                window.location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+                alert('File upload failed.');
+            }
+        });
+    }
+
+    // Function to upload files when clicking the upload button
+    function uploadFilesOnClick() {
+        const form = document.getElementById('montagemForm'); // Assuming the form id is 'montagemForm'
+        const formData = new FormData(form);
+
+        const fileInput = document.getElementById('fileInput');
+        if (fileInput && fileInput.files.length > 0) {
+            Array.from(fileInput.files).forEach(file => {
+                formData.append('files[]', file);
+            });
+        }
+
+        // Submit the form with FormData
+        $.ajax({
+            url: form.action,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // Reload the page or update UI as needed
+                window.location.reload();
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+                alert('File upload failed.');
+            }
+        });
+    }
+
+
+    /* ----------------------------------------------------------------------------------------------------------------- */
 
 </script>
 
