@@ -14,7 +14,7 @@ class UploadController extends Controller
         try {
             // Validate the uploaded files
             $request->validate([
-                'files.*' => 'required|file|mimes:pdf,xlsx,pptx,xls,docx'
+                'files.*' => 'required|file|mimes:pdf,xlsx,xlsm,ppt,pptx,xls,docx'
             ]);
 
             // Get the current state of the toggled sections from the request

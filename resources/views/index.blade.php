@@ -222,13 +222,19 @@
 <div id="montagem" class="content">
 
     <form id="montagemForm" action="{{ route('admin.upload.montagem') }}" method="POST" enctype="multipart/form-data">
+
         @csrf
         <label class="file-drop-area" id="fileDropArea">
+
             <div class="file-icon">
-                <i class="fas fa-file-upload"></i>
+
+                <img src="{{asset('img/format_icons/default.png')}}" alt="File Icon" style="max-height: 6vh">
+
             </div>
+
             <input type="file" class="file-input" name="files[]" id="fileInput" multiple onchange="uploadFiles('montagemForm', this)">
             <span class="file-label">Click or Drag & Drop to Upload</span>
+
         </label>
 
     </form>
