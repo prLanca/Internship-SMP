@@ -227,9 +227,10 @@
             <div class="file-icon">
                 <i class="fas fa-file-upload"></i>
             </div>
-            <input type="file" class="file-input" name="files[]" multiple onchange="uploadFiles(this)">
+            <input type="file" class="file-input" name="files[]" id="fileInput" multiple onchange="uploadFiles('montagemForm', this)">
             <span class="file-label">Click or Drag & Drop to Upload</span>
         </label>
+
     </form>
 
     <div class=" mt-4">
@@ -238,11 +239,10 @@
 
         </div>
 
-        <button id="uploadButton" class="upload-button" onclick="return uploadFiles(this)" style="display: none;">Upload</button>
+        <hr id="simplehr" style="display: none;">
+        <button id="uploadButton" class="upload-button" onclick="return handleUpload('montagemForm')" style="display: none;">Upload</button>
 
     </div>
-
-
 
     <!-- File List Cards -->
     <h3 class="mt-4">Uploaded Files</h3>
@@ -262,9 +262,10 @@
             <div class="card flex-fill position-relative" style="border-radius: 15px;">
                 <div class="card-header" style="height: 8vh;"> <!-- Adjust the height as needed -->
                     <div class="card-title-container">
-                        <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
+                        <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
                             {{ pathinfo($file, PATHINFO_FILENAME) }}
                         </h5>
+                        <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
                     </div>
                 </div>
                 <div class="card-body d-flex flex-column justify-content-end">
@@ -379,8 +380,6 @@
 <script src="{{ asset('path/to/reveal.js/dist/reveal.js') }}"></script>
 
 <script>
-
-
 
     // Function to show content and display back button
     function showContent(contentId) {
@@ -554,6 +553,8 @@
         event.target.classList.remove('dragged-over'); // Remove 'dragged-over' class from file drop area
     }
 
+    let files;
+
     // Function to handle drop event
     function handleDrop(event) {
         event.preventDefault();
@@ -561,10 +562,20 @@
         event.target.classList.remove('dragged-over'); // Remove 'dragged-over' class from file drop area
 
         // Get dropped files
-        const files = event.dataTransfer.files;
+        files = event.dataTransfer.files;
+        console.log('Dropped files:', files); // Log dropped files for debugging
 
-        // Display dropped files below the box
+        // Display dropped files
         displayDroppedFiles(files);
+    }
+
+    function handleUpload(formId) {
+
+        if (files.length > 0) {
+            uploadFiles(formId, files); // Call uploadFiles with the form ID and selected files
+        } else {
+            console.error('No files have been selected.');
+        }
     }
 
     function displayDroppedFiles(files) {
@@ -579,25 +590,27 @@
             const card = document.createElement('div');
             card.classList.add('card', 'mb-3', 'rounded', 'shadow'); // Add Bootstrap classes for card, margin, rounded corners, and shadow
 
+            // Apply margin-left to align cards
+            if (index > 0) {
+                // Calculate the margin-left dynamically
+                const marginLeft = index % 7 === 0 ? 0 : (index % 7 === 1 ? '1vh' : '1vh');
+                card.style.marginLeft = marginLeft;
+            }
+
             // Card content
             card.innerHTML =
                 `
-            <div class="card-body d-flex flex-column bg-light">
+             <div class="card-body d-flex flex-column bg-light">
                 <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
                     <!-- Add the icon here -->
-                    <p class="card-text mb-0" >${getFileFormatIcon(getFileExtension(file.name))}</p>
+                    <p class="card-text mb-0">${getFileFormatIcon(getFileExtension(file.name))}</p>
                 </div>
-                <div class="card-body m-0 p-1 text-center">
+                <div class="card-body m-0 p-1 text-center" style="max-width: 18vh">
                     <h6 class="card-title mb-1" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</h6>
                     <p class="card-text mb-0">${formatFileSize(file.size)}</p>
                 </div>
             </div>
         `;
-
-            // Add margin between cards if there are multiple files
-            if (index > 0) {
-                card.style.marginLeft = '10px'; // Adjust the margin as needed
-            }
 
             // Append card to the container
             droppedFilesContainer.appendChild(card);
@@ -605,12 +618,11 @@
 
         // Show upload button if there are files
         const uploadButton = document.getElementById('uploadButton');
-        if (files.length > 0) {
-            uploadButton.style.display = 'block';
-        } else {
-            uploadButton.style.display = 'none';
-        }
+        const simplehr = document.getElementById('simplehr');
+        uploadButton.style.display = files.length > 0 ? 'block' : 'none';
+        simplehr.style.display = files.length > 0 ? 'block' : 'none';
     }
+
 
     // Function to get file extension from file name
     function getFileExtension(fileName) {
@@ -637,9 +649,9 @@
                 return '<img src="{{ asset("img/format_icons/word.png") }}" alt="DOCX" style="width: 30px; height: 30px;">'; // DOCX file icon
             case 'xlsx':
             case 'xlsm':
-                return '<img src="{{ asset("img/format_icons/xlsx.png") }}" alt="XLSX" style="width: 30px; height: 30px;">'; // XLSX and XLSM file icon
+                return '<img src="{{ asset("img/format_icons/excel.png") }}" alt="XLSX" style="width: 30px; height: 30px;">'; // XLSX and XLSM file icon
             case 'pptx':
-                return '<img src="{{ asset("img/format_icons/pptx.png") }}" alt="PPTX" style="width: 30px; height: 30px;">'; // PPTX file icon
+                return '<img src="{{ asset("img/format_icons/powerpoint.png") }}" alt="PPTX" style="width: 30px; height: 30px;">'; // PPTX file icon
             default:
                 return '<img src="{{ asset("img/format_icons/default.png") }}" alt="File" style="width: 30px; height: 30px;">'; // Default file icon
         }
@@ -653,19 +665,18 @@
     fileDropArea.addEventListener('drop', handleDrop);
 
     // Function to upload files
-    function uploadFiles(files) {
-        const form = document.getElementById('montagemForm'); // Assuming the form id is 'montagemForm'
-        const formData = new FormData(form);
+    function uploadFiles(formId, files) {
+        console.log('Uploading files:', files); // Log files for debugging
 
-        // Get files from the droppedFilesContainer
-        const droppedFilesContainer = document.getElementById('droppedFilesContainer');
-        const fileCards = droppedFilesContainer.querySelectorAll('.card');
+        const form = document.getElementById(formId); // Get the form dynamically using formId
+        const formData = new FormData(form);
 
         // Append each file to the FormData object
-        fileCards.forEach(card => {
-            const fileName = card.querySelector('.card-title').innerText;
-            formData.append('files[]', fileName);
+        Array.from(files).forEach(file => {
+            formData.append('files[]', file);
         });
+
+        console.log('FormData:', formData); // Log FormData object for debugging
 
         // Submit the form with FormData
         $.ajax({
@@ -681,73 +692,23 @@
             error: function(xhr, status, error) {
                 console.error(error);
                 alert('File upload failed.');
+
+                // Handle individual file errors
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    const errors = xhr.responseJSON.errors;
+                    files.forEach(file => {
+                        if (errors[file.name]) {
+                            console.error(`Error uploading file ${file.name}: ${errors[file.name]}`);
+                            // You can handle individual file errors here, such as displaying an alert or updating UI
+                        } else {
+                            console.log(`File ${file.name} uploaded successfully.`);
+                            // You can handle successful uploads here, such as updating UI
+                        }
+                    });
+                }
             }
         });
     }
-
-    // Function to upload files from droppedFilesContainer
-    function uploadDroppedFiles() {
-        const form = document.getElementById('montagemForm'); // Assuming the form id is 'montagemForm'
-        const formData = new FormData(form);
-
-        // Get files from the droppedFilesContainer
-        const droppedFilesContainer = document.getElementById('droppedFilesContainer');
-        const fileCards = droppedFilesContainer.querySelectorAll('.card');
-
-        // Append each file to the FormData object
-        fileCards.forEach(card => {
-            const fileName = card.querySelector('.card-title').innerText;
-            formData.append('files[]', fileName);
-        });
-
-        // Submit the form with FormData
-        $.ajax({
-            url: form.action,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                // Reload the page or update UI as needed
-                window.location.reload();
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-                alert('File upload failed.');
-            }
-        });
-    }
-
-    // Function to upload files when clicking the upload button
-    function uploadFilesOnClick() {
-        const form = document.getElementById('montagemForm'); // Assuming the form id is 'montagemForm'
-        const formData = new FormData(form);
-
-        const fileInput = document.getElementById('fileInput');
-        if (fileInput && fileInput.files.length > 0) {
-            Array.from(fileInput.files).forEach(file => {
-                formData.append('files[]', file);
-            });
-        }
-
-        // Submit the form with FormData
-        $.ajax({
-            url: form.action,
-            method: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                // Reload the page or update UI as needed
-                window.location.reload();
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-                alert('File upload failed.');
-            }
-        });
-    }
-
 
     /* ----------------------------------------------------------------------------------------------------------------- */
 
