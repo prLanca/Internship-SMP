@@ -166,18 +166,12 @@
         .upload-button {
             margin-top: 10px; /* Add margin above the button */
             padding: 10px 20px; /* Add padding to the button */
-            background-color: #007bff; /* Button background color */
             color: #fff; /* Button text color */
             border: none; /* Remove button border */
             border-radius: 5px; /* Add border radius to the button */
             cursor: pointer; /* Add cursor pointer to the button */
             transition: background-color 0.3s; /* Add transition effect for hover */
         }
-
-        .upload-button:hover {
-            background-color: #0056b3; /* Darken button background color on hover */
-        }
-
 
     </style>
 </head>
@@ -232,23 +226,33 @@
 
             </div>
 
-            <input type="file" class="file-input" name="files[]" id="fileInput" multiple onchange="uploadFiles('montagemForm', this)">
+            <input type="file" class="file-input" name="files[]" id="fileInput" multiple onchange="displaySelectedFiles(this)">
             <span class="file-label">Click or Drag & Drop to Upload</span>
+            <h6 class="file-label" style="font-size: 1.3vh; color: grey">(supported files: PDF, EXCEL, POWERPOINT, WORD)</h6>
 
         </label>
 
-    </form>
 
-    <div class=" mt-4">
-        <!-- Container for file cards -->
-        <div id="droppedFilesContainer" class="row">
+        <div class=" mt-4">
+            <!-- Container for file cards -->
+            <div id="droppedFilesContainer" class="row">
+
+            </div>
+
+            <hr id="simplehr" style="display: none;">
+
+            <!-- Warning container -->
+            <div id="warning-container" class="alert alert-danger mt-3" role="alert" style="display: none;">
+                <strong>Warning!</strong> Unsupported file can´t be uploaded, remove the file to proceed.
+            </div>
+
+            <button id="uploadButton" class="upload-button bg-danger" onclick="return handleUpload('montagemForm')" style="display: none;">Upload</button>
 
         </div>
 
-        <hr id="simplehr" style="display: none;">
-        <button id="uploadButton" class="upload-button" onclick="return handleUpload('montagemForm')" style="display: none;">Upload</button>
+    </form>
 
-    </div>
+
 
     <!-- File List Cards -->
     <h3 class="mt-4">Uploaded Files</h3>
@@ -446,7 +450,7 @@
         }
     }
 
-    // Call the function to show content based on URL hash when the page loads
+    // Call the function to show content based on URL hash when the page loadsF
     window.onload = function() {
         showContentFromUrl();
     };
@@ -584,6 +588,12 @@
         }
     }
 
+    // Function to display selected files when using file input
+    function displaySelectedFiles(input) {
+        const files = input.files;
+        displayDroppedFiles(files);
+    }
+
     function displayDroppedFiles(files) {
         const droppedFilesContainer = document.getElementById('droppedFilesContainer');
 
@@ -603,20 +613,38 @@
                 card.style.marginLeft = marginLeft;
             }
 
+            // Check if the file type is supported
+            const isSupportedFileType = ['pdf', 'xlsx', 'xlsm', 'ppt', 'pptx', 'xls', 'docx'].includes(getFileExtension(file.name));
+            console.log(`File: ${file.name}, Supported: ${isSupportedFileType}`); // Log if the file is supported or not
+
+            // Conditional styling based on file type
+            if (!isSupportedFileType) {
+                card.classList.add('border', 'border-danger', 'border-3'); // Add red border for unsupported file types and make it thicker
+
+                // Append the warning message to a container outside the card
+                const warningContainer = document.getElementById('warning-container'); // Replace 'warning-container' with the ID of your desired container
+                if (warningContainer) {
+                    warningContainer.style.display = 'block'; // Show the warning container
+                } else {
+                    console.error("Warning container not found."); // Log an error if the container is not found
+                }
+            }
+
             // Card content
             card.innerHTML =
                 `
-             <div class="card-body d-flex flex-column bg-light">
-                <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
-                    <!-- Add the icon here -->
-                    <p class="card-text mb-0">${getFileFormatIcon(getFileExtension(file.name))}</p>
-                </div>
-                <div class="card-body m-0 p-1 text-center" style="max-width: 18vh">
-                    <h6 class="card-title mb-1" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</h6>
-                    <p class="card-text mb-0">${formatFileSize(file.size)}</p>
-                </div>
+        <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
+            <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
+                <!-- Add the icon here -->
+                <p class="card-text mb-0">${getFileFormatIcon(getFileExtension(file.name))}</p>
             </div>
-        `;
+            <div class="card-body m-0 p-1 text-center" style="max-width: 18vh">
+                <h6 class="card-title mb-1" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</h6>
+                <p class="card-text mb-0">${formatFileSize(file.size)}</p>
+            </div>
+        </div>
+
+    `;
 
             // Append card to the container
             droppedFilesContainer.appendChild(card);
@@ -628,6 +656,8 @@
         uploadButton.style.display = files.length > 0 ? 'block' : 'none';
         simplehr.style.display = files.length > 0 ? 'block' : 'none';
     }
+
+
 
 
     // Function to get file extension from file name
@@ -659,7 +689,7 @@
             case 'pptx':
                 return '<img src="{{ asset("img/format_icons/powerpoint.png") }}" alt="PPTX" style="width: 30px; height: 30px;">'; // PPTX file icon
             default:
-                return '<img src="{{ asset("img/format_icons/default.png") }}" alt="File" style="width: 30px; height: 30px;">'; // Default file icon
+                return '<img src="{{ asset("img/format_icons/errorfile.png") }}" alt="File" style="width: 40px; height: 40px;">'; // Default file icon
         }
     }
 

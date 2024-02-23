@@ -12,9 +12,12 @@ class UploadController extends Controller
     public function upload(Request $request, $screen)
     {
         try {
+
             // Validate the uploaded files
             $request->validate([
                 'files.*' => 'required|file|mimes:pdf,xlsx,xlsm,ppt,pptx,xls,docx'
+            ], [
+                'files.*.mimes' => 'The uploaded file must be a PDF, Excel, Word, or PowerPoint file.', // Custom error message
             ]);
 
             // Get the current state of the toggled sections from the request
@@ -36,12 +39,15 @@ class UploadController extends Controller
             }
 
             $errorMessage = 'No file uploaded';
-            return view('index', compact('errorMessage', 'screen'));
+            return view('index', compact('errorMessage', 'screen'))->with('errorMessage', $errorMessage);
 
         } catch (\Exception $e) {
+
             $errorMessage = 'File upload failed: ' . $e->getMessage();
-            return view('index', compact('errorMessage', 'screen'));
+            return view('index', compact('errorMessage', 'screen'))->with('errorMessage', $errorMessage);
+
         }
+
     }
 
 
