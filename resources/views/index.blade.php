@@ -246,13 +246,16 @@
                 <strong>Warning!</strong> Unsupported file can´t be uploaded, remove the file to proceed.
             </div>
 
+            <!-- Mostra erro apenas da sreen que deu o erro de upload -->
+            @if(isset($errorMessage) && $screen == 'Montagem')
+                <div class="error-message">{{ $errorMessage }}</div>
+            @endif
+
             <button id="uploadButton" class="upload-button bg-danger" onclick="return handleUpload('montagemForm')" style="display: none;">Upload</button>
 
         </div>
 
     </form>
-
-
 
     <!-- File List Cards -->
     <h3 class="mt-4">Uploaded Files</h3>
@@ -321,6 +324,11 @@
             <label for="file">Choose File:</label>
             <input type="file" id="file" name="file">
         </div>
+
+        @if(isset($errorMessage ) && $screen == 'Qualidade')
+            <div class="error-message">{{ $errorMessage }}</div>
+        @endif
+
         <button type="submit">Upload File</button>
     </form>
 
@@ -373,10 +381,6 @@
     Content for Exemplo 4
 </div>
 
-@if(isset($errorMessage))
-    <div class="error-message">{{ $errorMessage }}</div>
-@endif
-
 <!-- Modal for file preview -->
 <div id="previewModal" class="modal">
     <div class="modal-content">
@@ -407,6 +411,9 @@
             window.location.hash = '#' + contentId;
             // Display back button
             document.getElementById('backButton').style.display = 'block';
+
+            // Store the current screen state in local storage
+            localStorage.setItem('currentScreen', contentId);
         }
     }
 
@@ -450,14 +457,23 @@
         }
     }
 
+
+    // Function to set the initial screen state based on the stored value
+    function setInitialScreenState() {
+        var currentScreen = localStorage.getItem('currentScreen');
+        if (currentScreen) {
+            showContent(currentScreen);
+        }
+    }
+
     // Call the function to show content based on URL hash when the page loadsF
     window.onload = function() {
         showContentFromUrl();
+        setInitialScreenState();
     };
 
     // Function to go back to the main screen and hide back button
     function goBack() {
-
         // Hide back button
         document.getElementById('backButton').style.display = 'none';
 
@@ -478,6 +494,8 @@
         // Update URL to remove the content ID
         history.pushState(null, null, window.location.pathname);
 
+        // Clear the stored screen state
+        localStorage.removeItem('currentScreen');
     }
 
     // Prevent form submission on page refresh
@@ -572,11 +590,14 @@
         event.target.classList.remove('dragged-over'); // Remove 'dragged-over' class from file drop area
 
         // Get dropped files
-        files = event.dataTransfer.files;
-        console.log('Dropped files:', files); // Log dropped files for debugging
+        const newFiles = event.dataTransfer.files;
+        console.log('Newly Dropped files:', newFiles); // Log newly dropped files for debugging
 
-        // Display dropped files
-        displayDroppedFiles(files);
+        // Display newly dropped files
+        displayDroppedFiles(newFiles);
+
+        // Append newly dropped files to the existing list of files
+        files = newFiles; // Replace existing files with newly dropped files
     }
 
     function handleUpload(formId) {
@@ -590,15 +611,12 @@
 
     // Function to display selected files when using file input
     function displaySelectedFiles(input) {
-        const files = input.files;
-        displayDroppedFiles(files);
+        const newFiles = input.files;
+        displayDroppedFiles(newFiles);
     }
 
     function displayDroppedFiles(files) {
         const droppedFilesContainer = document.getElementById('droppedFilesContainer');
-
-        // Clear previous files
-        droppedFilesContainer.innerHTML = '';
 
         // Display file cards with improved design and margin between them
         Array.from(files).forEach((file, index) => {
@@ -633,21 +651,24 @@
             // Card content
             card.innerHTML =
                 `
-        <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
-            <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
-                <!-- Add the icon here -->
-                <p class="card-text mb-0">${getFileFormatIcon(getFileExtension(file.name))}</p>
-            </div>
-            <div class="card-body m-0 p-1 text-center" style="max-width: 18vh">
-                <h6 class="card-title mb-1" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</h6>
-                <p class="card-text mb-0">${formatFileSize(file.size)}</p>
-            </div>
-        </div>
+                    <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
+                        <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
+                            <!-- Add the icon here -->
+                            <p class="card-text mb-0">${getFileFormatIcon(getFileExtension(file.name))}</p>
+                        </div>
+                        <div class="card-body m-0 p-1 text-center" style="max-width: 18vh">
+                            <h6 class="card-title mb-1" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</h6>
+                            <p class="card-text mb-0">${formatFileSize(file.size)}</p>
+                        </div>
+                    </div>
 
-    `;
+            `;
 
             // Append card to the container
             droppedFilesContainer.appendChild(card);
+
+            // Append the file to the global 'files' variable
+            files = files ? [...files, file] : [file];
         });
 
         // Show upload button if there are files

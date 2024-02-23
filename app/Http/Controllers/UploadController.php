@@ -42,12 +42,9 @@ class UploadController extends Controller
             return view('index', compact('errorMessage', 'screen'))->with('errorMessage', $errorMessage);
 
         } catch (\Exception $e) {
-
             $errorMessage = 'File upload failed: ' . $e->getMessage();
             return view('index', compact('errorMessage', 'screen'))->with('errorMessage', $errorMessage);
-
         }
-
     }
 
 
