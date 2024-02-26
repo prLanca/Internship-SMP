@@ -121,9 +121,6 @@
         }
 
         .file-drop-area {
-            border: 2px dashed #ccc;
-            border-radius: 5px;
-            padding: 20px;
             text-align: center;
             cursor: pointer;
             display: block; /* Use block display to ensure the entire label is clickable */
@@ -143,18 +140,19 @@
             display: none;
         }
 
-        /* CSS for file drop area when dragging and dropping */
-        .file-drop-area.dragged-over {
-            border-color: #007bff; /* Change border color when dragged over */
-            background-color: rgba(0, 123, 255, 0.1); /* Add a light blue background color when dragged over */
+        .file-drop-area {
+            border: 1px solid #7e7e7e; /* Add a thin dashed border */
+            border-radius: 15px; /* Add a border radius to the file drop area */
+            padding: 20px; /* Add some padding to the file drop area */
+            text-align: center; /* Center the text */
+            font-size: 1.5vh; /* Adjust font size as needed */
+            color: #333; /* Text color */
+            transition: border-color 0.3s; /* Add a transition effect to the border */
         }
 
-        /* Additional styling for the file icon when dragged over */
-        .file-drop-area.dragged-over .file-icon {
-            color: #007bff; /* Change color of the file icon when dragged over */
+        .file-drop-area:hover {
+            border: 1px solid #ff0000;
         }
-
-
 
 
         .file-item {
@@ -227,7 +225,7 @@
             </div>
 
             <input type="file" class="file-input" name="files[]" id="fileInput" multiple onchange="displaySelectedFiles(this)">
-            <span class="file-label">Click or Drag & Drop to Upload</span>
+            <span class="file-label">Click to Upload a file</span>
             <h6 class="file-label" style="font-size: 1.3vh; color: grey">(supported files: PDF, EXCEL, POWERPOINT, WORD)</h6>
 
         </label>
@@ -257,61 +255,74 @@
 
     </form>
 
+    @php
+        $montagemFiles = Storage::disk('public')->files('Montagem');
+    @endphp
+
     <!-- File List Cards -->
     <h3 class="mt-4">Uploaded Files</h3>
-    <div class="row mt-2">
-        @php
-            $montagemFiles = Storage::disk('public')->files('Montagem');
-            $rowCount = 0;
-        @endphp
-        @foreach($montagemFiles as $index => $file)
-            @if($rowCount % 6 == 0)
-    </div>
+    @if(!is_null($montagemFiles) && count($montagemFiles) > 0)
 
-    <div class="row mt-4">
 
-        @endif
-        <div class="col-md-2 mb-4 d-flex">
-            <div class="card flex-fill position-relative" style="border-radius: 15px;">
-                <div class="card-header" style="height: 8vh;"> <!-- Adjust the height as needed -->
-                    <div class="card-title-container">
-                        <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                            {{ pathinfo($file, PATHINFO_FILENAME) }}
-                        </h5>
-                        <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
-                    </div>
-                </div>
-                <div class="card-body d-flex flex-column justify-content-end">
-                    <p class="card-text" style="margin-bottom: 0;">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
-                    @php
-                        $extension = pathinfo($file, PATHINFO_EXTENSION);
-                    @endphp
-                    <p class="mt-4 mb-0">File Format:
-                        @if($extension == 'pdf')
-                            <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
-                        @elseif($extension == 'doc' || $extension == 'docx')
-                            <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
-                        @elseif($extension == 'xls' || $extension == 'xlsx')
-                            <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
-                        @else
-                            <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
-                        @endif
-                    </p>
-                </div>
-                <div class="card-footer justify-content-center"> <!-- Add justify-content-center to align the buttons in the center -->
-                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                    <button type="button" class="btn btn-danger btn-block delete-btn" onclick="deleteFile('{{ $file }}')">Delete</button>
-                </div>
-            </div>
+        <div class="row mt-2">
+            @php
+                $montagemFiles = Storage::disk('public')->files('Montagem');
+                $rowCount = 0;
+            @endphp
+            @foreach($montagemFiles as $index => $file)
+                @if($rowCount % 6 == 0)
         </div>
 
+        <div class="row mt-4">
 
-        @php
-            $rowCount++;
-        @endphp
-        @endforeach
+            @endif
+            <div class="col-md-2 mb-4 d-flex">
+                <div class="card flex-fill position-relative" style="border-radius: 15px;">
+                    <div class="card-header" style="height: 8vh;"> <!-- Adjust the height as needed -->
+                        <div class="card-title-container">
+                            <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
+                                {{ pathinfo($file, PATHINFO_FILENAME) }}
+                            </h5>
+                            <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex flex-column justify-content-end">
+                        <p class="card-text" style="margin-bottom: 0;">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
+                        @php
+                            $extension = pathinfo($file, PATHINFO_EXTENSION);
+                        @endphp
+                        <p class="mt-4 mb-0">File Format:
+                            @if($extension == 'pdf')
+                                <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
+                            @elseif($extension == 'doc' || $extension == 'docx')
+                                <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
+                            @elseif($extension == 'xls' || $extension == 'xlsx')
+                                <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
+                            @else
+                                <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
+                            @endif
+                        </p>
+                    </div>
+                    <div class="card-footer justify-content-center"> <!-- Add justify-content-center to align the buttons in the center -->
+                        <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                        <button type="button" class="btn btn-danger btn-block delete-btn" onclick="deleteFile('{{ $file }}')">Delete</button>
+                    </div>
+                </div>
+            </div>
 
-    </div>
+
+            @php
+                $rowCount++;
+            @endphp
+            @endforeach
+
+        </div>
+
+    @else
+        <div class="alert alert-danger mt-4" role="alert">
+            No files uploaded yet.
+        </div>
+    @endif
 
 </div>
 
@@ -395,6 +406,8 @@
 
 <script>
 
+    let files = [];
+
     // Function to show content and display back button
     function showContent(contentId) {
         // Hide all screens
@@ -417,36 +430,6 @@
         }
     }
 
-    // Function to delete the files
-    function deleteFile(filePath) {
-        if (confirm("Tem certeza de que deseja excluir este arquivo?")) {
-            $.ajax({
-                url: "{{ route('admin.delete.file') }}", // Corrigido para usar a rota correta
-                method: 'POST',
-                data: { filePath: filePath },
-                success: function(response) {
-
-                    // Recarregue a página após a exclusão bem-sucedida
-
-                    window.location.reload();
-                },
-
-                error: function(xhr, status, error) {
-                    console.error(error);
-                    alert('Falha ao excluir arquivo.');
-                }
-
-            });
-
-        }
-
-    }
-
-    /* Show the file name in the text field */
-    function displayFileName(input) {
-        const fileName = input.files[0].name;
-        document.getElementById('file-label').innerText = fileName;
-    }
 
     // Function to parse the URL hash and show the corresponding content
     function showContentFromUrl() {
@@ -456,7 +439,6 @@
             showContent(contentId);
         }
     }
-
 
     // Function to set the initial screen state based on the stored value
     function setInitialScreenState() {
@@ -498,30 +480,6 @@
         localStorage.removeItem('currentScreen');
     }
 
-    // Prevent form submission on page refresh
-    $(document).ready(function() {
-        $('#uploadForm').submit(function(e) {
-            e.preventDefault(); // Prevent default form submission
-            // Submit form data using AJAX
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'POST',
-                data: new FormData(this),
-                processData: false,
-                contentType: false,
-                success: function(response) {
-
-                    // Reload the page
-                    window.location.reload();
-                },
-                error: function(xhr, status, error) {
-                    // Handle error response
-                    alert('File upload failed');
-                }
-            });
-        });
-    });
-
     // Function to Preview the pdf file
     function openPreview(url) {
         if (url.toLowerCase().endsWith('.pdf')) {
@@ -558,48 +516,6 @@
         }
     });
 
-    /* FUNCTIONS TO DRAG AND DROP FILE --------------------------------------------------------------------------------- */
-
-    // Function to handle drag over event
-    function handleDragOver(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        event.target.classList.add('dragged-over'); // Add 'dragged-over' class to file drop area
-    }
-
-    // Function to handle drag enter event
-    function handleDragEnter(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        event.target.classList.add('dragged-over'); // Add 'dragged-over' class to file drop area
-    }
-
-    // Function to handle drag leave event
-    function handleDragLeave(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        event.target.classList.remove('dragged-over'); // Remove 'dragged-over' class from file drop area
-    }
-
-    let files = [];
-
-    // Function to handle drop event
-    function handleDrop(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        event.target.classList.remove('dragged-over'); // Remove 'dragged-over' class from file drop area
-
-        // Get dropped files
-        const newFiles = event.dataTransfer.files;
-        console.log('Newly Dropped files:', newFiles); // Log newly dropped files for debugging
-
-        // Display newly dropped files
-        displayDroppedFiles(newFiles);
-
-        // Append newly dropped files to the existing list of files
-        files = files.concat(Array.from(newFiles)); // Concatenate new files with existing files array
-    }
-
     function handleUpload(formId) {
         if (files.length > 0) {
             uploadFiles(formId, files); // Call uploadFiles with the form ID and selected files
@@ -611,24 +527,27 @@
     // Function to display selected files when using file input
     function displaySelectedFiles(input) {
         const newFiles = input.files;
-        displayDroppedFiles(newFiles);
+
+        // Append each new file to the existing files array
+        Array.from(newFiles).forEach(newFile => {
+            files.push(newFile);
+        });
+
+        // Display dropped files
+        displayDroppedFiles(files);
     }
 
     function displayDroppedFiles(files) {
         const droppedFilesContainer = document.getElementById('droppedFilesContainer');
 
+        // Clear previous files from the container
+        droppedFilesContainer.innerHTML = '';
+
         // Display file cards with improved design and margin between them
         Array.from(files).forEach((file, index) => {
             // Create card container
             const card = document.createElement('div');
-            card.classList.add('card', 'mb-3', 'rounded', 'shadow'); // Add Bootstrap classes for card, margin, rounded corners, and shadow
-
-            // Apply margin-left to align cards
-            if (index > 0) {
-                // Calculate the margin-left dynamically
-                const marginLeft = index % 7 === 0 ? 0 : (index % 7 === 1 ? '1vh' : '1vh');
-                card.style.marginLeft = marginLeft;
-            }
+            card.classList.add('card', 'mb-3', 'rounded', 'shadow', 'ml-1', 'mr-1'); // Add Bootstrap classes for card, margin, rounded corners, and shadow
 
             // Check if the file type is supported
             const isSupportedFileType = ['pdf', 'xlsx', 'xlsm', 'ppt', 'pptx', 'xls', 'docx'].includes(getFileExtension(file.name));
@@ -650,24 +569,20 @@
             // Card content
             card.innerHTML =
                 `
-                    <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
-                        <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
-                            <!-- Add the icon here -->
-                            <p class="card-text mb-0">${getFileFormatIcon(getFileExtension(file.name))}</p>
-                        </div>
-                        <div class="card-body m-0 p-1 text-center" style="max-width: 18vh">
-                            <h6 class="card-title mb-1" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</h6>
-                            <p class="card-text mb-0">${formatFileSize(file.size)}</p>
-                        </div>
+                <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
+                    <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
+                        <!-- Add the icon here -->
+                        <p class="card-text mb-0">${getFileFormatIcon(getFileExtension(file.name))}</p>
                     </div>
-
-            `;
+                    <div class="card-body m-0 p-1 text-center" style="max-width: 18vh">
+                        <h6 class="card-title mb-1" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</h6>
+                        <p class="card-text mb-0">${formatFileSize(file.size)}</p>
+                    </div>
+                </div>
+        `;
 
             // Append card to the container
             droppedFilesContainer.appendChild(card);
-
-            // Append the file to the global 'files' variable
-            files = files ? [...files, file] : [file];
         });
 
         // Show upload button if there are files
@@ -676,9 +591,6 @@
         uploadButton.style.display = files.length > 0 ? 'block' : 'none';
         simplehr.style.display = files.length > 0 ? 'block' : 'none';
     }
-
-
-
 
     // Function to get file extension from file name
     function getFileExtension(fileName) {
@@ -715,10 +627,6 @@
 
     // Add event listeners for drag events
     const fileDropArea = document.getElementById('fileDropArea');
-    fileDropArea.addEventListener('dragover', handleDragOver);
-    fileDropArea.addEventListener('dragenter', handleDragEnter);
-    fileDropArea.addEventListener('dragleave', handleDragLeave);
-    fileDropArea.addEventListener('drop', handleDrop);
 
     // Function to upload files
     function uploadFiles(formId, files) {
@@ -742,8 +650,13 @@
             processData: false,
             contentType: false,
             success: function(response) {
-                // Reload the page or update UI as needed
+                // Calculate the delay based on the number and size of files
+                const totalFileSize = Array.from(files).reduce((total, file) => total + file.size, 0);
+                const uploadDelay = Math.max(5000, totalFileSize / 1000); // Minimum delay of 5 seconds or 1 second per KB
+
+                // Delay before refreshing the page
                 window.location.reload();
+
             },
             error: function(xhr, status, error) {
                 console.error(error);

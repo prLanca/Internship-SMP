@@ -15,9 +15,9 @@ class UploadController extends Controller
 
             // Validate the uploaded files
             $request->validate([
-                'files.*' => 'required|file|mimes:pdf,xlsx,xlsm,ppt,pptx,xls,docx'
+                'files.*' => 'required|file|mimes:pdf,xlsx,xlsm,ppt,pptx,xls,docx|max:102400' // 100MB file size limit
             ], [
-                'files.*.mimes' => 'The uploaded file must be a PDF, Excel, Word, or PowerPoint file.', // Custom error message
+                'files.*.mimes' => 'The uploaded file must be a PDF, Excel, Word, or PowerPoint.', // Custom error message
             ]);
 
             // Get the current state of the toggled sections from the request
@@ -50,10 +50,14 @@ class UploadController extends Controller
                 // Return an error message if no files are uploaded
                 $errorMessage = 'No file uploaded';
                 return redirect()->route('index', ['screen' => $screen])
+
                     ->with('errorMessage', $errorMessage)
+
                     ->with([
+
                         'montagem_toggled' => $montagemToggled,
                         'qualidade_toggled' => $qualidadeToggled
+
                     ]);
 
             }
