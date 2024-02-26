@@ -34,12 +34,29 @@ class UploadController extends Controller
                     $file->move($destinationDirectory, $fileName);
                 }
 
-                // Return a success response
-                return redirect()->route('index', ['screen' => $screen])->with(['montagem_toggled' => $montagemToggled, 'qualidade_toggled' => $qualidadeToggled]);
-            }
+                // Return a success response with toggled sections
+                return redirect()->route('index', ['screen' => $screen])
 
-            $errorMessage = 'No file uploaded';
-            return view('index', compact('errorMessage', 'screen'))->with('errorMessage', $errorMessage);
+                    ->with([
+
+                        'montagem_toggled' => $montagemToggled,
+                        'qualidade_toggled' => $qualidadeToggled
+
+                    ]);
+
+
+            } else {
+
+                // Return an error message if no files are uploaded
+                $errorMessage = 'No file uploaded';
+                return redirect()->route('index', ['screen' => $screen])
+                    ->with('errorMessage', $errorMessage)
+                    ->with([
+                        'montagem_toggled' => $montagemToggled,
+                        'qualidade_toggled' => $qualidadeToggled
+                    ]);
+
+            }
 
         } catch (\Exception $e) {
             $errorMessage = 'File upload failed: ' . $e->getMessage();

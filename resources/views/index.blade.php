@@ -251,7 +251,7 @@
                 <div class="error-message">{{ $errorMessage }}</div>
             @endif
 
-            <button id="uploadButton" class="upload-button bg-danger" onclick="return handleUpload('montagemForm')" style="display: none;">Upload</button>
+            <button id="uploadButton" class="upload-button bg-danger" onclick="return handleUpload('montagemForm', files)" style="display: none;">Upload</button>
 
         </div>
 
@@ -581,7 +581,7 @@
         event.target.classList.remove('dragged-over'); // Remove 'dragged-over' class from file drop area
     }
 
-    let files;
+    let files = [];
 
     // Function to handle drop event
     function handleDrop(event) {
@@ -597,11 +597,10 @@
         displayDroppedFiles(newFiles);
 
         // Append newly dropped files to the existing list of files
-        files = newFiles; // Replace existing files with newly dropped files
+        files = files.concat(Array.from(newFiles)); // Concatenate new files with existing files array
     }
 
     function handleUpload(formId) {
-
         if (files.length > 0) {
             uploadFiles(formId, files); // Call uploadFiles with the form ID and selected files
         } else {
