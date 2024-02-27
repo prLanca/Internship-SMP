@@ -305,7 +305,14 @@
                     </div>
                     <div class="card-footer justify-content-center"> <!-- Add justify-content-center to align the buttons in the center -->
                         <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                        <button type="button" class="btn btn-danger btn-block delete-btn" onclick="deleteFile('{{ $file }}')">Delete</button>
+
+
+                        <form action="{{ route('admin.delete.file') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="filePath" value="{{ $file }}">
+                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -569,6 +576,9 @@
             // Card content
             card.innerHTML =
                 `
+                <div class="d-flex justify-content-end"> <!-- Align delete button to the right -->
+                    <button type="button" style="color: grey; text-decoration: none;" class="btn btn-link delete-btn position-absolute mt-0 delbuttoncard" onclick="deleteDisplayedFile(${index})">&times;</button>
+                </div>
                 <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
                     <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
                         <!-- Add the icon here -->
@@ -579,7 +589,7 @@
                         <p class="card-text mb-0">${formatFileSize(file.size)}</p>
                     </div>
                 </div>
-        `;
+            `;
 
             // Append card to the container
             droppedFilesContainer.appendChild(card);

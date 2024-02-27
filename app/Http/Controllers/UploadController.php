@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use function Laravel\Prompts\alert;
 
@@ -69,16 +70,23 @@ class UploadController extends Controller
     }
 
 
-    public function deleteFile(Request $request) {
+    public function deleteFile(Request $request)
+    {
         $filePath = $request->input('filePath');
 
-        // Verificar se o arquivo existe
-        if (Storage::disk('public')->exists($filePath)) {
-            // Excluir o arquivo
-            Storage::disk('public')->delete($filePath);
-            return response()->json(['message' => 'File deleted successfully']);
+        // Check if the file path is valid
+        if ($filePath) {
+            // Delete the file from storage
+            if (Storage::disk('public')->exists($filePath)) {
+                Storage::disk('public')->delete($filePath);
+
+                // Redirect to the index page
+                return redirect()->route('index')->with('success', 'File deleted successfully');
+            } else {
+                return redirect()->route('index')->with('error', 'File not found');
+            }
         } else {
-            return response()->json(['error' => 'File not found'], 404);
+            return redirect()->route('index')->with('error', 'Invalid file path');
         }
     }
 
