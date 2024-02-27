@@ -173,6 +173,32 @@
             }
         }
 
+
+        /* Custom scrollbar styles */
+        .scrollable-div {
+            overflow-y: hidden; /* Hide the vertical scrollbar by default */
+        }
+
+        .scrollable-div:hover {
+            overflow-y: auto; /* Display the vertical scrollbar on hover */
+        }
+
+        /* Track */
+        .scrollable-div::-webkit-scrollbar {
+            width: 10px; /* Set the width of the scrollbar */
+        }
+
+        /* Handle */
+        .scrollable-div::-webkit-scrollbar-thumb {
+            background: #888; /* Color of the scrollbar handle */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        /* Handle on hover */
+        .scrollable-div::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Darker color when hovered */
+        }
+
     </style>
 
 </head>
@@ -281,89 +307,93 @@
 
     @if(!is_null($montagemFiles) && count($montagemFiles) > 0)
 
-        <div class="row mt-2">
-            
-            <div class="row mt-4">
+        <div class="container-fluid scrollable-div" style="max-height: 72vh; overflow-y: auto;">
 
-                @php
-                    $montagemFiles = Storage::disk('public')->files('Montagem');
-                    $rowCount = 0;
-                    $maxrow = 6;
-                @endphp
+            <div class="row mt-2">
 
-                @foreach($montagemFiles as $index => $file)
-                    @if($rowCount % $maxrow == 0)
-                @endif
+                <div class="row mt-4">
 
-                <div class="col-md-2 mb-4 d-flex">
+                    @php
+                        $montagemFiles = Storage::disk('public')->files('Montagem');
+                        $rowCount = 0;
+                        $maxrow = 6;
+                    @endphp
 
-                    <div class="card flex-fill position-relative" style="border-radius: 15px;">
+                    @foreach($montagemFiles as $index => $file)
+                        @if($rowCount % $maxrow == 0)
+                        @endif
 
-                        <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0"> <!-- Adjust the height as needed -->
+                        <div class="col-md-2 mb-4 d-flex">
 
-                            <div class="card-title-container">
+                            <div class="card flex-fill position-relative" style="border-radius: 15px;">
 
-                                <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                    {{ pathinfo($file, PATHINFO_FILENAME) }}
-                                </h5>
+                                <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0"> <!-- Adjust the height as needed -->
 
-                                <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
+                                    <div class="card-title-container">
+
+                                        <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
+                                            {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                        </h5>
+
+                                        <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="card-body d-flex flex-column justify-content-end">
+
+                                    <p class="card-text" style="margin-bottom: 0;">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
+
+                                    @php
+                                        $extension = pathinfo($file, PATHINFO_EXTENSION);
+                                    @endphp
+
+                                    <p class="mt-4 mb-0">File Format:
+                                        @if($extension == 'pdf')
+                                            <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
+                                        @elseif($extension == 'doc' || $extension == 'docx')
+                                            <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
+                                        @elseif($extension == 'xls' || $extension == 'xlsx')
+                                            <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
+                                        @else
+                                            <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
+                                        @endif
+                                    </p>
+
+                                </div>
+
+                                <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
+
+                                    @if($extension == 'pdf')
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                    @else
+                                        <!-- Display download button for other file types -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
+                                    @endif
+
+
+                                    <form action="{{ route('admin.delete.file') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="filePath" value="{{ $file }}">
+                                        <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                    </form>
+
+                                </div>
 
                             </div>
 
                         </div>
 
-                        <div class="card-body d-flex flex-column justify-content-end">
 
-                            <p class="card-text" style="margin-bottom: 0;">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
+                        @php
+                            $rowCount++;
+                        @endphp
 
-                            @php
-                                $extension = pathinfo($file, PATHINFO_EXTENSION);
-                            @endphp
-
-                            <p class="mt-4 mb-0">File Format:
-                                @if($extension == 'pdf')
-                                    <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
-                                @elseif($extension == 'doc' || $extension == 'docx')
-                                    <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
-                                @elseif($extension == 'xls' || $extension == 'xlsx')
-                                    <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
-                                @else
-                                    <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
-                                @endif
-                            </p>
-
-                        </div>
-
-                        <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
-
-                            @if($extension == 'pdf')
-                                <!-- Display preview button for PDF files -->
-                                <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                            @else
-                                <!-- Display download button for other file types -->
-                                <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                            @endif
-
-
-                            <form action="{{ route('admin.delete.file') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="filePath" value="{{ $file }}">
-                                <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
-                            </form>
-
-                        </div>
-
-                    </div>
+                    @endforeach
 
                 </div>
-
-
-                @php
-                    $rowCount++;
-                @endphp
-
-                @endforeach
 
             </div>
 
