@@ -31,14 +31,6 @@
             transition: border-color 0.3s; /* Smooth transition for border color */
         }
 
-        @media (max-width: 768px) {
-            /* Adjust styles for small screens (mobile) */
-            .screen {
-                width: calc(100% - 20px); /* Set width to occupy full width on small screens */
-                height: 20vh; /* Adjust height as needed */
-            }
-        }
-
         .screen:hover {
             border-color: #730000; /* Darker green border on hover */
         }
@@ -171,6 +163,16 @@
             transition: background-color 0.3s; /* Add transition effect for hover */
         }
 
+        /* #################### Media Screens #################### */
+
+        @media (max-width: 768px) {
+            /* Adjust styles for small screens (mobile) */
+            .screen {
+                width: calc(100% - 20px); /* Set width to occupy full width on small screens */
+                height: 20vh; /* Adjust height as needed */
+            }
+        }
+
     </style>
 
 </head>
@@ -280,90 +282,90 @@
     @if(!is_null($montagemFiles) && count($montagemFiles) > 0)
 
         <div class="row mt-2">
+            
+            <div class="row mt-4">
 
-            @php
-                $montagemFiles = Storage::disk('public')->files('Montagem');
-                $rowCount = 0;
-            @endphp
+                @php
+                    $montagemFiles = Storage::disk('public')->files('Montagem');
+                    $rowCount = 0;
+                    $maxrow = 6;
+                @endphp
 
-            @foreach($montagemFiles as $index => $file)
-                @if($rowCount % 6 == 0)
+                @foreach($montagemFiles as $index => $file)
+                    @if($rowCount % $maxrow == 0)
+                @endif
 
-        </div>
+                <div class="col-md-2 mb-4 d-flex">
 
-        <div class="row mt-4">
+                    <div class="card flex-fill position-relative" style="border-radius: 15px;">
 
-            @endif
+                        <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0"> <!-- Adjust the height as needed -->
 
-            <div class="col-md-2 mb-4 d-flex">
+                            <div class="card-title-container">
 
-                <div class="card flex-fill position-relative" style="border-radius: 15px;">
+                                <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
+                                    {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                </h5>
 
-                    <div class="card-header" style="height: 8vh;"> <!-- Adjust the height as needed -->
+                                <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
 
-                        <div class="card-title-container">
+                            </div>
 
-                            <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                {{ pathinfo($file, PATHINFO_FILENAME) }}
-                            </h5>
+                        </div>
 
-                            <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
+                        <div class="card-body d-flex flex-column justify-content-end">
+
+                            <p class="card-text" style="margin-bottom: 0;">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
+
+                            @php
+                                $extension = pathinfo($file, PATHINFO_EXTENSION);
+                            @endphp
+
+                            <p class="mt-4 mb-0">File Format:
+                                @if($extension == 'pdf')
+                                    <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
+                                @elseif($extension == 'doc' || $extension == 'docx')
+                                    <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
+                                @elseif($extension == 'xls' || $extension == 'xlsx')
+                                    <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
+                                @else
+                                    <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
+                                @endif
+                            </p>
+
+                        </div>
+
+                        <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
+
+                            @if($extension == 'pdf')
+                                <!-- Display preview button for PDF files -->
+                                <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                            @else
+                                <!-- Display download button for other file types -->
+                                <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
+                            @endif
+
+
+                            <form action="{{ route('admin.delete.file') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="filePath" value="{{ $file }}">
+                                <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                            </form>
 
                         </div>
 
                     </div>
 
-                    <div class="card-body d-flex flex-column justify-content-end">
-
-                        <p class="card-text" style="margin-bottom: 0;">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
-
-                        @php
-                            $extension = pathinfo($file, PATHINFO_EXTENSION);
-                        @endphp
-
-                        <p class="mt-4 mb-0">File Format:
-                            @if($extension == 'pdf')
-                                <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
-                            @elseif($extension == 'doc' || $extension == 'docx')
-                                <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
-                            @elseif($extension == 'xls' || $extension == 'xlsx')
-                                <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
-                            @else
-                                <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
-                            @endif
-                        </p>
-
-                    </div>
-
-                    <div class="card-footer justify-content-center"> <!-- Add justify-content-center to align the buttons in the center -->
-
-                        @if($extension == 'pdf')
-                            <!-- Display preview button for PDF files -->
-                            <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                        @else
-                            <!-- Display download button for other file types -->
-                            <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                        @endif
-
-
-                        <form action="{{ route('admin.delete.file') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="filePath" value="{{ $file }}">
-                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
-                        </form>
-
-                    </div>
-
                 </div>
 
+
+                @php
+                    $rowCount++;
+                @endphp
+
+                @endforeach
+
             </div>
-
-
-            @php
-                $rowCount++;
-            @endphp
-
-            @endforeach
 
         </div>
 
