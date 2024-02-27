@@ -80,13 +80,15 @@ class UploadController extends Controller
             if (Storage::disk('public')->exists($filePath)) {
                 Storage::disk('public')->delete($filePath);
 
-                // Redirect to the index page
-                return redirect()->route('index')->with('success', 'File deleted successfully');
+                // Redirect to the index page with a custom success message
+                return redirect()->route('index')->with('success', 'File has been successfully deleted.');
             } else {
-                return redirect()->route('index')->with('error', 'File not found');
+                // If file not found, redirect with an error message
+                return redirect()->route('index')->with('error', 'File not found.');
             }
         } else {
-            return redirect()->route('index')->with('error', 'Invalid file path');
+            // If invalid file path, redirect with an error message
+            return redirect()->route('index')->with('error', 'Invalid file path.');
         }
     }
 

@@ -177,7 +177,9 @@
 <body>
 
 <button id="backButton" onclick="goBack()" class="btn btn-danger" style="margin-bottom: 20px; display: none;">
+
     <i class="fas fa-arrow-left"></i> Go Back
+
 </button>
 
 <div class="row">
@@ -225,7 +227,9 @@
             </div>
 
             <input type="file" class="file-input" name="files[]" id="fileInput" multiple onchange="displaySelectedFiles(this)">
+
             <span class="file-label">Click to Upload a file</span>
+
             <h6 class="file-label" style="font-size: 1.3vh; color: grey">(supported files: PDF, EXCEL, POWERPOINT, WORD)</h6>
 
         </label>
@@ -261,36 +265,51 @@
 
     <!-- File List Cards -->
     <h3 class="mt-4">Uploaded Files</h3>
+
     @if(!is_null($montagemFiles) && count($montagemFiles) > 0)
 
-
         <div class="row mt-2">
+
             @php
                 $montagemFiles = Storage::disk('public')->files('Montagem');
                 $rowCount = 0;
             @endphp
+
             @foreach($montagemFiles as $index => $file)
                 @if($rowCount % 6 == 0)
+
         </div>
 
         <div class="row mt-4">
 
             @endif
+
             <div class="col-md-2 mb-4 d-flex">
+
                 <div class="card flex-fill position-relative" style="border-radius: 15px;">
+
                     <div class="card-header" style="height: 8vh;"> <!-- Adjust the height as needed -->
+
                         <div class="card-title-container">
+
                             <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
                                 {{ pathinfo($file, PATHINFO_FILENAME) }}
                             </h5>
+
                             <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
+
                         </div>
+
                     </div>
+
                     <div class="card-body d-flex flex-column justify-content-end">
+
                         <p class="card-text" style="margin-bottom: 0;">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
+
                         @php
                             $extension = pathinfo($file, PATHINFO_EXTENSION);
                         @endphp
+
                         <p class="mt-4 mb-0">File Format:
                             @if($extension == 'pdf')
                                 <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
@@ -302,8 +321,11 @@
                                 <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
                             @endif
                         </p>
+
                     </div>
+
                     <div class="card-footer justify-content-center"> <!-- Add justify-content-center to align the buttons in the center -->
+
                         <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
 
 
@@ -314,13 +336,16 @@
                         </form>
 
                     </div>
+
                 </div>
+
             </div>
 
 
             @php
                 $rowCount++;
             @endphp
+
             @endforeach
 
         </div>
@@ -337,6 +362,7 @@
 <div id="qualidade" class="content">
 
     <form action="{{ route('admin.upload.qualidade') }}" method="POST" enctype="multipart/form-data">
+
         @csrf
         <div>
             <label for="file">Choose File:</label>
@@ -348,6 +374,7 @@
         @endif
 
         <button type="submit">Upload File</button>
+        
     </form>
 
 
