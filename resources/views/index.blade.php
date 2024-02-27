@@ -176,11 +176,17 @@
 
 <body>
 
+<!-- ########################################## Back Button ########################################## -->
+
 <button id="backButton" onclick="goBack()" class="btn btn-danger" style="margin-bottom: 20px; display: none;">
 
     <i class="fas fa-arrow-left"></i> Go Back
 
 </button>
+
+<!-- ######################################## End Back Button ######################################## -->
+
+<!-- ############################################ Screens ############################################ -->
 
 <div class="row">
 
@@ -211,6 +217,10 @@
     </div>
 
 </div>
+
+<!-- ########################################## End Screens ########################################## -->
+
+<!-- ######################################## Screens Content ######################################## -->
 
 <!-- Content from screen 1 -->
 <div id="montagem" class="content">
@@ -374,7 +384,7 @@
         @endif
 
         <button type="submit">Upload File</button>
-        
+
     </form>
 
 
@@ -426,6 +436,10 @@
     Content for Exemplo 4
 </div>
 
+<!-- ###################################### End Screens Content ###################################### -->
+
+<!-- ###################################### Preview Screens PDF ###################################### -->
+
 <!-- Modal for file preview -->
 <div id="previewModal" class="modal">
     <div class="modal-content">
@@ -435,6 +449,8 @@
     </div>
 </div>
 
+<!-- #################################### End Preview Screens PDF #################################### -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 <script src="{{ asset('path/to/reveal.js/dist/reveal.js') }}"></script>
 
@@ -442,7 +458,9 @@
 
     let files = [];
 
-    // Function to show content and display back button
+
+    <!-- ############################### Scripts for Screens ############################### -->
+
     function showContent(contentId) {
         // Hide all screens
         var screens = document.querySelectorAll('.screen');
@@ -463,7 +481,6 @@
             localStorage.setItem('currentScreen', contentId);
         }
     }
-
 
     // Function to parse the URL hash and show the corresponding content
     function showContentFromUrl() {
@@ -487,6 +504,10 @@
         showContentFromUrl();
         setInitialScreenState();
     };
+
+    <!-- ############################# End Scripts for Screens ############################# -->
+
+    <!-- ################################# Back button ################################# -->
 
     // Function to go back to the main screen and hide back button
     function goBack() {
@@ -513,6 +534,10 @@
         // Clear the stored screen state
         localStorage.removeItem('currentScreen');
     }
+
+    <!-- ############################### End Back button ############################### -->
+
+    <!-- ############################### File PDF Preview ############################### -->
 
     // Function to Preview the pdf file
     function openPreview(url) {
@@ -550,13 +575,10 @@
         }
     });
 
-    function handleUpload(formId) {
-        if (files.length > 0) {
-            uploadFiles(formId, files); // Call uploadFiles with the form ID and selected files
-        } else {
-            console.error('No files have been selected.');
-        }
-    }
+    <!-- ############################# End File PDF Preview ############################# -->
+
+
+    <!-- ############################## File Display before uplaoding ############################# -->
 
     // Function to display selected files when using file input
     function displaySelectedFiles(input) {
@@ -662,8 +684,17 @@
         }
     }
 
-    // Add event listeners for drag events
-    const fileDropArea = document.getElementById('fileDropArea');
+    <!-- ############################## End File Display before uplaoding ############################# -->
+
+    <!-- ################################## File Upload ################################## -->
+
+    function handleUpload(formId) {
+        if (files.length > 0) {
+            uploadFiles(formId, files); // Call uploadFiles with the form ID and selected files
+        } else {
+            console.error('No files have been selected.');
+        }
+    }
 
     // Function to upload files
     function uploadFiles(formId, files) {
@@ -716,7 +747,7 @@
         });
     }
 
-    /* ----------------------------------------------------------------------------------------------------------------- */
+    <!-- ################################ End File Upload ################################ -->
 
 </script>
 
