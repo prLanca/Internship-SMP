@@ -172,6 +172,7 @@
         }
 
     </style>
+
 </head>
 
 <body>
@@ -336,7 +337,13 @@
 
                     <div class="card-footer justify-content-center"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                        <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                        @if($extension == 'pdf')
+                            <!-- Display preview button for PDF files -->
+                            <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                        @else
+                            <!-- Display download button for other file types -->
+                            <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
+                        @endif
 
 
                         <form action="{{ route('admin.delete.file') }}" method="POST">
@@ -575,7 +582,6 @@
     });
 
     <!-- ############################# End File PDF Preview ############################# -->
-
 
     <!-- ############################## File Display before uplaoding ############################# -->
 
