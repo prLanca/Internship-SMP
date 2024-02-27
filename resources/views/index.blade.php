@@ -458,7 +458,6 @@
 
     let files = [];
 
-
     <!-- ############################### Scripts for Screens ############################### -->
 
     function showContent(contentId) {
@@ -688,6 +687,7 @@
 
     <!-- ################################## File Upload ################################## -->
 
+    // Function to handle the upload
     function handleUpload(formId) {
         if (files.length > 0) {
             uploadFiles(formId, files); // Call uploadFiles with the form ID and selected files
