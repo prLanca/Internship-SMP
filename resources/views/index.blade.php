@@ -277,7 +277,23 @@
     @if(!is_null($montagemFiles) && count($montagemFiles) > 0)
 
         <div class="container-fluid mt-4 mb-4">
+
             <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+
+            <div class="input-group mb-3">
+
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="sort-select">Sort by:</label>
+                </div>
+
+                <select class="custom-select" id="sort-select">
+                    <option value="name">Name</option>
+                    <option value="date">Upload Date</option>
+                    <option value="format">File Format</option>
+                </select>
+
+            </div>
+
         </div>
 
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
@@ -294,69 +310,64 @@
                     @if($rowCount % 6 == 0)
                     @endif
 
-                    <div class="col-md-2 mb-4 d-flex">
+                    <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
 
-                        <div class="card file-card flex-fill position-relative" style="border-radius: 15px;">
+                        <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
-                            <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
+                            <div class="card-title-container">
 
-                                <div class="card-title-container">
+                                <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
+                                    {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                </h5>
 
-                                    <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
-                                    </h5>
-
-                                    <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
-
-                                </div>
-
-                            </div>
-
-                            <div class="card-body d-flex flex-column justify-content-end">
-
-                                <p class="card-text" style="margin-bottom: 0;">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
-
-                                @php
-                                    $extension = pathinfo($file, PATHINFO_EXTENSION);
-                                @endphp
-
-                                <p class="mt-4 mb-0">File Format:
-                                    @if($extension == 'pdf')
-                                        <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
-                                    @elseif($extension == 'doc' || $extension == 'docx')
-                                        <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
-                                    @elseif($extension == 'xls' || $extension == 'xlsx')
-                                        <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
-                                    @else
-                                        <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
-                                    @endif
-                                </p>
-
-                            </div>
-
-                            <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
-
-                                @if($extension == 'pdf')
-                                    <!-- Display preview button for PDF files -->
-                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                @else
-                                    <!-- Display download button for other file types -->
-                                    <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                @endif
-
-
-                                <form action="{{ route('admin.delete.file') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="filePath" value="{{ $file }}">
-                                    <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
-                                </form>
+                                <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
 
                             </div>
 
                         </div>
 
-                    </div>
+                        <div class="card-body d-flex flex-column justify-content-end">
 
+                            <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
+
+                            @php
+                                $extension = pathinfo($file, PATHINFO_EXTENSION);
+                            @endphp
+
+                            <p class="mt-4 mb-0">File Format:
+                                @if($extension == 'pdf')
+                                    <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
+                                @elseif($extension == 'doc' || $extension == 'docx')
+                                    <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
+                                @elseif($extension == 'xls' || $extension == 'xlsx')
+                                    <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
+                                @else
+                                    <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
+                                @endif
+                            </p>
+
+                        </div>
+
+                        <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
+
+                            @if($extension == 'pdf')
+                                <!-- Display preview button for PDF files -->
+                                <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                            @else
+                                <!-- Display download button for other file types -->
+                                <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
+                            @endif
+
+
+                            <form action="{{ route('admin.delete.file') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="filePath" value="{{ $file }}">
+                                <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                            </form>
+
+                        </div>
+
+                    </div>
 
                     @php
                         $rowCount++;
@@ -795,6 +806,45 @@
     });
 
     <!-- ################################ End File Search ################################ -->
+
+    <!-- ################################## File Sort ################################## -->
+
+    $(document).ready(function() {
+        $('#sort-select').on('change', function() {
+            var sortBy = $(this).val(); // Get the selected sorting criteria
+            sortFiles(sortBy); // Call the function to sort files
+        });
+
+        function sortFiles(sortBy) {
+            var fileCardContainer = $('.file-card-container'); // Get the file card container
+            var files = $('.card', fileCardContainer); // Get all file cards
+
+            files.sort(function(a, b) {
+                var aValue, bValue;
+
+                switch (sortBy) {
+                    case 'name':
+                        aValue = $(a).find('.card-title.mb-1').text().toLowerCase();
+                        bValue = $(b).find('.card-title.mb-1').text().toLowerCase();
+                        break;
+                    case 'date':
+                        aValue = $(a).find('.card-text').text().split('Uploaded At: ')[1];
+                        bValue = $(b).find('.card-text').text().split('Uploaded At: ')[1];
+                        break;
+                    case 'format':
+                        aValue = $(a).find('.mt-4 img').attr('alt').toLowerCase();
+                        bValue = $(b).find('.mt-4 img').attr('alt').toLowerCase();
+                        break;
+                }
+
+                return aValue.localeCompare(bValue);
+            });
+
+            fileCardContainer.html(files); // Update the file card container with the sorted files
+        }
+    });
+
+    <!-- ################################ End File Sort ################################ -->
 
 </script>
 
