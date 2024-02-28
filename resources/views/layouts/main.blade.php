@@ -27,9 +27,12 @@
 
         /* Media query for smaller screens */
         @media (max-width: 768px) {
-            main {
-                margin-left: 0; /* Reset margin for smaller screens */
+            .main-content {
+                margin-left: 0 !important; /* Reset margin for smaller screens */
+                width: 100% !important; /* Reset width for smaller screens */
             }
+
+
         }
     </style>
 </head>
