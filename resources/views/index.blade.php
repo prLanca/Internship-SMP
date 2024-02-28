@@ -281,17 +281,17 @@
             <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
 
             <div class="input-group mb-3">
-
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-
                 <select class="custom-select" id="sort-select">
-                    <option value="name">Name</option>
-                    <option value="date">Upload Date</option>
-                    <option value="format">File Format</option>
+                    <option value="name" data-arrow="asc">Name</option>
+                    <option value="date" data-arrow="asc">Upload Date</option>
+                    <option value="format" data-arrow="asc">File Format</option>
                 </select>
-
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary sort-arrow" type="button"><i class="fas fa-chevron-up"></i></button>
+                </div>
             </div>
 
         </div>
@@ -810,12 +810,29 @@
     <!-- ################################## File Sort ################################## -->
 
     $(document).ready(function() {
-        $('#sort-select').on('change', function() {
-            var sortBy = $(this).val(); // Get the selected sorting criteria
-            sortFiles(sortBy); // Call the function to sort files
+        // Click event for arrow
+        $('.sort-arrow').on('click', function() {
+            var arrow = $(this).find('i');
+            var currentArrow = arrow.hasClass('fa-chevron-up') ? 'asc' : 'desc';
+            var sortBy = $('#sort-select').val();
+
+            // Toggle arrow direction
+            arrow.toggleClass('fa-chevron-up fa-chevron-down');
+
+            // Call the function to sort files
+            sortFiles(sortBy, currentArrow);
         });
 
-        function sortFiles(sortBy) {
+        // Change event for select
+        $('#sort-select').on('change', function() {
+            var sortBy = $(this).val(); // Get the selected sorting criteria
+            // Get the current sorting direction
+            var currentArrow = $('.sort-arrow i').hasClass('fa-chevron-up') ? 'asc' : 'desc';
+            // Call the function to sort files
+            sortFiles(sortBy, currentArrow);
+        });
+
+        function sortFiles(sortBy, arrow) {
             var fileCardContainer = $('.file-card-container'); // Get the file card container
             var files = $('.card', fileCardContainer); // Get all file cards
 
@@ -837,12 +854,25 @@
                         break;
                 }
 
-                return aValue.localeCompare(bValue);
+                if (sortBy !== 'date') {
+                    return aValue.localeCompare(bValue);
+                } else {
+                    // For dates, convert to timestamp for comparison
+                    return new Date(aValue).getTime() - new Date(bValue).getTime();
+                }
             });
 
-            fileCardContainer.html(files); // Update the file card container with the sorted files
+            // Reverse the order if arrow is pointing down (descending)
+            if (arrow === 'desc') {
+                files = files.toArray().reverse();
+            }
+
+            // Re-append the sorted file cards back to the container
+            fileCardContainer.empty().append(files);
         }
     });
+
+
 
     <!-- ################################ End File Sort ################################ -->
 
