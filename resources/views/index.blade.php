@@ -222,49 +222,57 @@
 <!-- Content from screen 1 -->
 <div id="montagem" class="content">
 
-    <form id="montagemForm" action="{{ route('admin.upload.montagem') }}" method="POST" enctype="multipart/form-data">
+    @auth
 
-        @csrf
-        <label class="file-drop-area" id="fileDropArea">
+        @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
-            <div class="file-icon">
+            <form id="montagemForm" action="{{ route('admin.upload.montagem') }}" method="POST" enctype="multipart/form-data">
 
-                <img src="{{asset('img/format_icons/default.png')}}" alt="File Icon" style="max-height: 6vh">
+                @csrf
+                <label class="file-drop-area" id="fileDropArea">
 
-            </div>
+                    <div class="file-icon">
 
-            <input type="file" class="file-input" name="files[]" id="fileInput" multiple onchange="displaySelectedFiles(this)">
+                        <img src="{{asset('img/format_icons/default.png')}}" alt="File Icon" style="max-height: 6vh">
 
-            <span class="file-label">Click to Upload a file</span>
+                    </div>
 
-            <h6 class="file-label" style="font-size: 1.3vh; color: grey">(supported files: PDF, EXCEL, POWERPOINT, WORD)</h6>
+                    <input type="file" class="file-input" name="files[]" id="fileInput" multiple onchange="displaySelectedFiles(this, 'montagem')">
 
-        </label>
+                    <span class="file-label">Click to Upload a file</span>
+
+                    <h6 class="file-label" style="font-size: 1.3vh; color: grey">(supported files: PDF, EXCEL, POWERPOINT, WORD)</h6>
+
+                </label>
 
 
-        <div class=" mt-4">
-            <!-- Container for file cards -->
-            <div id="droppedFilesContainer" class="row">
+                <div class=" mt-4">
+                    <!-- Container for file cards -->
+                    <div id="droppedFilesContainermontagem" class="row">
 
-            </div>
+                    </div>
 
-            <hr id="simplehr" style="display: none;">
+                    <hr id="simplehr" style="display: none;">
 
-            <!-- Warning container -->
-            <div id="warning-container" class="alert alert-danger mt-3" role="alert" style="display: none;">
-                <strong>Warning!</strong> Unsupported file can´t be uploaded, remove the file to proceed.
-            </div>
+                    <!-- Warning container -->
+                    <div id="warning-container" class="alert alert-danger mt-3" role="alert" style="display: none;">
+                        <strong>Warning!</strong> Unsupported file can´t be uploaded, remove the file to proceed.
+                    </div>
 
-            <!-- Mostra erro apenas da sreen que deu o erro de upload -->
-            @if(isset($errorMessage) && $screen == 'Montagem')
-                <div class="error-message">{{ $errorMessage }}</div>
-            @endif
+                    <!-- Mostra erro apenas da sreen que deu o erro de upload -->
+                    @if(isset($errorMessage) && $screen == 'Montagem')
+                        <div class="error-message">{{ $errorMessage }}</div>
+                    @endif
 
-            <button id="uploadButton" class="upload-button bg-danger" onclick="return handleUpload('montagemForm', files)" style="display: none;">Upload</button>
+                    <button id="uploadButtonmontagem" class="upload-button bg-danger" onclick="return handleUpload('montagemForm', files)" style="display: none;">Upload</button>
 
-        </div>
+                </div>
 
-    </form>
+            </form>
+
+        @endif
+
+    @endauth
 
     @php
         $montagemFiles = Storage::disk('public')->files('Montagem');
@@ -358,12 +366,17 @@
                                 <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
                             @endif
 
+                            @auth
 
-                            <form action="{{ route('admin.delete.file') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="filePath" value="{{ $file }}">
-                                <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
-                            </form>
+                                @if(auth()->user()->hasRole('admin'))
+                                    <form action="{{ route('admin.delete.file') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="filePath" value="{{ $file }}">
+                                        <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                    </form>
+                                @endif
+
+                            @endauth
 
                         </div>
 
@@ -390,58 +403,181 @@
 <!-- Content from screen 2 -->
 <div id="qualidade" class="content">
 
-    <form action="{{ route('admin.upload.qualidade') }}" method="POST" enctype="multipart/form-data">
+    @auth
 
-        @csrf
-        <div>
-            <label for="file">Choose File:</label>
-            <input type="file" id="file" name="file">
-        </div>
+        @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
-        @if(isset($errorMessage ) && $screen == 'Qualidade')
-            <div class="error-message">{{ $errorMessage }}</div>
+            <form id="qualidadeForm" action="{{ route('admin.upload.qualidade') }}" method="POST" enctype="multipart/form-data">
+
+                @csrf
+                <label class="file-drop-area" id="fileDropArea">
+
+                    <div class="file-icon">
+
+                        <img src="{{asset('img/format_icons/default.png')}}" alt="File Icon" style="max-height: 6vh">
+
+                    </div>
+
+                    <input type="file" class="file-input" name="files[]" id="fileInput" multiple onchange="displaySelectedFiles(this, 'qualidade')">
+
+                    <span class="file-label">Click to Upload a file</span>
+
+                    <h6 class="file-label" style="font-size: 1.3vh; color: grey">(supported files: PDF, EXCEL, POWERPOINT, WORD)</h6>
+
+                </label>
+
+
+                <div class=" mt-4">
+                    <!-- Container for file cards -->
+                    <div id="droppedFilesContainerqualidade" class="row">
+
+                    </div>
+
+                    <hr id="simplehr" style="display: none;">
+
+                    <!-- Warning container -->
+                    <div id="warning-container" class="alert alert-danger mt-3" role="alert" style="display: none;">
+                        <strong>Warning!</strong> Unsupported file can´t be uploaded, remove the file to proceed.
+                    </div>
+
+                    <!-- Mostra erro apenas da sreen que deu o erro de upload -->
+                    @if(isset($errorMessage) && $screen == 'Qualidade')
+                        <div class="error-message">{{ $errorMessage }}</div>
+                    @endif
+
+                    <button id="uploadButtonqualidade" class="upload-button bg-danger" onclick="return handleUpload('qualidadeForm', files)" style="display: none;">Upload</button>
+
+                </div>
+
+            </form>
+
         @endif
 
-        <button type="submit">Upload File</button>
+    @endauth
 
-    </form>
+    @php
+        $qualidadeFiles = Storage::disk('public')->files('Qualidade');
+    @endphp
 
+        <!-- File List Cards -->
 
-    <!-- File List Table -->
     <h3 class="mt-4">Uploaded Files</h3>
-    <div class="table-responsive">
-        <table class="table mt-2">
-            <thead class="thead-dark">
-            <tr>
-                <th>#</th>
-                <th>File Name</th>
-                <th>Uploaded At</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
 
-            @php
-                $montagemFiles = Storage::disk('public')->files('Qualidade');
-            @endphp
+    @if(!is_null($qualidadeFiles) && count($qualidadeFiles) > 0)
 
-            @foreach($montagemFiles as $index => $file)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ basename($file) }}</td>
-                    <td>{{ date('Y-m-d H:i', Storage::disk('public')->lastModified($file)) }}</td>
-                    <td>
-                        <button type="button" class="btn btn-success" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                        <button type="button" class="btn btn-danger" onclick="deleteFile('{{ $file }}')">Delete</button>
-                    </td>
-                </tr>
-            @endforeach
+        <div class="container-fluid mt-4 mb-4">
 
-            </tbody>
+            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
 
-        </table>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="sort-select">Sort by:</label>
+                </div>
+                <select class="custom-select" id="sort-select">
+                    <option value="name" data-arrow="asc">Name</option>
+                    <option value="date" data-arrow="asc">Upload Date</option>
+                    <option value="format" data-arrow="asc">File Format</option>
+                </select>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary sort-arrow" type="button"><i class="fas fa-chevron-up"></i></button>
+                </div>
+            </div>
 
-    </div>
+        </div>
+
+        <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
+
+
+            <div class="row mt-2 file-card-container">
+
+                @php
+                    $qualidadeFiles = Storage::disk('public')->files('Qualidade');
+                    $rowCount = 0;
+                @endphp
+
+                @foreach($qualidadeFiles as $index => $file)
+                    @if($rowCount % 6 == 0)
+                    @endif
+
+                    <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+
+                        <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
+
+                            <div class="card-title-container">
+
+                                <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
+                                    {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                </h5>
+
+                                <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-body d-flex flex-column justify-content-end">
+
+                            <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
+
+                            @php
+                                $extension = pathinfo($file, PATHINFO_EXTENSION);
+                            @endphp
+
+                            <p class="mt-4 mb-0">File Format:
+                                @if($extension == 'pdf')
+                                    <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
+                                @elseif($extension == 'doc' || $extension == 'docx')
+                                    <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
+                                @elseif($extension == 'xls' || $extension == 'xlsx')
+                                    <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
+                                @else
+                                    <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
+                                @endif
+                            </p>
+
+                        </div>
+
+                        <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
+
+                            @if($extension == 'pdf')
+                                <!-- Display preview button for PDF files -->
+                                <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                            @else
+                                <!-- Display download button for other file types -->
+                                <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
+                            @endif
+
+                            @auth
+
+                                @if(auth()->user()->hasRole('admin'))
+                                    <form action="{{ route('admin.delete.file') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="filePath" value="{{ $file }}">
+                                        <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                    </form>
+                                @endif
+
+                            @endauth
+
+                        </div>
+
+                    </div>
+
+                    @php
+                        $rowCount++;
+                    @endphp
+
+                @endforeach
+
+            </div>
+
+        </div>
+
+    @else
+        <div class="alert alert-danger mt-4" role="alert">
+            No files uploaded yet.
+        </div>
+    @endif
 
 </div>
 
@@ -598,7 +734,7 @@
     <!-- ############################## File Display before uploading ############################# -->
 
     // Function to display selected files when using file input
-    function displaySelectedFiles(input) {
+    function displaySelectedFiles(input, screenContext) {
         const newFiles = input.files;
 
         // Append each new file to the existing files array
@@ -606,12 +742,13 @@
             files.push(newFile);
         });
 
-        // Display dropped files
-        displayDroppedFiles(files);
+        // Display dropped files based on the screen context
+        displayDroppedFiles(files, screenContext);
     }
 
-    function displayDroppedFiles(files) {
-        const droppedFilesContainer = document.getElementById('droppedFilesContainer');
+    function displayDroppedFiles(files, screenContext) {
+
+        const droppedFilesContainer = document.getElementById('droppedFilesContainer' + screenContext);
 
         // Clear previous files from the container
         droppedFilesContainer.innerHTML = '';
@@ -642,31 +779,32 @@
             // Card content
             card.innerHTML =
                 `
-                <div class="d-flex justify-content-end"> <!-- Align delete button to the right -->
-                    <button type="button" style="color: grey; text-decoration: none;" class="btn btn-link delete-btn position-absolute mt-0 delbuttoncard" onclick="deleteDisplayedFile(${index})">&times;</button>
+            <div class="d-flex justify-content-end"> <!-- Align delete button to the right -->
+                <button type="button" style="color: grey; text-decoration: none;" class="btn btn-link delete-btn position-absolute mt-0 delbuttoncard" onclick="deleteDisplayedFile(${index})">&times;</button>
+            </div>
+            <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
+                <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
+                    <!-- Add the icon here -->
+                    <p class="card-text mb-0">${getFileFormatIcon(getFileExtension(file.name))}</p>
                 </div>
-                <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
-                    <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
-                        <!-- Add the icon here -->
-                        <p class="card-text mb-0">${getFileFormatIcon(getFileExtension(file.name))}</p>
-                    </div>
-                    <div class="card-body m-0 p-1 text-center" style="max-width: 18vh">
-                        <h6 class="card-title mb-1" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</h6>
-                        <p class="card-text mb-0">${formatFileSize(file.size)}</p>
-                    </div>
+                <div class="card-body m-0 p-1 text-center" style="max-width: 18vh">
+                    <h6 class="card-title mb-1" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</h6>
+                    <p class="card-text mb-0">${formatFileSize(file.size)}</p>
                 </div>
-            `;
+            </div>
+        `;
 
             // Append card to the container
             droppedFilesContainer.appendChild(card);
         });
 
         // Show upload button if there are files
-        const uploadButton = document.getElementById('uploadButton');
+        const uploadButton = document.getElementById('uploadButton' + screenContext);
         const simplehr = document.getElementById('simplehr');
         uploadButton.style.display = files.length > 0 ? 'block' : 'none';
         simplehr.style.display = files.length > 0 ? 'block' : 'none';
     }
+
 
     // Function to get file extension from file name
     function getFileExtension(fileName) {
@@ -879,5 +1017,7 @@
 </body>
 
 </html>
+
+
 
 @endsection
