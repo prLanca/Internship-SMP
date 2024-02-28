@@ -49,45 +49,7 @@
             display: none;
         }
 
-        /* Estilizando o input do tipo file */
-        .custom-file {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
 
-        .custom-file-input {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            height: calc(1.5em + .75rem + 2px);
-            margin: 0;
-            opacity: 0;
-        }
-
-        .custom-file-label {
-            position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            z-index: 1;
-            height: calc(1.5em + .75rem);
-            padding: .375rem .75rem;
-            line-height: 1.5;
-            color: #495057;
-            background-color: #fff;
-            border: 1px solid #ced4da;
-            border-radius: .25rem;
-            overflow: hidden;
-        }
-
-        .error-container {
-            display: none; /* Initially hide the error container */
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
 
         .error-message {
             text-align: center;
@@ -173,10 +135,10 @@
             }
         }
 
-
         /* Custom scrollbar styles */
         .scrollable-div {
             overflow-y: hidden; /* Hide the vertical scrollbar by default */
+            position: relative; /* Position relative for absolute positioning of fade */
         }
 
         .scrollable-div:hover {
@@ -192,11 +154,17 @@
         .scrollable-div::-webkit-scrollbar-thumb {
             background: #888; /* Color of the scrollbar handle */
             border-radius: 5px; /* Rounded corners */
+            display: none; /* Hide the scrollbar handle by default */
         }
 
         /* Handle on hover */
-        .scrollable-div::-webkit-scrollbar-thumb:hover {
+        .scrollable-div:hover::-webkit-scrollbar-thumb {
+            display: block; /* Display the scrollbar handle on hover */
             background: #555; /* Darker color when hovered */
+        }
+
+        .hidden {
+            display: none;
         }
 
     </style>
@@ -303,97 +271,98 @@
     @endphp
 
     <!-- File List Cards -->
+
     <h3 class="mt-4">Uploaded Files</h3>
 
     @if(!is_null($montagemFiles) && count($montagemFiles) > 0)
 
-        <div class="container-fluid scrollable-div" style="max-height: 72vh; overflow-y: auto;">
+        <div class="container-fluid mt-4 mb-4">
+            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+        </div>
 
-            <div class="row mt-2">
-
-                <div class="row mt-4">
-
-                    @php
-                        $montagemFiles = Storage::disk('public')->files('Montagem');
-                        $rowCount = 0;
-                        $maxrow = 6;
-                    @endphp
-
-                    @foreach($montagemFiles as $index => $file)
-                        @if($rowCount % $maxrow == 0)
-                        @endif
-
-                        <div class="col-md-2 mb-4 d-flex">
-
-                            <div class="card flex-fill position-relative" style="border-radius: 15px;">
-
-                                <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0"> <!-- Adjust the height as needed -->
-
-                                    <div class="card-title-container">
-
-                                        <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                            {{ pathinfo($file, PATHINFO_FILENAME) }}
-                                        </h5>
-
-                                        <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
-
-                                    </div>
-
-                                </div>
-
-                                <div class="card-body d-flex flex-column justify-content-end">
-
-                                    <p class="card-text" style="margin-bottom: 0;">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
-
-                                    @php
-                                        $extension = pathinfo($file, PATHINFO_EXTENSION);
-                                    @endphp
-
-                                    <p class="mt-4 mb-0">File Format:
-                                        @if($extension == 'pdf')
-                                            <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
-                                        @elseif($extension == 'doc' || $extension == 'docx')
-                                            <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
-                                        @elseif($extension == 'xls' || $extension == 'xlsx')
-                                            <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
-                                        @else
-                                            <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
-                                        @endif
-                                    </p>
-
-                                </div>
-
-                                <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
-
-                                    @if($extension == 'pdf')
-                                        <!-- Display preview button for PDF files -->
-                                        <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
+        <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-                                    <form action="{{ route('admin.delete.file') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="filePath" value="{{ $file }}">
-                                        <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
-                                    </form>
+            <div class="row mt-2 file-card-container">
+
+                @php
+                    $montagemFiles = Storage::disk('public')->files('Montagem');
+                    $rowCount = 0;
+                @endphp
+
+                @foreach($montagemFiles as $index => $file)
+                    @if($rowCount % 6 == 0)
+                    @endif
+
+                    <div class="col-md-2 mb-4 d-flex">
+
+                        <div class="card file-card flex-fill position-relative" style="border-radius: 15px;">
+
+                            <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
+
+                                <div class="card-title-container">
+
+                                    <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
+                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                    </h5>
+
+                                    <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
 
                                 </div>
 
                             </div>
 
+                            <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="margin-bottom: 0;">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
+
+                                @php
+                                    $extension = pathinfo($file, PATHINFO_EXTENSION);
+                                @endphp
+
+                                <p class="mt-4 mb-0">File Format:
+                                    @if($extension == 'pdf')
+                                        <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
+                                    @elseif($extension == 'doc' || $extension == 'docx')
+                                        <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
+                                    @elseif($extension == 'xls' || $extension == 'xlsx')
+                                        <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
+                                    @else
+                                        <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
+                                    @endif
+                                </p>
+
+                            </div>
+
+                            <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
+
+                                @if($extension == 'pdf')
+                                    <!-- Display preview button for PDF files -->
+                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                @else
+                                    <!-- Display download button for other file types -->
+                                    <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
+                                @endif
+
+
+                                <form action="{{ route('admin.delete.file') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="filePath" value="{{ $file }}">
+                                    <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                </form>
+
+                            </div>
+
                         </div>
 
+                    </div>
 
-                        @php
-                            $rowCount++;
-                        @endphp
 
-                    @endforeach
+                    @php
+                        $rowCount++;
+                    @endphp
 
-                </div>
+                @endforeach
 
             </div>
 
@@ -615,7 +584,7 @@
 
     <!-- ############################# End File PDF Preview ############################# -->
 
-    <!-- ############################## File Display before uplaoding ############################# -->
+    <!-- ############################## File Display before uploading ############################# -->
 
     // Function to display selected files when using file input
     function displaySelectedFiles(input) {
@@ -786,6 +755,46 @@
     }
 
     <!-- ################################ End File Upload ################################ -->
+
+    <!-- ################################## File Search ################################## -->
+
+    $(document).ready(function() {
+        // Store the initial state of the file cards
+        var initialFileCards = $('.file-card-container').html();
+
+        $('#file-search').on('input', function() {
+            var searchText = $(this).val().toLowerCase().trim(); // Get search input text and convert to lowercase
+            var fileCardContainer = $('.file-card-container'); // Get the file card container
+            var showFileContainer = false; // Flag to track if any files match the search
+
+            if (searchText === '') {
+                // If search text is empty, restore the initial state of the file cards
+                fileCardContainer.html(initialFileCards);
+                fileCardContainer.removeClass('hidden'); // Show the file card container
+                return; // Exit the function
+            }
+
+            $('.card', fileCardContainer).each(function() { // Iterate over each file card within the container
+                var fileName = $(this).find('.card-title.mb-1').text().toLowerCase(); // Get the file name and convert to lowercase
+
+                if (fileName.includes(searchText)) {
+                    $(this).removeClass('hidden'); // Remove the hidden class to show the file card if the search text is found in the file name
+                    showFileContainer = true; // Set flag to true if any files match the search
+                } else {
+                    $(this).addClass('hidden'); // Add the hidden class to hide the file card if the search text is not found
+                    $(this).closest('.col-md-2').remove(); // Remove the col-md-2 div from the DOM
+                }
+            });
+
+            if (showFileContainer) {
+                fileCardContainer.removeClass('hidden'); // Show the file card container if any files match the search
+            } else {
+                fileCardContainer.addClass('hidden'); // Hide the file card container if no files match the search
+            }
+        });
+    });
+
+    <!-- ################################ End File Search ################################ -->
 
 </script>
 
