@@ -116,6 +116,18 @@ Route::middleware('role:admin')->group(function (){
 
 
 
+            Route::post('/upload/Injecao', function (Request $request) {
+                $storageLocation = 'Injecao';
+                $uploadController = new UploadController();
+                return $uploadController->upload($request, $storageLocation);
+            })->name('upload.injecao');
+
+            Route::post('/upload/Pintura', function (Request $request) {
+                $storageLocation = 'Pintura';
+                $uploadController = new UploadController();
+                return $uploadController->upload($request, $storageLocation);
+            })->name('upload.pintura');
+
             Route::post('/upload/Montagem', function (Request $request) {
                 $storageLocation = 'Montagem';
                 $uploadController = new UploadController();
@@ -128,20 +140,50 @@ Route::middleware('role:admin')->group(function (){
                 return $uploadController->upload($request, $storageLocation);
             })->name('upload.qualidade');
 
-
-            Route::post('/upload/Example3', function (Request $request) {
-                $storageLocation = 'Example3';
+            Route::post('/upload/manutencao', function (Request $request) {
+                $storageLocation = 'Manutencao';
                 $uploadController = new UploadController();
                 return $uploadController->upload($request, $storageLocation);
-            });
+            })->name('upload.manutencao');
 
-            Route::post('/upload/Example4', function (Request $request) {
-                $storageLocation = 'Example4';
+            Route::post('/upload/engenharia', function (Request $request) {
+                $storageLocation = 'Engenharia';
                 $uploadController = new UploadController();
                 return $uploadController->upload($request, $storageLocation);
-            });
+            })->name('upload.engenharia');
+
+            Route::post('/upload/higiene', function (Request $request) {
+                $storageLocation = 'Higiene';
+                $uploadController = new UploadController();
+                return $uploadController->upload($request, $storageLocation);
+            })->name('upload.higiene');
+
+            Route::post('/upload/lino', function (Request $request) {
+                $storageLocation = 'Lino';
+                $uploadController = new UploadController();
+                return $uploadController->upload($request, $storageLocation);
+            })->name('upload.lino');
+
+            Route::post('/upload/qcdd', function (Request $request) {
+                $storageLocation = 'QCDD';
+                $uploadController = new UploadController();
+                return $uploadController->upload($request, $storageLocation);
+            })->name('upload.qcdd');
+
+            Route::post('/upload/rh', function (Request $request) {
+                $storageLocation = 'RH';
+                $uploadController = new UploadController();
+                return $uploadController->upload($request, $storageLocation);
+            })->name('upload.rh');
+
+            Route::post('/upload/empty', function (Request $request) {
+                $storageLocation = 'Empty';
+                $uploadController = new UploadController();
+                return $uploadController->upload($request, $storageLocation);
+            })->name('upload.empty');
 
         }
+        
         );
     });
 });

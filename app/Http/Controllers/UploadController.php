@@ -22,8 +22,15 @@ class UploadController extends Controller
             ]);
 
             // Get the current state of the toggled sections from the request
+            $injecaoToggled = $request->input('injecao_toggled', false);
+            $pinturaToggled = $request->input('pintura_toggled', false);
             $montagemToggled = $request->input('montagem_toggled', false);
             $qualidadeToggled = $request->input('qualidade_toggled', false);
+            $manutencaoToggled = $request->input('manutencao_toggled', false);
+            $engenhariaToggled = $request->input('engenharia_toggled', false);
+            $higieneToggled = $request->input('higiene_toggled', false);
+            $linoToggled = $request->input('lino_toggled', false);
+            $rhToggled = $request->input('rh_toggled', false);
 
             if ($request->hasFile('files')) {
                 foreach ($request->file('files') as $file) {
@@ -40,8 +47,15 @@ class UploadController extends Controller
 
                     ->with([
 
+                        'injecao_toggled' => $injecaoToggled,
+                        'pintura_toggled' => $pinturaToggled,
                         'montagem_toggled' => $montagemToggled,
-                        'qualidade_toggled' => $qualidadeToggled
+                        'qualidade_toggled' => $qualidadeToggled,
+                        'manutencao_toggled' => $manutencaoToggled,
+                        'engenharia_toggled' => $engenhariaToggled,
+                        'higiene_toggled' => $higieneToggled,
+                        'lino_toggled' => $linoToggled,
+                        'rh_toggled' => $rhToggled,
 
                     ]);
 
@@ -56,8 +70,15 @@ class UploadController extends Controller
 
                     ->with([
 
+                        'injecao_toggled' => $injecaoToggled,
+                        'pintura_toggled' => $pinturaToggled,
                         'montagem_toggled' => $montagemToggled,
-                        'qualidade_toggled' => $qualidadeToggled
+                        'qualidade_toggled' => $qualidadeToggled,
+                        'manutencao_toggled' => $manutencaoToggled,
+                        'engenharia_toggled' => $engenhariaToggled,
+                        'higiene_toggled' => $higieneToggled,
+                        'lino_toggled' => $linoToggled,
+                        'rh_toggled' => $rhToggled,
 
                     ]);
 
