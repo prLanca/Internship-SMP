@@ -31,6 +31,9 @@ class UploadController extends Controller
             $higieneToggled = $request->input('higiene_toggled', false);
             $linoToggled = $request->input('lino_toggled', false);
             $rhToggled = $request->input('rh_toggled', false);
+            $emptyToggled = $request->input('empy_toggled', false);
+            $empty2Toggled = $request->input('empy2_toggled', false);
+
 
             if ($request->hasFile('files')) {
                 foreach ($request->file('files') as $file) {
@@ -56,6 +59,8 @@ class UploadController extends Controller
                         'higiene_toggled' => $higieneToggled,
                         'lino_toggled' => $linoToggled,
                         'rh_toggled' => $rhToggled,
+                        'empty_toggled' => $emptyToggled,
+                        'empty2_toggled' => $empty2Toggled,
 
                     ]);
 
@@ -79,6 +84,8 @@ class UploadController extends Controller
                         'higiene_toggled' => $higieneToggled,
                         'lino_toggled' => $linoToggled,
                         'rh_toggled' => $rhToggled,
+                        'empty_toggled' => $emptyToggled,
+                        'empty2_toggled' => $empty2Toggled,
 
                     ]);
 

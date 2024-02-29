@@ -182,8 +182,14 @@ Route::middleware('role:admin')->group(function (){
                 return $uploadController->upload($request, $storageLocation);
             })->name('upload.empty');
 
+            Route::post('/upload/empty2', function (Request $request) {
+                $storageLocation = 'Empty2';
+                $uploadController = new UploadController();
+                return $uploadController->upload($request, $storageLocation);
+            })->name('upload.empty2');
+
         }
-        
+
         );
     });
 });
