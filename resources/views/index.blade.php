@@ -19,21 +19,23 @@
         }
 
         .screen {
-            width: calc(25% - 20px); /* Set width for screens to occupy half of the container width */
-            height: 30vh; /* Adjust height as needed */
+            width: calc(25% - 20px);
+            height: 30vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #f0f0f0;
-            border: 2px solid #ff0000; /* Green border */
-            border-radius: 10px; /* Rounded corners */
-            margin: 5px; /* Add margin between screens */
-            cursor: pointer; /* Add cursor pointer to indicate clickability */
-            transition: border-color 0.3s; /* Smooth transition for border color */
+            background-color: #ffffff;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            margin: 5px;
+            cursor: pointer;
+            transition: border-color 0.3s, transform 0.3s, background-color 0.2s; /* Add transition for border color, background color, and transform */
         }
 
         .screen:hover {
-            border-color: #730000; /* Darker green border on hover */
+            border-color: #ff3c3c;
+            background-color: #ffd4d4;
+            transform: scale(1.02); /* Scale up by 2% on hover */
         }
 
         .screen-content {
@@ -41,10 +43,6 @@
             text-align: center;
         }
 
-        /* Additional styling for touch screens */
-        .touch-screen {
-            background-color: #e0e0e0;
-        }
 
         /* Hide content initially */
         .content {
@@ -134,6 +132,14 @@
             .screen {
                 width: calc(100% - 20px); /* Set width to occupy full width on small screens */
                 height: 20vh; /* Adjust height as needed */
+            }
+
+            .screen:last-child {
+                margin-bottom: 8vh; /* Remove margin bottom for the last screen */
+            }
+
+            .row {
+
             }
         }
 
