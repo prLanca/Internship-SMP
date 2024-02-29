@@ -334,13 +334,13 @@
 
         <div class="container-fluid mt-4 mb-4">
 
-            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+            <input type="text" id="file-search" class="form-control mb-2" data-container="injecao" placeholder="Search by filename">
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-                <select class="custom-select" id="sort-select">
+                <select class="custom-select" id="sort-select" data-container="injecao">
                     <option value="name" data-arrow="asc">Name</option>
                     <option value="date" data-arrow="asc">Upload Date</option>
                     <option value="format" data-arrow="asc">File Format</option>
@@ -355,7 +355,7 @@
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-            <div class="row mt-2 file-card-container">
+            <div class="row mt-2 file-card-container" id="injecao">
 
                 @php
                     $injecaoFiles = Storage::disk('public')->files('Injecao');
@@ -514,13 +514,13 @@
 
         <div class="container-fluid mt-4 mb-4">
 
-            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+            <input type="text" id="file-search" class="form-control mb-2" data-container="pintura" placeholder="Search by filename">
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-                <select class="custom-select" id="sort-select">
+                <select class="custom-select" id="sort-select" data-container="pintura">
                     <option value="name" data-arrow="asc">Name</option>
                     <option value="date" data-arrow="asc">Upload Date</option>
                     <option value="format" data-arrow="asc">File Format</option>
@@ -535,7 +535,7 @@
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-            <div class="row mt-2 file-card-container">
+            <div class="row mt-2 file-card-container" id="pintura">
 
                 @php
                     $pinturaFiles = Storage::disk('public')->files('Pintura');
@@ -694,17 +694,19 @@
 
         <div class="container-fluid mt-4 mb-4">
 
-            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+            <input type="text" id="file-search" class="form-control mb-2" data-container="montagem" placeholder="Search by filename">
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-                <select class="custom-select" id="sort-select">
+
+                <select class="custom-select" id="sort-select" data-container="montagem">
                     <option value="name" data-arrow="asc">Name</option>
                     <option value="date" data-arrow="asc">Upload Date</option>
                     <option value="format" data-arrow="asc">File Format</option>
                 </select>
+
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary sort-arrow" type="button"><i class="fas fa-chevron-up"></i></button>
                 </div>
@@ -714,8 +716,7 @@
 
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
-
-            <div class="row mt-2 file-card-container">
+            <div class="row mt-2 file-card-container" id="montagem">
 
                 @php
                     $montagemFiles = Storage::disk('public')->files('Montagem');
@@ -874,13 +875,13 @@
 
         <div class="container-fluid mt-4 mb-4">
 
-            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="manutencao">
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-                <select class="custom-select" id="sort-select">
+                <select class="custom-select" id="sort-select" data-container="manutencao">
                     <option value="name" data-arrow="asc">Name</option>
                     <option value="date" data-arrow="asc">Upload Date</option>
                     <option value="format" data-arrow="asc">File Format</option>
@@ -895,7 +896,7 @@
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-            <div class="row mt-2 file-card-container">
+            <div class="row mt-2 file-card-container" id="manutencao">
 
                 @php
                     $manutencaoFiles = Storage::disk('public')->files('Manutencao');
@@ -1055,13 +1056,13 @@
 
         <div class="container-fluid mt-4 mb-4">
 
-            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="qualidade">
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-                <select class="custom-select" id="sort-select">
+                <select class="custom-select" id="sort-select" data-container="qualidade">
                     <option value="name" data-arrow="asc">Name</option>
                     <option value="date" data-arrow="asc">Upload Date</option>
                     <option value="format" data-arrow="asc">File Format</option>
@@ -1076,7 +1077,7 @@
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-            <div class="row mt-2 file-card-container">
+            <div class="row mt-2 file-card-container" id="qualidade">
 
                 @php
                     $qualidadeFiles = Storage::disk('public')->files('Qualidade');
@@ -1235,13 +1236,13 @@
 
         <div class="container-fluid mt-4 mb-4">
 
-            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="engenharia">
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-                <select class="custom-select" id="sort-select">
+                <select class="custom-select" id="sort-select" data-container="engenharia">
                     <option value="name" data-arrow="asc">Name</option>
                     <option value="date" data-arrow="asc">Upload Date</option>
                     <option value="format" data-arrow="asc">File Format</option>
@@ -1256,7 +1257,7 @@
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-            <div class="row mt-2 file-card-container">
+            <div class="row mt-2 file-card-container" id="engenharia">
 
                 @php
                     $engenhariaFiles = Storage::disk('public')->files('Engenharia');
@@ -1415,13 +1416,13 @@
 
         <div class="container-fluid mt-4 mb-4">
 
-            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="higiene">
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-                <select class="custom-select" id="sort-select">
+                <select class="custom-select" id="sort-select" data-container="higiene">
                     <option value="name" data-arrow="asc">Name</option>
                     <option value="date" data-arrow="asc">Upload Date</option>
                     <option value="format" data-arrow="asc">File Format</option>
@@ -1436,7 +1437,7 @@
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-            <div class="row mt-2 file-card-container">
+            <div class="row mt-2 file-card-container" id="higiene">
 
                 @php
                     $higieneFiles = Storage::disk('public')->files('Higiene');
@@ -1595,13 +1596,13 @@
 
         <div class="container-fluid mt-4 mb-4">
 
-            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="lino">
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-                <select class="custom-select" id="sort-select">
+                <select class="custom-select" id="sort-select" data-container="lino">
                     <option value="name" data-arrow="asc">Name</option>
                     <option value="date" data-arrow="asc">Upload Date</option>
                     <option value="format" data-arrow="asc">File Format</option>
@@ -1616,7 +1617,7 @@
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-            <div class="row mt-2 file-card-container">
+            <div class="row mt-2 file-card-container" id="lino">
 
                 @php
                     $linoFiles = Storage::disk('public')->files('Lino');
@@ -1775,13 +1776,13 @@
 
         <div class="container-fluid mt-4 mb-4">
 
-            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="qcdd">
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-                <select class="custom-select" id="sort-select">
+                <select class="custom-select" id="sort-select" data-container="qcdd">
                     <option value="name" data-arrow="asc">Name</option>
                     <option value="date" data-arrow="asc">Upload Date</option>
                     <option value="format" data-arrow="asc">File Format</option>
@@ -1796,7 +1797,7 @@
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-            <div class="row mt-2 file-card-container">
+            <div class="row mt-2 file-card-container" id="qcdd">
 
                 @php
                     $qcddFiles = Storage::disk('public')->files('QCDD');
@@ -1955,13 +1956,13 @@
 
         <div class="container-fluid mt-4 mb-4">
 
-            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="rh">
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-                <select class="custom-select" id="sort-select">
+                <select class="custom-select" id="sort-select" data-container="rh">
                     <option value="name" data-arrow="asc">Name</option>
                     <option value="date" data-arrow="asc">Upload Date</option>
                     <option value="format" data-arrow="asc">File Format</option>
@@ -1976,7 +1977,7 @@
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-            <div class="row mt-2 file-card-container">
+            <div class="row mt-2 file-card-container" id="rh">
 
                 @php
                     $rhFiles = Storage::disk('public')->files('RH');
@@ -2135,13 +2136,13 @@
 
         <div class="container-fluid mt-4 mb-4">
 
-            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="empty">
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-                <select class="custom-select" id="sort-select">
+                <select class="custom-select" id="sort-select" data-container="empty">
                     <option value="name" data-arrow="asc">Name</option>
                     <option value="date" data-arrow="asc">Upload Date</option>
                     <option value="format" data-arrow="asc">File Format</option>
@@ -2156,7 +2157,7 @@
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-            <div class="row mt-2 file-card-container">
+            <div class="row mt-2 file-card-container" id="empty">
 
                 @php
                     $emptyFiles = Storage::disk('public')->files('Empty');
@@ -2315,13 +2316,13 @@
 
         <div class="container-fluid mt-4 mb-4">
 
-            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename">
+            <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="empty2">
 
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="sort-select">Sort by:</label>
                 </div>
-                <select class="custom-select" id="sort-select">
+                <select class="custom-select" id="sort-select" data-container="empty2">
                     <option value="name" data-arrow="asc">Name</option>
                     <option value="date" data-arrow="asc">Upload Date</option>
                     <option value="format" data-arrow="asc">File Format</option>
@@ -2336,7 +2337,7 @@
         <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-            <div class="row mt-2 file-card-container">
+            <div class="row mt-2 file-card-container" id="empty2">
 
                 @php
                     $empty2Files = Storage::disk('public')->files('Empty2');
@@ -2427,11 +2428,6 @@
         </div>
     @endif
 
-</div>
-
-<!-- Content from screen 4 -->
-<div id="content4" class="content">
-    Content for Exemplo 4
 </div>
 
 <!-- ###################################### End Screens Content ###################################### -->
@@ -2751,37 +2747,42 @@
     <!-- ################################## File Search ################################## -->
 
     $(document).ready(function() {
-        // Store the initial state of the file cards
-        var initialFileCards = $('.file-card-container').html();
+        // Define an object to store initial files for each container
+        var initialFiles = {};
 
-        $('#file-search').on('input', function() {
+        // Function to handle file search for a specific container
+        $('#file-search, #file-search2').on('input', function() {
             var searchText = $(this).val().toLowerCase().trim(); // Get search input text and convert to lowercase
-            var fileCardContainer = $('.file-card-container'); // Get the file card container
-            var showFileContainer = false; // Flag to track if any files match the search
+            var containerId = $(this).data('container'); // Get the container ID from data attribute
 
-            if (searchText === '') {
-                // If search text is empty, restore the initial state of the file cards
-                fileCardContainer.html(initialFileCards);
-                fileCardContainer.removeClass('hidden'); // Show the file card container
-                return; // Exit the function
+            // Get the file card container for the specified ID
+            var fileCardContainer = $('#' + containerId);
+
+            if (!(containerId in initialFiles)) {
+                // If the initial files for this container have not been stored yet, store them now
+                initialFiles[containerId] = fileCardContainer.html();
             }
 
-            $('.card', fileCardContainer).each(function() { // Iterate over each file card within the container
+            // Iterate over each file card within the container
+            $('.card', fileCardContainer).each(function() {
                 var fileName = $(this).find('.card-title.mb-1').text().toLowerCase(); // Get the file name and convert to lowercase
-
                 if (fileName.includes(searchText)) {
-                    $(this).removeClass('hidden'); // Remove the hidden class to show the file card if the search text is found in the file name
-                    showFileContainer = true; // Set flag to true if any files match the search
+                    // Remove the hidden class to show the file card if the search text is found in the file name
+                    $(this).removeClass('hidden');
+                    fileCardContainer.removeClass('hidden'); // Show the file card container
                 } else {
-                    $(this).addClass('hidden'); // Add the hidden class to hide the file card if the search text is not found
-                    $(this).closest('.col-md-2').remove(); // Remove the col-md-2 div from the DOM
+                    // Add the hidden class to hide the file card if the search text is not found
+                    $(this).addClass('hidden');
+                    // Remove the col-md-2 div from the DOM
+                    $(this).closest('.col-md-2').remove();
                 }
             });
 
-            if (showFileContainer) {
-                fileCardContainer.removeClass('hidden'); // Show the file card container if any files match the search
+            // Hide the file card container if no files match the search
+            if (!$('.card', fileCardContainer).not('.hidden').length) {
+                fileCardContainer.addClass('hidden');
             } else {
-                fileCardContainer.addClass('hidden'); // Hide the file card container if no files match the search
+                fileCardContainer.removeClass('hidden');
             }
         });
     });
@@ -2795,28 +2796,37 @@
         $('.sort-arrow').on('click', function() {
             var arrow = $(this).find('i');
             var currentArrow = arrow.hasClass('fa-chevron-up') ? 'asc' : 'desc';
-            var sortBy = $('#sort-select').val();
+            var sortBy = $(this).parent().siblings('.custom-select').val(); // Get the selected sorting criteria
+            var containerId = $(this).parent().siblings('.custom-select').data('container'); // Get the container ID from data attribute
 
             // Toggle arrow direction
             arrow.toggleClass('fa-chevron-up fa-chevron-down');
 
             // Call the function to sort files
-            sortFiles(sortBy, currentArrow);
+            sortFiles(containerId, sortBy, currentArrow);
         });
 
         // Change event for select
-        $('#sort-select').on('change', function() {
+        $('.custom-select').on('change', function() {
             var sortBy = $(this).val(); // Get the selected sorting criteria
-            // Get the current sorting direction
-            var currentArrow = $('.sort-arrow i').hasClass('fa-chevron-up') ? 'asc' : 'desc';
+            var currentArrow = $(this).siblings('.sort-arrow').find('i').hasClass('fa-chevron-up') ? 'asc' : 'desc'; // Get the current sorting direction
+            var containerId = $(this).data('container'); // Get the container ID from data attribute
+
             // Call the function to sort files
-            sortFiles(sortBy, currentArrow);
+            sortFiles(containerId, sortBy, currentArrow);
         });
 
-        function sortFiles(sortBy, arrow) {
-            var fileCardContainer = $('.file-card-container'); // Get the file card container
-            var files = $('.card', fileCardContainer); // Get all file cards
+        function sortFiles(containerId, sortBy, arrow) {
+            var fileCardContainer = $('#' + containerId).find('.file-card-container'); // Get the file card container within the specified container
 
+            console.log("File Card Container:", fileCardContainer);
+
+            // Get the file cards within the container
+            var files = $('.card', fileCardContainer);
+
+            console.log("Files:", files);
+
+            // Sort the file cards based on the selected sorting criteria
             files.sort(function(a, b) {
                 var aValue, bValue;
 
@@ -2833,6 +2843,10 @@
                         aValue = $(a).find('.mt-4 img').attr('alt').toLowerCase();
                         bValue = $(b).find('.mt-4 img').attr('alt').toLowerCase();
                         break;
+                    default:
+                        aValue = $(a).text().toLowerCase();
+                        bValue = $(b).text().toLowerCase();
+                        break;
                 }
 
                 if (sortBy !== 'date') {
@@ -2848,9 +2862,13 @@
                 files = files.toArray().reverse();
             }
 
-            // Re-append the sorted file cards back to the container
+            console.log("Sorted Files:", files);
+
+            // Re-append the sorted file cards back to the file-card-container
             fileCardContainer.empty().append(files);
         }
+
+
     });
 
     <!-- ################################ End File Sort ################################ -->
