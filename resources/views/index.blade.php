@@ -273,7 +273,6 @@
 
 <!-- ######################################## Screens Content ######################################## -->
 
-<!-- Content from screen 1 -->
 <div id="injecao" class="content">
 
     @auth
@@ -995,7 +994,6 @@
 
 </div>
 
-<!-- Content from screen 2 -->
 <div id="qualidade" class="content">
 
     @auth
@@ -2593,7 +2591,10 @@
 
     function displayDroppedFiles(files, screenContext) {
 
+        console.log('Screen context:', screenContext); // Debugging statement
+
         const droppedFilesContainer = document.getElementById('droppedFilesContainer' + screenContext);
+        console.log('Dropped files container:', droppedFilesContainer); // Debugging statement
 
         // Clear previous files from the container
         droppedFilesContainer.innerHTML = '';
@@ -2625,7 +2626,7 @@
             card.innerHTML =
                 `
             <div class="d-flex justify-content-end"> <!-- Align delete button to the right -->
-                <button type="button" style="color: grey; text-decoration: none;" class="btn btn-link delete-btn position-absolute mt-0 delbuttoncard" onclick="deleteDisplayedFile(${index})">&times;</button>
+                <button type="button" style="color: grey; text-decoration: none;" class="btn btn-link delete-btn position-absolute mt-0 delbuttoncard" onclick="deleteDisplayedFile('${index}', '${screenContext}')">&times;</button>
             </div>
             <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
                 <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
@@ -2649,7 +2650,6 @@
         uploadButton.style.display = files.length > 0 ? 'block' : 'none';
         simplehr.style.display = files.length > 0 ? 'block' : 'none';
     }
-
 
     // Function to get file extension from file name
     function getFileExtension(fileName) {
@@ -2682,6 +2682,16 @@
             default:
                 return '<img src="{{ asset("img/format_icons/errorfile.png") }}" alt="File" style="width: 40px; height: 40px;">'; // Default file icon
         }
+    }
+
+    function deleteDisplayedFile(index, screenContext) {
+        console.log('Deleting file at index:', index); // Debugging statement
+
+        // Remove the file from the files array
+        files.splice(index, 1);
+
+        // Re-display dropped files after deletion
+        displayDroppedFiles(files, screenContext);
     }
 
     <!-- ############################## End File Display before uplaoding ############################# -->
