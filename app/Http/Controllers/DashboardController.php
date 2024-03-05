@@ -106,4 +106,25 @@ class DashboardController extends Controller
 
     }
 
+    public function delete(Request $request, $userId)
+    {
+        // Find the user by ID
+        $user = User::find($userId);
+
+        // Check if the user exists
+        if (!$user) {
+            // Handle case where user is not found
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Perform deletion logic here
+        $user->delete();
+
+        // Check if the request contains a 'referer' header
+        $previousUrl = $request->header('referer');
+
+        // Optionally, return a success response
+        return redirect($previousUrl)->with('success', 'User deleted successfully');
+    }
+
 }

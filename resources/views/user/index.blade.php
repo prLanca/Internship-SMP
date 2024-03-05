@@ -61,6 +61,35 @@
             filter: brightness(90%); /* Reduce brightness on hover for a subtle effect */
         }
 
+
+        #user-name {
+            display: inline-block; /* Ensures the name and button are on the same line */
+        }
+
+        .edit-button {
+            background-color: #007bff; /* Blue background color */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .edit-button:hover {
+            background-color: #0056b3; /* Darker blue color on hover */
+        }
+
+        .name-container {
+            position: relative;
+        }
+
+
     </style>
 </head>
 
@@ -68,7 +97,6 @@
 
 <div class="container-fluid">
     <div class="row">
-
 
         <div class="col-md-3">
             <div class="card profile-header text-center">
@@ -83,8 +111,6 @@
             </div>
         </div>
 
-
-
         <div class="col-md-9">
             <div class="card profile-info">
                 <div class="card-body">
@@ -96,7 +122,18 @@
                                     <h5 class="mb-0">Name</h5>
                                 </div>
                                 <div class="card-body">
-                                    <p>{{ $user->name }}</p>
+                                    <div class="name-container">
+                                        <p id="user-name">{{ $user->name }}</p>
+                                        <button class="edit-button" onclick="toggleEditForm()" style="display: block">Edit</button>
+                                    </div>
+
+                                    <!-- Change Account Name Form -->
+                                    <form action="{{ route('change.name') }}" method="POST" id="change-name-form"
+                                          style="display: none;">
+                                        @csrf
+                                        <input type="text" id="new-name" name="new-name" value="{{ $user->name }}">
+                                        <button class="edit-button" type="submit">Save</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -124,12 +161,41 @@
                 </div>
             </div>
 
-
         </div>
+
     </div>
 </div>
 
 </body>
+
+<script>
+
+    function toggleEditForm() {
+        // Get elements
+        var editButton = document.querySelector('.edit-button');
+        var changeNameForm = document.getElementById('change-name-form');
+        var nameParagraph = document.getElementById('user-name');
+
+        // Toggle visibility
+        if (editButton.innerText === 'Edit') {
+            // Hide name paragraph and show change name form
+            nameParagraph.style.display = 'none';
+            changeNameForm.style.display = 'block';
+
+            // Change edit button text to 'Cancel'
+            editButton.innerText = 'Cancel';
+        } else {
+            // Show name paragraph and hide change name form
+            nameParagraph.style.display = 'block';
+            changeNameForm.style.display = 'none';
+
+            // Change edit button text to 'Edit'
+            editButton.innerText = 'Edit';
+        }
+    }
+
+
+</script>
 
 </html>
 

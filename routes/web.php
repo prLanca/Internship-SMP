@@ -114,6 +114,8 @@ Route::middleware('role:admin')->group(function (){
 
             Route::post('/delete/file', [UploadController::class, 'deleteFile'])->name('delete.file');
 
+            Route::match(['post', 'delete'], '/delete/{userid}', [DashboardController::class, 'delete'])->name('users.delete');
+
 
 
             Route::post('/upload/Injecao', function (Request $request) {
@@ -199,6 +201,11 @@ Route::middleware('role:admin')->group(function (){
  * Users
  */
 Route::get('/profile', [UserController::class, 'show'])->name('profile.show')->middleware('auth');
+
+
+
+Route::post('/change-password', [UserController::class, 'changePassword'])->name('change.password');
+Route::post('/change-name', [UserController::class, 'changeName'])->name('change.name');
 
 
 

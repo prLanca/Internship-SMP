@@ -42,6 +42,42 @@
             background: #555;
         }
 
+        /* Media query for screen widths between 425px and 768px */
+        @media (min-width: 426px) and (max-width: 768px) {
+
+            .cardname {
+                font-size: 0.7rem;
+                margin-top: 0.6rem;
+            }
+
+            .cardcount {
+                font-size: 1.5rem;
+            }
+
+            .card-body {
+                padding: 0.5rem;
+            }
+
+        }
+
+        /* Media query for screen widths between 768px and 1024px */
+        @media (min-width: 769px) and (max-width: 1024px) {
+
+            .cardname {
+                font-size: 0.8rem;
+                margin-top: 0.8rem;
+            }
+
+            .cardcount {
+                font-size: 1.5rem;
+            }
+
+            .card-body {
+                padding: 0.6rem;
+            }
+
+        }
+
     </style>
 
 </head>
@@ -62,12 +98,12 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <div class="mr-3">
+                                <div class="cardimage">
                                     <img src="{{ asset('img/dashboard/infofile.png') }}" alt="Custom Icon" class="custom-icon" style="height: 50px;">
                                 </div>
                                 <div>
-                                    <h6 class="mb-0" style="">{{ $directory }}</h6>
-                                    <h3 class="font-weight-bold">{{ $info['file_count'] }}</h3>
+                                    <h6 class="mb-0 cardname" style="">{{ $directory }}</h6>
+                                    <h3 class="font-weight-bold cardcount">{{ $info['file_count'] }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -83,10 +119,6 @@
                 @endif
                 @endif
                 @endforeach
-
-
-
-
 
         <div class="card-body userstable">
             <div class="row">
@@ -116,19 +148,22 @@
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Role</th>
-                                        <th>Action</th>
+                                        <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @foreach($users as $user)
                                         <tr>
+
                                             <form action="{{ route('admin.users.update') }}" method="POST">
+
                                                 @csrf
                                                 @method('PUT')
                                                 <input type="hidden" name="user_id" value="{{$user->id}}">
                                                 <td>{{$user->id}}</td>
                                                 <td><input type="text" class="form-control" name="name" value="{{$user->name}}" readonly></td>
                                                 <td><input type="email" class="form-control" name="email" value="{{$user->email}}" readonly></td>
+
                                                 <td>
                                                     <select class="form-control role-select" name="role" @if(!empty($user->id)) disabled @endif>
                                                         <option value="admin" @if($user->hasRole('admin')) selected @endif>Admin</option>
@@ -136,11 +171,24 @@
                                                         <option value="viewer" @if($user->hasRole('viewer')) selected @endif>Viewer</option>
                                                     </select>
                                                 </td>
+
                                                 <td>
                                                     <button type="button" class="btn btn-success edit-btn" data-target="role-select"><i class="fas fa-edit"></i></button>
                                                     <button type="submit" class="btn btn-primary save-btn" style="display: none;"><i class="fa fa-save"></i></button>
                                                 </td>
+
                                             </form>
+
+                                            <form action="{{ route('admin.users.delete', ['userid' => $user->id]) }}" method="POST">
+
+                                                @csrf
+                                                @method('DELETE')
+                                                <td>
+                                                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                                </td>
+
+                                            </form>
+
                                         </tr>
                                     @endforeach
                                     </tbody>
