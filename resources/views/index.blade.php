@@ -2580,10 +2580,8 @@
     function displaySelectedFiles(input, screenContext) {
         const newFiles = input.files;
 
-        // Append each new file to the existing files array
-        Array.from(newFiles).forEach(newFile => {
-            files.push(newFile);
-        });
+        // Update the global files array
+        files = Array.from(newFiles);
 
         // Display dropped files based on the screen context
         displayDroppedFiles(files, screenContext);
@@ -2688,15 +2686,42 @@
         console.log('Deleting file at index:', index); // Debugging statement
 
         // Remove the file from the files array
-        files.splice(index, 1);
+        const deletedFile = files.splice(index, 1)[0]; // Remove the file at the specified index and store it
 
         // Re-display dropped files after deletion
         displayDroppedFiles(files, screenContext);
+
+        // Get the input element
+        const input = document.getElementById('fileInput'); // Assuming 'fileInput' is the ID of your input element
+
+        // Create a new FileList without the deleted file
+        const newFiles = Array.from(input.files).filter((file, idx) => idx !== index);
+
+        // Create a new input element
+        const newInput = document.createElement('input');
+        newInput.type = 'file';
+        newInput.className = 'file-input';
+        newInput.name = 'files[]';
+        newInput.id = 'fileInput';
+        newInput.multiple = true;
+        newInput.onchange = function() {
+            displaySelectedFiles(this, screenContext);
+        };
+
+        // Set the new FileList to the new input element
+        newInput.files = newFiles.length > 0 ? newFiles : null;
+
+        // Replace the old input element with the new one
+        input.parentNode.replaceChild(newInput, input);
     }
+
+
 
     <!-- ############################## End File Display before uplaoding ############################# -->
 
     <!-- ################################## File Upload ################################## -->
+
+    /*
 
     // Function to handle the upload
     function handleUpload(formId) {
@@ -2708,14 +2733,26 @@
     }
 
     // Function to upload files
-    function uploadFiles(formId, files) {
-        console.log('Uploading files:', files); // Log files for debugging
+    function uploadFiles(formId, files, screenContext) {
+        console.log('Uploading files from:', screenContext); // Log the screen context for debugging
+
+        // Get the list of files from the droppedFilesContainer
+        const droppedFilesContainer = document.getElementById('droppedFilesContainer' + screenContext);
+        const fileElements = droppedFilesContainer.querySelectorAll('.card-title'); // Assuming card titles contain file names
+
+        // Extract file names from file elements
+        const fileNames = Array.from(fileElements).map(element => element.textContent.trim());
+
+        // Filter the files array based on file names in the droppedFilesContainer
+        const filesToUpload = Array.from(files).filter(file => fileNames.includes(file.name));
+
+        console.log('Files to upload:', filesToUpload); // Log files to be uploaded for debugging
 
         const form = document.getElementById(formId); // Get the form dynamically using formId
         const formData = new FormData(form);
 
         // Append each file to the FormData object
-        Array.from(files).forEach(file => {
+        filesToUpload.forEach(file => {
             formData.append('files[]', file);
         });
 
@@ -2757,6 +2794,8 @@
             }
         });
     }
+
+    */
 
     <!-- ################################ End File Upload ################################ -->
 

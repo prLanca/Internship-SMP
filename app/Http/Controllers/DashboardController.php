@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Pagination\Paginator;
 
 class DashboardController extends Controller
 {
@@ -15,8 +17,54 @@ class DashboardController extends Controller
         // Fetch users data
         $users = User::all();
 
-        return view('admin.index', compact('users'));
+        // Define the directories you want to count files from
+        $directories = ['Injecao', 'Pintura', 'Montagem', 'Qualidade', 'Manutencao', 'Engenharia', 'Higene', 'Lino', 'QCDD', 'RH', 'Empty', 'Empty2'];
+
+        // Define an array to store file counts for each directory
+        $fileInfo = [];
+
+        // Define an array to store the count of files uploaded on each day
+        $filesUploadedPerDay = [];
+
+        // Loop through each directory
+        foreach ($directories as $directory) {
+            // Get the files in the current directory
+            $files = Storage::disk('public')->files($directory);
+
+            // Get the count of files in the current directory
+            $fileCount = count($files);
+
+            // Initialize an empty array to store last modified timestamps
+            $lastModifiedTimestamps = [];
+
+            // Get the last modified timestamp for each file
+            foreach ($files as $file) {
+                $lastModifiedTimestamp = Storage::disk('public')->lastModified($file);
+
+                // Extract the date from the last modified timestamp
+                $date = date('Y-m-d', $lastModifiedTimestamp);
+
+                // Increment the count of files uploaded on this day
+                if (!isset($filesUploadedPerDay[$date])) {
+                    $filesUploadedPerDay[$date] = 1;
+                } else {
+                    $filesUploadedPerDay[$date]++;
+                }
+
+                // Store the last modified timestamp
+                $lastModifiedTimestamps[] = $lastModifiedTimestamp;
+            }
+
+            // Store the file count and last modified timestamps for the current directory
+            $fileInfo[$directory] = [
+                'file_count' => $fileCount,
+                'last_modified_timestamps' => $lastModifiedTimestamps,
+            ];
+        }
+
+        return view('admin.index', compact('users', 'fileInfo', 'filesUploadedPerDay'));
     }
+
 
     public function update(Request $request)
     {
@@ -56,9 +104,6 @@ class DashboardController extends Controller
         // Redirect the user back to the previous page
         return redirect($previousUrl)->with('success', 'User updated successfully');
 
-
     }
-
-
 
 }
