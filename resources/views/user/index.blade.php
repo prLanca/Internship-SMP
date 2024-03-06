@@ -66,27 +66,82 @@
             display: inline-block; /* Ensures the name and button are on the same line */
         }
 
+        .name-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .name-container p {
+            margin-right: auto;
+        }
+
         .edit-button {
-            background-color: #007bff; /* Blue background color */
+            background-color: #007bff;
             color: #fff;
             border: none;
             border-radius: 5px;
             padding: 8px 16px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
         }
 
         .edit-button:hover {
-            background-color: #0056b3; /* Darker blue color on hover */
+            background-color: #0056b3;
         }
 
-        .name-container {
-            position: relative;
+        #new-name {
+            display: block;
+            margin-right: 10px;
+            padding: 8px;
+        }
+
+        /* Adjust margins for the buttons */
+        #change-name-form div {
+            margin-left: auto;
+        }
+
+        .edit-container {
+            display: flex;
+            text-align: right;
+        }
+
+
+        @media (max-width: 768px) {
+            /* Adjust font size for smaller screens */
+            #user-name {
+                font-size: 1.5vh;
+            }
+
+            #new-name {
+                font-size: 1.5vh;
+                padding: 6px;
+            }
+
+            /* Adjust layout for smaller screens */
+            .align-content-end {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+            }
+
+            /* Adjust button size for smaller screens */
+            .edit-button {
+                padding: 6px 12px;
+                font-size: 14px;
+
+            }
+
+            .inputtext {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 425px) {
+
+            .inputtext {
+                width: 100%;
+            }
         }
 
 
@@ -121,19 +176,29 @@
                                 <div class="card-header">
                                     <h5 class="mb-0">Name</h5>
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body" style="height: 8vh;">
                                     <div class="name-container">
-                                        <p id="user-name">{{ $user->name }}</p>
-                                        <button class="edit-button" onclick="toggleEditForm()" style="display: block">Edit</button>
-                                    </div>
 
-                                    <!-- Change Account Name Form -->
-                                    <form action="{{ route('change.name') }}" method="POST" id="change-name-form"
-                                          style="display: none;">
-                                        @csrf
-                                        <input type="text" id="new-name" name="new-name" value="{{ $user->name }}">
-                                        <button class="edit-button" type="submit">Save</button>
-                                    </form>
+                                        <form action="{{ route('change.name') }}" method="POST" id="change-name-form" style="display: none;">
+
+                                            @csrf
+                                            <div class="edit-container" style="display: flex; justify-content: flex-end; width: 100%;">
+
+                                                <input class="inputtext" type="text" id="new-name" name="new-name" value="{{ $user->name }}">
+
+                                                <div class="align-content-end">
+                                                    <button class="edit-button mr-2" type="button" onclick="cancelEdit()">Cancel</button>
+                                                    <button class="edit-button" type="submit">Save</button>
+                                                </div>
+
+                                            </div>
+
+                                        </form>
+
+                                        <p id="user-name" class="mt-2 ml-2" style="font-size: 1.8vh">{{ $user->name }}</p>
+                                        <button class="edit-button" id="edit-btn" onclick="toggleEditForm()">Edit</button>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -146,6 +211,7 @@
                                     <p>{{ $user->email }}</p>
                                 </div>
                             </div>
+
                         </div>
                         <div class="col-md-6">
                             <div class="card">
@@ -157,12 +223,57 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <div class="col-md-12">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Change Password</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form action="{{ route('change.password') }}" method="POST" id="change-password-form">
+                                        @csrf
+
+                                        @if(session('success'))
+                                            <div class="alert alert-success">{{ session('success') }}</div>
+                                        @endif
+
+
+                                        <div class="form-group">
+                                            <label for="current-password">Current Password</label>
+                                            <input type="password" class="form-control" id="current-password" name="current-password" required>
+                                            @error('current-password')
+                                            <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="new-password">New Password</label>
+                                            <input type="password" class="form-control" id="new-password" name="new-password" required>
+                                            @error('new-password')
+                                            <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="confirm-password">Confirm New Password</label>
+                                            <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
+                                            @error('confirm-password')
+                                            <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Change Password</button>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+
+
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>
 
@@ -172,28 +283,73 @@
 
     function toggleEditForm() {
         // Get elements
-        var editButton = document.querySelector('.edit-button');
+        var editButton = document.getElementById('edit-btn'); // Changed to get by id
         var changeNameForm = document.getElementById('change-name-form');
         var nameParagraph = document.getElementById('user-name');
 
         // Toggle visibility
-        if (editButton.innerText === 'Edit') {
+        if (changeNameForm.style.display === 'none' || changeNameForm.style.display === '') {
             // Hide name paragraph and show change name form
             nameParagraph.style.display = 'none';
             changeNameForm.style.display = 'block';
 
-            // Change edit button text to 'Cancel'
-            editButton.innerText = 'Cancel';
+            // Hide the edit button
+            editButton.style.display = 'none';
         } else {
             // Show name paragraph and hide change name form
             nameParagraph.style.display = 'block';
             changeNameForm.style.display = 'none';
 
-            // Change edit button text to 'Edit'
-            editButton.innerText = 'Edit';
+            // Show the edit button again
+            editButton.style.display = 'block';
         }
     }
 
+
+    function cancelEdit() {
+        // Get elements
+        var editButton = document.getElementById('edit-btn'); // Changed to get by id
+        var changeNameForm = document.getElementById('change-name-form');
+        var nameParagraph = document.getElementById('user-name');
+
+        // Hide the change name form and show the name paragraph
+        nameParagraph.style.display = 'block';
+        changeNameForm.style.display = 'none';
+
+        // Show the edit button again
+        editButton.style.display = 'block';
+
+        // Set the text of the edit button back to 'Edit'
+        editButton.innerText = 'Edit';
+    }
+
+
+
+    window.addEventListener('resize', function() {
+        if (window.innerWidth <= 768) {
+            // Get all elements with class col-md-6
+            var cols = document.querySelectorAll('.col-md-6');
+            // Loop through each element and change its class to col-md-12
+            cols.forEach(function(col) {
+                col.classList.remove('col-md-6');
+                col.classList.add('col-md-12');
+            });
+        } else {
+            // If screen width is larger than or equal to 768px, revert the changes
+            var cols = document.querySelectorAll('.col-md-12');
+            cols.forEach(function(col) {
+                col.classList.remove('col-md-12');
+                col.classList.add('col-md-6');
+            });
+        }
+    });
+
+    // Trigger the resize event on page load to apply the initial changes
+    window.dispatchEvent(new Event('resize'));
+
+</script>
+
+</html>
 
 </script>
 

@@ -29,6 +29,20 @@ Route::middleware('auth')->group(function (){
             return view('index');
         })->name('index');
 
+
+        /*
+         * Users
+         */
+        Route::get('/profile', [UserController::class, 'show'])->name('profile.show');
+
+        Route::post('/user/change-email', [UserController::class, 'changeEmail'])->name('change.email');
+        Route::get('/user/verify-email/{user}/{email}', [UserController::class, 'verifyEmail'])->name('verify.email');
+
+        Route::post('/change-password', [UserController::class, 'changePassword'])->name('change.password');
+        Route::post('/change-name', [UserController::class, 'change'])->name('change.name');
+
+
+
     }
     );
 });
@@ -197,15 +211,6 @@ Route::middleware('role:admin')->group(function (){
 });
 
 
-/*
- * Users
- */
-Route::get('/profile', [UserController::class, 'show'])->name('profile.show')->middleware('auth');
-
-
-
-Route::post('/change-password', [UserController::class, 'changePassword'])->name('change.password');
-Route::post('/change-name', [UserController::class, 'changeName'])->name('change.name');
 
 
 

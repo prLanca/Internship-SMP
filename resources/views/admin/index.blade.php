@@ -15,7 +15,7 @@
     <style>
 
         .userstable {
-            height: 72vh;
+            height: 78vh;
         }
 
         .table-container {
@@ -40,6 +40,17 @@
 
         .table-container::-webkit-scrollbar-thumb:hover {
             background: #555;
+        }
+
+        /* Media query for screens with a maximum width of 768px */
+        @media (max-width: 768px) {
+            .button-container {
+                /* Adjust the width to fit the buttons side by side */
+                width: auto; /* Set to 'auto' to allow the container to adjust based on button widths */
+                display: flex; /* Use flexbox to arrange buttons horizontally */
+                gap: 8px; /* Optional: Add some space between buttons */
+            }
+
         }
 
         /* Media query for screen widths between 425px and 768px */
@@ -135,7 +146,7 @@
                         </select>
                     </div>
 
-                    @if(isset($users))
+                @if(isset($users))
 
                         <div class="table-container">
 
@@ -154,16 +165,13 @@
                                     <tbody>
                                     @foreach($users as $user)
                                         <tr>
-
-                                            <form action="{{ route('admin.users.update') }}" method="POST">
-
+                                            <form action="{{ route('admin.users.update') }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PUT')
                                                 <input type="hidden" name="user_id" value="{{$user->id}}">
                                                 <td>{{$user->id}}</td>
                                                 <td><input type="text" class="form-control" name="name" value="{{$user->name}}" readonly></td>
                                                 <td><input type="email" class="form-control" name="email" value="{{$user->email}}" readonly></td>
-
                                                 <td>
                                                     <select class="form-control role-select" name="role" @if(!empty($user->id)) disabled @endif>
                                                         <option value="admin" @if($user->hasRole('admin')) selected @endif>Admin</option>
@@ -171,30 +179,21 @@
                                                         <option value="viewer" @if($user->hasRole('viewer')) selected @endif>Viewer</option>
                                                     </select>
                                                 </td>
-
-                                                <td>
+                                                <td class="button-container">
                                                     <button type="button" class="btn btn-success edit-btn" data-target="role-select"><i class="fas fa-edit"></i></button>
                                                     <button type="submit" class="btn btn-primary save-btn" style="display: none;"><i class="fa fa-save"></i></button>
-                                                </td>
 
                                             </form>
-
-                                            <form action="{{ route('admin.users.delete', ['userid' => $user->id]) }}" method="POST">
-
+                                            <form action="{{ route('admin.users.delete', ['userid' => $user->id]) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <td>
                                                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                                                </td>
-
                                             </form>
-
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
-
-                                <!-- Admin Users Table -->
+                                
                                 <table id="admin-table" class="table table-hover">
                                     <thead>
                                     <tr>
@@ -208,31 +207,35 @@
                                     <tbody>
                                     @foreach($users->filter(function($user) { return $user->hasRole('admin') && $user->id != Auth::id(); }) as $adminUser)
                                         <tr>
-                                            <form action="{{ route('admin.users.update') }}" method="POST">
+                                            <form action="{{ route('admin.users.update') }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PUT')
-                                                <input type="hidden" name="user_id" value="{{$adminUser->id}}">
-                                                <td>{{$adminUser->id}}</td>
-                                                <td><input type="text" class="form-control" name="name" value="{{$adminUser->name}}" readonly></td>
-                                                <td><input type="email" class="form-control" name="email" value="{{$adminUser->email}}" readonly></td>
+                                                <input type="hidden" name="user_id" value="{{$user->id}}">
+                                                <td>{{$user->id}}</td>
+                                                <td><input type="text" class="form-control" name="name" value="{{$user->name}}" readonly></td>
+                                                <td><input type="email" class="form-control" name="email" value="{{$user->email}}" readonly></td>
                                                 <td>
-                                                    <select class="form-control role-select" name="role" @if(!empty($adminUser->id)) disabled @endif>
-                                                        <option value="admin" @if($adminUser->hasRole('admin')) selected @endif>Admin</option>
-                                                        <option value="worker" @if($adminUser->hasRole('worker')) selected @endif>Worker</option>
-                                                        <option value="viewer" @if(isset($adminUser) && (!$adminUser->hasRole('admin') && !$user->hasRole('worker'))) selected @endif>Viewer</option>
+                                                    <select class="form-control role-select" name="role" @if(!empty($user->id)) disabled @endif>
+                                                        <option value="admin" @if($user->hasRole('admin')) selected @endif>Admin</option>
+                                                        <option value="worker" @if($user->hasRole('worker')) selected @endif>Worker</option>
+                                                        <option value="viewer" @if($user->hasRole('viewer')) selected @endif>Viewer</option>
                                                     </select>
                                                 </td>
-                                                <td>
+                                                <td class="button-container">
                                                     <button type="button" class="btn btn-success edit-btn" data-target="role-select"><i class="fas fa-edit"></i></button>
                                                     <button type="submit" class="btn btn-primary save-btn" style="display: none;"><i class="fa fa-save"></i></button>
-                                                </td>
+
+                                            </form>
+                                            <form action="{{ route('admin.users.delete', ['userid' => $user->id]) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                             </form>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
 
-                                <!-- Worker Users Table -->
                                 <table id="worker-table" class="table table-hover">
                                     <thead>
                                     <tr>
@@ -246,31 +249,35 @@
                                     <tbody>
                                     @foreach($users->filter(function($user) { return $user->hasRole('worker') && $user->id != Auth::id(); }) as $workerUser)
                                         <tr>
-                                            <form action="{{ route('admin.users.update') }}" method="POST">
+                                            <form action="{{ route('admin.users.update') }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PUT')
-                                                <input type="hidden" name="user_id" value="{{$workerUser->id}}">
-                                                <td>{{$workerUser->id}}</td>
-                                                <td><input type="text" class="form-control" name="name" value="{{$workerUser->name}}" readonly></td>
-                                                <td><input type="email" class="form-control" name="email" value="{{$workerUser->email}}" readonly></td>
+                                                <input type="hidden" name="user_id" value="{{$user->id}}">
+                                                <td>{{$user->id}}</td>
+                                                <td><input type="text" class="form-control" name="name" value="{{$user->name}}" readonly></td>
+                                                <td><input type="email" class="form-control" name="email" value="{{$user->email}}" readonly></td>
                                                 <td>
-                                                    <select class="form-control role-select" name="role" @if(!empty($workerUser->id)) disabled @endif>
-                                                        <option value="admin" @if($workerUser->hasRole('admin')) selected @endif>Admin</option>
-                                                        <option value="worker" @if($workerUser->hasRole('worker')) selected @endif>Worker</option>
-                                                        <option value="viewer" @if(isset($workerUser) && (!$workerUser->hasRole('admin') && !$workerUser->hasRole('worker'))) selected @endif>Viewer</option>
+                                                    <select class="form-control role-select" name="role" @if(!empty($user->id)) disabled @endif>
+                                                        <option value="admin" @if($user->hasRole('admin')) selected @endif>Admin</option>
+                                                        <option value="worker" @if($user->hasRole('worker')) selected @endif>Worker</option>
+                                                        <option value="viewer" @if($user->hasRole('viewer')) selected @endif>Viewer</option>
                                                     </select>
                                                 </td>
-                                                <td>
+                                                <td class="button-container">
                                                     <button type="button" class="btn btn-success edit-btn" data-target="role-select"><i class="fas fa-edit"></i></button>
                                                     <button type="submit" class="btn btn-primary save-btn" style="display: none;"><i class="fa fa-save"></i></button>
-                                                </td>
+
+                                            </form>
+                                            <form action="{{ route('admin.users.delete', ['userid' => $user->id]) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                             </form>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
 
-                                <!-- Viewer Users Table -->
                                 <table id="viewer-table" class="table table-hover">
                                     <thead>
                                     <tr>
@@ -284,24 +291,29 @@
                                     <tbody>
                                     @foreach($users->filter(function($user) { return $user->hasRole('viewer') && $user->id != Auth::id(); }) as $viewerUser)
                                         <tr>
-                                            <form action="{{ route('admin.users.update') }}" method="POST">
+                                            <form action="{{ route('admin.users.update') }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PUT')
-                                                <input type="hidden" name="user_id" value="{{$viewerUser->id}}">
-                                                <td>{{$viewerUser->id}}</td>
-                                                <td><input type="text" class="form-control" name="name" value="{{$viewerUser->name}}" readonly></td>
-                                                <td><input type="email" class="form-control" name="email" value="{{$viewerUser->email}}" readonly></td>
+                                                <input type="hidden" name="user_id" value="{{$user->id}}">
+                                                <td>{{$user->id}}</td>
+                                                <td><input type="text" class="form-control" name="name" value="{{$user->name}}" readonly></td>
+                                                <td><input type="email" class="form-control" name="email" value="{{$user->email}}" readonly></td>
                                                 <td>
-                                                    <select class="form-control role-select" name="role" @if(!empty($viewerUser->id)) disabled @endif>
-                                                        <option value="admin" @if($viewerUser->hasRole('admin')) selected @endif>Admin</option>
-                                                        <option value="worker" @if($viewerUser->hasRole('worker')) selected @endif>Worker</option>
-                                                        <option value="viewer" @if(isset($viewerUser) && (!$viewerUser->hasRole('admin') && !$viewerUser->hasRole('worker'))) selected @endif>Viewer</option>
+                                                    <select class="form-control role-select" name="role" @if(!empty($user->id)) disabled @endif>
+                                                        <option value="admin" @if($user->hasRole('admin')) selected @endif>Admin</option>
+                                                        <option value="worker" @if($user->hasRole('worker')) selected @endif>Worker</option>
+                                                        <option value="viewer" @if($user->hasRole('viewer')) selected @endif>Viewer</option>
                                                     </select>
                                                 </td>
-                                                <td>
+                                                <td class="button-container">
                                                     <button type="button" class="btn btn-success edit-btn" data-target="role-select"><i class="fas fa-edit"></i></button>
                                                     <button type="submit" class="btn btn-primary save-btn" style="display: none;"><i class="fa fa-save"></i></button>
-                                                </td>
+
+                                            </form>
+                                            <form action="{{ route('admin.users.delete', ['userid' => $user->id]) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                             </form>
                                         </tr>
                                     @endforeach
@@ -440,6 +452,26 @@
 
     // Show all users table initially
     filterUsersByRole('all');
+
+
+    // Function to filter users based on search input
+    function filterUsers(searchQuery) {
+        const rows = document.querySelectorAll('#all-users-table tbody tr');
+        rows.forEach(row => {
+            const name = row.querySelector('td').textContent.trim().toLowerCase();
+            if (name.includes(searchQuery)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+
+    document.getElementById('search-input-users').addEventListener('input', function() {
+        const searchQuery = this.value.trim();
+        console.log(searchQuery); // Log the search query to the console
+    });
 
 </script>
 

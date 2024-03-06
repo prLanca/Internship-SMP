@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Notifications\EmailChangeNotification;
 use Illuminate\Http\Request;
 use App\Events\NewUserCreated;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 
 
 class UserController extends Controller
@@ -137,28 +139,6 @@ class UserController extends Controller
     }
 
 
-
-
-    public function changePassword(Request $request)
-    {
-        $request->validate([
-            'current-password' => 'required',
-            'new-password' => 'required|min:8|confirmed',
-        ]);
-
-        $user = Auth::user();
-
-        if (!Hash::check($request->input('current-password'), $user->password)) {
-            // Passwords do not match
-            return redirect()->back()->withErrors(['current-password' => 'The current password is incorrect.']);
-        }
-
-        $user->password = bcrypt($request->input('new-password'));
-        $user->save();
-
-        return redirect()->back()->with('success', 'Password changed successfully.');
-    }
-
     public function changeName(Request $request)
     {
         $request->validate([
@@ -171,6 +151,30 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Name changed successfully.');
     }
+
+    public function changePassword(Request $request)
+    {
+        $user = Auth::user();
+
+        // Verifica se a senha atual fornecida pelo usuário é correta
+        if (Hash::check($request->input('current-password'), $user->password)) {
+            // Senha atual correta
+            $request->validate([
+                'new-password' => 'required',
+            ]);
+
+            $user->password = bcrypt($request->input('new-password'));
+            $user->save();
+
+            return redirect()->back()->with('success', 'Password changed successfully.');
+        } else {
+            // Senha atual incorreta
+            return redirect()->back()->withErrors(['current-password' => 'The current password is incorrect.']);
+        }
+    }
+
+
+
 
 
 }
