@@ -1,10 +1,16 @@
 <?php
 
 use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\auth\RegisterController;
+use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
+use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Password;
 
@@ -29,19 +35,25 @@ Route::middleware('auth')->group(function (){
             return view('index');
         })->name('index');
 
-
         /*
          * Users
          */
         Route::get('/profile', [UserController::class, 'show'])->name('profile.show');
 
-        Route::post('/user/change-email', [UserController::class, 'changeEmail'])->name('change.email');
-        Route::get('/user/verify-email/{user}/{email}', [UserController::class, 'verifyEmail'])->name('verify.email');
+
+
+        Route::get('/email/verify', [VerificationController::class, 'verify'])
+            ->middleware(['auth', 'signed', 'throttle:6,1'])
+            ->name('verification.verify');
+
+        Route::get('/email/verify/resend', [VerificationController::class, 'resend'])
+            ->middleware(['auth', 'throttle:6,1'])
+            ->name('verification.resend');
+
+
 
         Route::post('/change-password', [UserController::class, 'changePassword'])->name('change.password');
         Route::post('/change-name', [UserController::class, 'change'])->name('change.name');
-
-
 
     }
     );
@@ -50,7 +62,7 @@ Route::middleware('auth')->group(function (){
 /*
  * Login and register
  */
-Route::get('/',[LoginController::class, 'showLogin'])->name('login');
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/',[LoginController::class, 'login'])->name('login');
 
 /*
@@ -107,8 +119,12 @@ Route::post('/logout',[LoginController::class, 'logout'])->name('logout')
     ->middleware('auth');
 
 
-Route::get('/register',[LoginController::class, 'showRegister'])->name('register');
-Route::post('/register',[LoginController::class, 'register'])->name('register');
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
+
+
+Auth::routes(['verify' => true]);
 
 /*
 |--------------------------------------------------------------------------

@@ -19,12 +19,11 @@
         }
 
         .table-container {
-            height: 60vh; /* Adjust as needed */
-            overflow-y: auto; /* Change from 'hidden' to 'auto' */
+            height: 60vh;
+            overflow-y: auto;
             position: relative;
         }
 
-        /* Custom scrollbar */
         .table-container::-webkit-scrollbar {
             width: 8px;
         }
@@ -45,10 +44,10 @@
         /* Media query for screens with a maximum width of 768px */
         @media (max-width: 768px) {
             .button-container {
-                /* Adjust the width to fit the buttons side by side */
-                width: auto; /* Set to 'auto' to allow the container to adjust based on button widths */
-                display: flex; /* Use flexbox to arrange buttons horizontally */
-                gap: 8px; /* Optional: Add some space between buttons */
+
+                width: auto;
+                display: flex;
+                gap: 8px;
             }
 
         }
@@ -95,13 +94,17 @@
 
 <body>
 
-<!-- dashboard -->
-<div class="container-fluid mt-4"> <!-- Use container-fluid to fill the entire width -->
+<!-- ############################## Dashboard ############################## -->
+
+<div class="container-fluid mt-4">
 
     <div class="card align-items">
+
         <div class="card-header bg-danger text-white text-center">
             <h4>Admin Dashboard</h4>
         </div>
+
+        <!-- ######################################## Qty. Files ######################################## -->
 
         <div class="row mt-2" style="padding: 2vh 4vh 0 4vh ;">
             @foreach($fileInfo as $directory => $info)
@@ -120,23 +123,37 @@
                         </div>
                     </div>
                 </div>
+
                 @if($loop->iteration % 4 == 0 || $loop->last)
+
                     @php
                         $bottomPadding = ($loop->last) ? '0' : '2vh';
                     @endphp
+
         </div>
+
         @if(!$loop->last)
+
             <div class="row" style="padding: 0 4vh;">
+
+        @endif
+
                 @endif
-                @endif
-                @endforeach
+
+            @endforeach
+
+        <!-- ###################################### End Qty. Files ###################################### -->
+
+        <!-- ########################################## Users ########################################## -->
 
         <div class="card-body userstable">
+
             <div class="row">
 
                 <div class="col-md-12">
 
-                    <!-- Dropdown menu for selecting role -->
+                    <!-- ########################################## Filter by role ########################################## -->
+
                     <div class="mb-4">
                         <select id="role-filter" class="form-control">
                             <option value="all">All</option>
@@ -146,11 +163,17 @@
                         </select>
                     </div>
 
-                @if(isset($users))
+                    <!-- ######################################## End Filter by role ######################################## -->
+
+                    <!-- ########################################## users tables ########################################## -->
+
+                    @if(isset($users))
 
                         <div class="table-container">
 
                             <div class="table-responsive">
+
+                                <!-- ########################################## All users table ########################################## -->
 
                                 <table id="all-users-table" class="table table-hover">
                                     <thead>
@@ -193,7 +216,11 @@
                                     @endforeach
                                     </tbody>
                                 </table>
-                                
+
+                                <!-- ########################################## End All users table ########################################## -->
+
+                                <!-- ########################################## Admin users table ########################################## -->
+
                                 <table id="admin-table" class="table table-hover">
                                     <thead>
                                     <tr>
@@ -235,6 +262,10 @@
                                     @endforeach
                                     </tbody>
                                 </table>
+
+                                <!-- ########################################## End Admin users table ########################################## -->
+
+                                <!-- ########################################## Worker users table ########################################## -->
 
                                 <table id="worker-table" class="table table-hover">
                                     <thead>
@@ -278,6 +309,10 @@
                                     </tbody>
                                 </table>
 
+                                <!-- ########################################## End Worker users table ########################################## -->
+
+                                <!-- ########################################## Viewer users table ########################################## -->
+
                                 <table id="viewer-table" class="table table-hover">
                                     <thead>
                                     <tr>
@@ -287,8 +322,11 @@
                                         <th>Role</th>
                                         <th>Action</th>
                                     </tr>
+
                                     </thead>
+
                                     <tbody>
+
                                     @foreach($users->filter(function($user) { return $user->hasRole('viewer') && $user->id != Auth::id(); }) as $viewerUser)
                                         <tr>
                                             <form action="{{ route('admin.users.update') }}" method="POST" class="d-inline">
@@ -317,8 +355,12 @@
                                             </form>
                                         </tr>
                                     @endforeach
+
                                     </tbody>
+
                                 </table>
+
+                                <!-- ########################################## End Viewer users table ########################################## -->
 
                             </div>
 
@@ -328,12 +370,15 @@
                         <p>No users found</p>
                     @endif
 
+                    <!-- ########################################## End users tables ########################################## -->
 
                 </div>
 
             </div>
 
         </div>
+
+        <!-- ######################################## End Users ######################################## -->
 
     </div>
 
@@ -344,6 +389,8 @@
 
 
 <script>
+
+    /* ########################################## Button edit ########################################## */
 
     // JavaScript to handle edit button click event
     document.querySelectorAll('.edit-btn').forEach(button => {
@@ -365,6 +412,9 @@
         });
     });
 
+    /* ########################################## End Button edit ########################################## */
+
+    /* ########################################## Button save ########################################## */
 
     document.querySelectorAll('.save-btn').forEach(button => {
         button.addEventListener('click', () => {
@@ -386,75 +436,72 @@
                     return response.json();
                 })
                 .then(data => {
-                    // Check if the update was successful
+
                     if (data && data.success) {
-                        // Optionally, update the UI to reflect changes
+
                         alert('User updated successfully');
-                        // Redirect to the dashboard page
+
                         window.location.href = '/dashboard';
                     }
                 })
                 .catch(error => {
-                    // Handle error
+
                     console.error(error);
 
                 });
         });
     });
 
+    /* ########################################## End Button save ########################################## */
+
+    /* ########################################## Filter by role ########################################## */
+
     function filterUsersByRole(role) {
-        // Hide all tables
+
         document.querySelectorAll('.table').forEach(table => {
             table.style.display = 'none';
         });
 
-        // Hide all subtitles
+
         document.querySelectorAll('.card-subtitle').forEach(subtitle => {
             subtitle.style.display = 'none';
         });
 
-        // Hide pagination
 
-
-        // Show tables based on selected role
         if (role === 'all') {
 
-            // Show the "All Users" table
             document.getElementById('all-users-table').style.display = 'table';
             document.getElementById('pagination-allusers').style.display = 'block';
 
         } else if (role === 'admin') {
 
-            // Show the "Admin Users" table
             document.getElementById('admin-table').style.display = 'table';
             document.getElementById('admin-subtitle').style.display = 'block';
 
         } else if (role === 'worker') {
 
-            // Show the "Worker Users" table
             document.getElementById('worker-table').style.display = 'table';
             document.getElementById('worker-subtitle').style.display = 'block';
 
         } else if (role === 'viewer') {
 
-            // Show the "Viewer Users" table
             document.getElementById('viewer-table').style.display = 'table';
             document.getElementById('viewer-subtitle').style.display = 'block';
 
         }
     }
 
-    // Event listener for role filter dropdown
     document.getElementById('role-filter').addEventListener('change', function() {
         var role = this.value;
         filterUsersByRole(role);
     });
 
-    // Show all users table initially
     filterUsersByRole('all');
 
+    /* ########################################## End Filter by role ########################################## */
 
-    // Function to filter users based on search input
+    /* ########################################## Search users ########################################## */
+
     function filterUsers(searchQuery) {
         const rows = document.querySelectorAll('#all-users-table tbody tr');
         rows.forEach(row => {
@@ -467,11 +514,12 @@
         });
     }
 
-
     document.getElementById('search-input-users').addEventListener('input', function() {
         const searchQuery = this.value.trim();
-        console.log(searchQuery); // Log the search query to the console
+        console.log(searchQuery);
     });
+
+    /* ########################################## End Search users ########################################## */
 
 </script>
 

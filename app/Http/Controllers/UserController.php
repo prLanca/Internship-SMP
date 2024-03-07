@@ -73,7 +73,6 @@ class UserController extends Controller
         return view('user.index', compact('user'));
     }
 
-
     /**
      * Show the form for editing the specified resource.
      */

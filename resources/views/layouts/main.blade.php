@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Motherson</title>
+    <title>Motherson Portal</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('path/to/reveal.js/dist/reveal.css') }}">
@@ -17,23 +17,26 @@
     </script>
 
     <style>
-        /* Estilos para o conteúdo principal */
+
+        /* Styles for main content */
         .main-content {
-            margin-left: 60px; /* Largura da barra lateral fechada */
-            padding: 20px; /* Espaçamento interno */
-            transition: margin-left 0.5s ease-out 0.1s; /* Adiciona uma transição suave ao abrir e fechar */
-            width: calc(100% - 60px); /* Largura do conteúdo principal */
+            margin-left: 60px; /* width of the closed bar */
+            padding: 20px; /* Intern padding */
+            transition: margin-left 0.5s ease-out 0.1s; /* Smooth transition */
+            width: calc(100% - 60px); /* width of the main content */
         }
 
         /* Media query for smaller screens */
         @media (max-width: 768px) {
+
             .main-content {
-                margin-left: 0 !important; /* Reset margin for smaller screens */
-                width: 100% !important; /* Reset width for smaller screens */
+                margin-left: 0 !important;
+                width: 100% !important;
+                margin-bottom: 6vh;
             }
 
-
         }
+
     </style>
 </head>
 

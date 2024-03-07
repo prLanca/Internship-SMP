@@ -1,65 +1,162 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-    <title>Motherson</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motherson Portal</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 120vh;
+            text-align: center;
+            margin: 1vh;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 28px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            width: 100%;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+        input[type="email"],
+        input[type="password"],
+        button[type="submit"] {
+            width: 80vh;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button[type="submit"] {
+            background-color: #b40000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 18px;
+        }
+        button[type="submit"]:hover {
+            background-color: #730000;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+
+            .container {
+                padding: 20px;
+            }
+
+            input[type="email"],
+            input[type="password"],
+            button[type="submit"] {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            input[type="email"],
+            input[type="password"],
+            button[type="submit"] {
+                width: 60vh;
+            }
+
+        }
+
+        @media (max-width: 576px) {
+
+            input[type="email"],
+            input[type="password"],
+            button[type="submit"] {
+                width: 40vh;
+            }
+
+        }
+
+        @media (max-width: 420px) {
+
+            input[type="email"],
+            input[type="password"],
+            button[type="submit"] {
+                width: 30vh;
+            }
+
+        }
+
+    </style>
 
 </head>
-
 <body>
 
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-10 p-2">
-            <div class="card">
-                <div class="card-header bg-danger text-white text-center">
-                    <h4>Sign in to start your session</h4>
-                </div>
-                <div class="card-body">
 
-                    <form method="POST" action="{{ route('login') }}">
+    <h1>Login</h1>
 
-                        @csrf
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control rounded-pill @error('email') is-invalid @enderror" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                            @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+    <form method="POST" action="{{ route('login') }}">
 
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control rounded-pill @error('password') is-invalid @enderror" id="exampleInputPassword1" placeholder="Password">
-                            @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <button type="submit" class="btn btn-danger btn-block rounded-pill">Sign in</button>
+        @csrf
 
 
-                    </form>
-                </div>
-                <div class="card-footer bg-light">
-                    <div class="text-center">
-                        Don't have an account? <a href=" {{route('register')}} ">Sign Up</a>
-                    </div>
-                    <div class="text-center">
-                        <a href="{{route('password.request')}}">Forgot your password?</a>
-                    </div>
-                </div>
-            </div>
+        <div class="form-group">
+
+            <input id="email" type="hidden" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email">
+
         </div>
+
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" class="form-control rounded-pill @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+
+            <label for="password">Password</label>
+            <input type="password" class="form-control rounded-pill @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+
+            @error('password')
+
+            <div class="invalid-feedback">{{ $message }}</div>
+
+            @enderror
+        </div>
+
+        <button type="submit" class="btn btn-danger">Login</button>
+
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="{{ route('password.request') }}">Forgot your password?</a>
     </div>
+
+    <div class="text-center mt-3">
+        Don't have an account? <a href="{{ route('register') }}">Register</a>
+    </div>
+
 </div>
 
 </body>
 
 </html>
-

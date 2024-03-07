@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
+
         /* Custom styles */
         .profile-header {
             background-color: #dc3545; /* Red background color */
@@ -96,7 +97,6 @@
             padding: 8px;
         }
 
-        /* Adjust margins for the buttons */
         #change-name-form div {
             margin-left: auto;
         }
@@ -108,7 +108,7 @@
 
 
         @media (max-width: 768px) {
-            /* Adjust font size for smaller screens */
+
             #user-name {
                 font-size: 1.5vh;
             }
@@ -118,14 +118,14 @@
                 padding: 6px;
             }
 
-            /* Adjust layout for smaller screens */
+
             .align-content-end {
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
             }
 
-            /* Adjust button size for smaller screens */
+
             .edit-button {
                 padding: 6px 12px;
                 font-size: 14px;
@@ -224,8 +224,34 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Email Verification</h5>
+                                </div>
+                                <div class="card-body">
+                                    @if (!$user->hasVerifiedEmail())
+                                        <p class="mb-2">
+                                            <i class="fa fa-exclamation-circle text-danger"></i> <!-- Font Awesome icon -->
+                                            {{ __('Please verify your email address.') }}
+                                        </p>
 
-                        <div class="col-md-12">
+                                        <p class="mt-4 mb-1">
+                                            {{ __('If you did not receive the email') }}
+                                        </p>
+
+                                        <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary">{{ __('Resend Verification Email') }}</button>
+                                        </form>
+                                    @else
+                                        <p class="text-success mb-0">{{ __('Your email has been verified.') }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
 
                             <div class="card">
                                 <div class="card-header">
@@ -264,12 +290,10 @@
                                         <button type="submit" class="btn btn-primary">Change Password</button>
 
                                     </form>
+
                                 </div>
                             </div>
-
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -282,8 +306,9 @@
 <script>
 
     function toggleEditForm() {
+
         // Get elements
-        var editButton = document.getElementById('edit-btn'); // Changed to get by id
+        var editButton = document.getElementById('edit-btn');
         var changeNameForm = document.getElementById('change-name-form');
         var nameParagraph = document.getElementById('user-name');
 
@@ -295,20 +320,25 @@
 
             // Hide the edit button
             editButton.style.display = 'none';
+
         } else {
+
             // Show name paragraph and hide change name form
             nameParagraph.style.display = 'block';
             changeNameForm.style.display = 'none';
 
             // Show the edit button again
             editButton.style.display = 'block';
+
         }
+
     }
 
 
     function cancelEdit() {
+
         // Get elements
-        var editButton = document.getElementById('edit-btn'); // Changed to get by id
+        var editButton = document.getElementById('edit-btn');
         var changeNameForm = document.getElementById('change-name-form');
         var nameParagraph = document.getElementById('user-name');
 
@@ -321,12 +351,16 @@
 
         // Set the text of the edit button back to 'Edit'
         editButton.innerText = 'Edit';
+
     }
 
 
+    // Media Query Script
 
     window.addEventListener('resize', function() {
+
         if (window.innerWidth <= 768) {
+
             // Get all elements with class col-md-6
             var cols = document.querySelectorAll('.col-md-6');
             // Loop through each element and change its class to col-md-12
@@ -334,13 +368,16 @@
                 col.classList.remove('col-md-6');
                 col.classList.add('col-md-12');
             });
+
         } else {
+
             // If screen width is larger than or equal to 768px, revert the changes
             var cols = document.querySelectorAll('.col-md-12');
             cols.forEach(function(col) {
                 col.classList.remove('col-md-12');
                 col.classList.add('col-md-6');
             });
+
         }
     });
 

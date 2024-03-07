@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Motherson Portal</title>
+    <title>Motherson</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         body {
@@ -17,7 +16,6 @@
             align-items: center;
             height: 100vh;
         }
-
         .container {
             background-color: #fff;
             padding: 40px;
@@ -28,26 +26,21 @@
             text-align: center;
             margin: 1vh;
         }
-
         h1 {
             margin-bottom: 20px;
             color: #333;
             font-size: 28px;
         }
-
         form {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-
         label {
             width: 100%;
             text-align: left;
             margin-bottom: 5px;
         }
-
-        input[type="text"],
         input[type="email"],
         input[type="password"],
         button[type="submit"] {
@@ -59,7 +52,6 @@
             box-sizing: border-box;
             font-size: 16px;
         }
-
         button[type="submit"] {
             background-color: #b40000;
             color: #fff;
@@ -68,18 +60,17 @@
             transition: background-color 0.3s ease;
             font-size: 18px;
         }
-
         button[type="submit"]:hover {
             background-color: #730000;
         }
 
         /* Responsive Styles */
         @media (max-width: 768px) {
+
             .container {
                 padding: 20px;
             }
 
-            input[type="text"],
             input[type="email"],
             input[type="password"],
             button[type="submit"] {
@@ -87,63 +78,70 @@
                 font-size: 14px;
             }
 
-            input[type="text"],
             input[type="email"],
             input[type="password"],
             button[type="submit"] {
                 width: 60vh;
             }
+
         }
 
         @media (max-width: 576px) {
-            input[type="text"],
+
             input[type="email"],
             input[type="password"],
             button[type="submit"] {
                 width: 40vh;
             }
+
         }
 
         @media (max-width: 420px) {
-            input[type="text"],
+
             input[type="email"],
             input[type="password"],
             button[type="submit"] {
                 width: 30vh;
             }
+
         }
 
     </style>
 
 </head>
-
 <body>
 
 <div class="container">
 
-    <h1>Forgot the Password</h1>
+    <h1>Reset Password</h1>
 
-    <form method="POST" action="{{ route('password.email') }}">
+    <form method="POST" action="{{ route('password.update') }}">
+
         @csrf
+        <input type="hidden" name="token" value="{{ $token }}">
 
-        <!-- Email Input -->
-        <div class="mb-3">
-            <label for="email" class="form-label">{{ __('Email address') }}</label>
-            <input type="email" name="email" id="email" class="form-control rounded-pill @error('email') is-invalid @enderror" value="{{ old('email') }}" required autofocus placeholder="{{ __('Enter email') }}">
-            @error('email')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="hidden" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email">
+            <input type="email" class="form-control" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" disabled>
         </div>
 
-        <!-- Button -->
-        <div class="text-center position-relative">
-            <button type="submit" class="btn btn-danger btn-block rounded-pill">{{ __('Send Password Reset Link') }}</button>
+        <div class="form-group">
+            <label for="password">New Password</label>
+            <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
         </div>
+
+        <div class="form-group">
+            <label for="password-confirm">Confirm Password</label>
+            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+        </div>
+
+        <button type="submit" class="btn btn-danger">Reset Password</button>
 
     </form>
 
     <div class="text-center mt-3">
-        Already have an account? <a href="{{ route('login') }}">Login</a>
+        <a href="{{ route('login') }}">Go back to login</a>
     </div>
 
 </div>

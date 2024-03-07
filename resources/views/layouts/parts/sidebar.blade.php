@@ -7,7 +7,6 @@
 
     <style>
 
-        /* Default styles for the sidebar */
         .sidebar {
             position: fixed;
             top: 0;
@@ -24,7 +23,6 @@
             padding-bottom: 0;
         }
 
-
         .main-content {
             margin-left: 7%;
             padding: 20px;
@@ -38,7 +36,7 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 9999;
-            transition: transform 0.3s ease; /* Adjust transition timing and easing */
+            transition: transform 0.3s ease;
         }
 
         #sidebarToggle i {
@@ -60,7 +58,7 @@
         }
 
         .sidebar.open .container {
-            width: 100%; /* Add this line */
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -122,9 +120,9 @@
         .navigation {
             position: absolute;
             top: 20%;
-            left: 5px; /* Adjusted left offset */
+            left: 5px;
             transform: translateY(-50%);
-            width: calc(100% - 10px); /* Adjusted width to account for the left offset */
+            width: calc(100% - 10px);
         }
 
         .nav-button {
@@ -133,7 +131,7 @@
             text-align: center;
             background-color: #dc3545;
             border-radius: 5px;
-            padding: 12px 40px 12px 30px; /* Adjusted padding for accommodating the icon */
+            padding: 12px 40px 12px 30px;
             transition: background-color 0.3s, transform 0.5s ease 0.2s;
             overflow: hidden;
             display: flex;
@@ -145,9 +143,9 @@
         .dashboard-button {
             position: absolute;
             bottom: 30px;
-            left: 5px; /* Adjusted left offset */
+            left: 5px;
             transform: translateY(-50%);
-            width: calc(100% - 10px); /* Adjusted width to account for the left offset */
+            width: calc(100% - 10px);
         }
 
         .nav-button:hover {
@@ -205,7 +203,7 @@
         @media (max-width: 1440px) {
 
             .nav-button {
-                padding: 12px 40px 12px 18px; /* Adjusted padding for accommodating the icon */
+                padding: 12px 40px 12px 18px;
             }
 
         }
@@ -220,7 +218,7 @@
 
             .nav-button {
 
-                padding: 12px 40px 12px 18px; /* Adjusted padding for accommodating the icon */
+                padding: 12px 40px 12px 18px;
 
             }
 
@@ -251,9 +249,9 @@
             }
 
             .company-logo img {
-                width: 25px; /* Adjust width as needed */
-                height: auto; /* Maintain aspect ratio */
-                margin-right: 10px; /* Add some space between logo and name */
+                width: 25px;
+                height: auto;
+                margin-right: 10px;
             }
 
             .company-name {
@@ -266,34 +264,32 @@
                 bottom: 0;
                 left: 0;
                 width: 100%;
-                height: 7vh; /* Adjust height as needed */
+                height: 7vh;
                 background-color: #313131;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                padding: 0 20px; /* Add padding to the left and right */
+                padding: 0 20px;
             }
 
-            /* Styles for navigation buttons container */
+
             .nav-buttons-container {
                 display: flex;
-                justify-content: space-between; /* Distribute space evenly between buttons */
-                flex-grow: 1; /* Allow container to grow and occupy available space */
+                justify-content: space-between;
+                flex-grow: 1;
             }
 
             /* Styles for navigation buttons */
             .nav-button {
                 text-align: center;
                 background-color: #313131;
-                padding: 10px; /* Adjust padding as needed */
+                padding: 10px;
                 transition: background-color 0.3s;
                 display: flex;
                 align-items: center;
                 margin-bottom: 0;
             }
 
-
-            /* Style for the last navigation button to remove the right margin */
             .nav-button:last-child {
                 margin-right: 5%;
             }
@@ -307,13 +303,13 @@
             }
 
             .nav-button span {
-                margin-left: 8px; /* Adjust spacing between icon and text */
+                margin-left: 8px;
             }
 
             /* Styles for icons */
             .sidebaricons {
-                font-size: 1.4rem; /* Adjusted font size to make the icons bigger */
-                color: #fff; /* Icon color */
+                font-size: 1.4rem;
+                color: #fff;
             }
 
             /* Style for logout button */
@@ -350,6 +346,7 @@
 <body>
 
 <div class="sidebar">
+
     <div class="container">
 
         <button type="button" id="sidebarToggle" class="btn btn-danger">
@@ -357,7 +354,9 @@
         </button>
 
         @auth
+
             <div class="user-info">
+
                 <div class="user-avatar">
                     <i class="fas fa-user-circle fa-2x text-light"></i>
                 </div>
@@ -371,6 +370,7 @@
                         <p>Viewer</p>
                     @endif
                 </div>
+
             </div>
 
             <div class="navigation">
@@ -458,7 +458,7 @@
             <!-- Image of the company -->
             <a href="{{route('index')}}"><img src="{{ asset('img/logo.png') }}" alt="Company Logo"></a>
         </div>
-        <a class="company-name" href="{{route('index')}}" style="color: white; text-decoration: none;">Motherson</a>
+        <a class="company-name" href="{{route('index')}}" style="color: white; text-decoration: none;">Motherson Portal</a>
 
     </div>
     <div class="user-info">

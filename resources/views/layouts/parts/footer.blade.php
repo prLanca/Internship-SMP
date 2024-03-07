@@ -5,8 +5,9 @@
         <div class="row">
 
             <div class="col-lg-12 text-center">
-                <!-- Larger image for the footer -->
+
                 <img src="{{asset('img/footer.png')}}" alt="logo" style="width: 50%">
+
             </div>
 
         </div>

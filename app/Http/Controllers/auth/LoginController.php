@@ -12,12 +12,8 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    public function showLogin(){
+    public function showLoginForm(){
         return view('auth.login');
-    }
-
-    public function showRegister(){
-        return view('auth.register');
     }
 
     public function login(Request $request)
@@ -46,19 +42,4 @@ class LoginController extends Controller
         return redirect()->route('index');
     }
 
-    public function register(Request $request){
-
-        $request->validate([
-            'name'=>['required','string','max:50'],
-            'email'=>['required','email','unique:users'],
-            'password'=>['required','string','min:8'],
-            'password_confirmation'=>['required','string','min:8','same:password']
-        ]);
-
-        $user = (new \App\Http\Controllers\UserController)->controller_create($request);
-
-        Auth::login($user);
-
-        return redirect()->route('index');
-    }
 }
