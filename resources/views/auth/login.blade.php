@@ -116,36 +116,29 @@
     <h1>Login</h1>
 
     <form method="POST" action="{{ route('login') }}">
-
         @csrf
-
-
-        <div class="form-group">
-
-            <input id="email" type="hidden" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email">
-
-        </div>
 
         <div class="form-group">
             <label for="email">E-mail</label>
-            <input type="email" class="form-control rounded-pill @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email">
+            <input type="email" class="form-control rounded-pill @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+
+            @error('email')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-group">
-
             <label for="password">Password</label>
-            <input type="password" class="form-control rounded-pill @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+            <input type="password" class="form-control rounded-pill @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
             @error('password')
-
             <div class="invalid-feedback">{{ $message }}</div>
-
             @enderror
         </div>
 
         <button type="submit" class="btn btn-danger">Login</button>
-
     </form>
+
 
     <div class="text-center mt-3">
         <a href="{{ route('password.request') }}">Forgot your password?</a>

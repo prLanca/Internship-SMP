@@ -25,6 +25,13 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
+        // Caso o e-mail não exista, exibir mensagem de erro personalizada
+        if (!User::where('email', $credentials['email'])->exists()) {
+            return redirect()->route('login')->withErrors([
+                'email' => 'E-mail não registado.',
+            ]);
+        }
+
         if (Auth::attempt($credentials)) {
             $user = Auth::user(); // Retrieve the authenticated user
             $request->session()->regenerate();

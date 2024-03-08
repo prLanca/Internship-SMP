@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -15,12 +17,23 @@ class RegisterController extends Controller
 
     public function register(Request $request){
 
-        $request->validate([
-            'name'=>['required','string','max:50'],
-            'email'=>['required','email','unique:users'],
-            'password'=>['required','string','min:8'],
-            'password_confirmation'=>['required','string','min:8','same:password']
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users'), // Verifica se o e-mail é único na tabela de usuários
+            ],
+            'password' => 'required|string|min:8|confirmed',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('register')
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $user = (new UserController)->controller_create($request);
 
