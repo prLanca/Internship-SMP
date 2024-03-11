@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
 
-    @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('viewer') && !auth()->user()->hasVerifiedEmail())
+    @if((auth()->user()->hasRole('worker') || auth()->user()->hasRole('viewer')) && !auth()->user()->hasVerifiedEmail())
 
     <div class="alert alert-danger" role="alert">
         <h4 class="alert-heading">Email not verified!</h4>
