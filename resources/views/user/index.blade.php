@@ -145,6 +145,46 @@
         }
 
 
+
+        .confirmation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* semi-transparent background */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* ensure it's above other content */
+        }
+
+        .confirmation-message {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+
+        /* Add this CSS to your stylesheet */
+        .btn-danger {
+            background-color: #dc3545; /* Red background color */
+            border-color: #dc3545; /* Red border color */
+        }
+
+        .btn-danger:hover,
+        .btn-danger:focus {
+            background-color: #c82333; /* Darker red background color on hover/focus */
+            border-color: #c82333; /* Darker red border color on hover/focus */
+        }
+
+        .btn-danger:active {
+            background-color: #bd2130; /* Even darker red background color on click */
+            border-color: #bd2130; /* Even darker red border color on click */
+        }
+
+
     </style>
 </head>
 
@@ -162,9 +202,12 @@
                 <div class="card-body">
                     <h4 class="mb-3">User Profile</h4>
                     <p class="mb-0">Welcome, {{ $user->name }}</p>
+                    <p class="mb-0">Member since: {{ $user->created_at->format('M d, Y') }}</p>
                 </div>
             </div>
         </div>
+
+
 
         <div class="col-md-9">
             <div class="card profile-info">
@@ -253,6 +296,38 @@
 
                         <div class="col-md-6">
 
+                            <!-- delete profile -->
+                            <div class="card">
+
+                                <div class="card-header" style="background-color: #b40000; color: white">
+                                    <h5 class="mb-0">Delete Profile</h5>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <button type="button" class="btn btn-danger" onclick="showConfirmation()">Delete Profile</button>
+
+                                    <div id="confirmationContainer" class="confirmation-container">
+                                        <div class="confirmation-message">
+                                            <p>Are you sure you want to delete your profile?</p>
+                                            <button type="submit" class="btn btn-danger" onclick="submitForm()">Confirm</button>
+                                            <button type="button" class="btn btn-secondary" onclick="hideConfirmation()">Cancel</button>
+                                        </div>
+                                    </div>
+
+                                    <form id="deleteForm" action="{{ route('profile.delete', ['user' => auth()->user()->id]) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="mb-0">Change Password</h5>
@@ -260,11 +335,6 @@
                                 <div class="card-body">
                                     <form action="{{ route('change.password') }}" method="POST" id="change-password-form">
                                         @csrf
-
-                                        @if(session('success'))
-                                            <div class="alert alert-success">{{ session('success') }}</div>
-                                        @endif
-
 
                                         <div class="form-group">
                                             <label for="current-password">Current Password</label>
@@ -304,6 +374,22 @@
 </body>
 
 <script>
+
+    function showConfirmation() {
+        var confirmationContainer = document.getElementById('confirmationContainer');
+        confirmationContainer.style.display = 'flex'; // display confirmation container
+    }
+
+    function hideConfirmation() {
+        var confirmationContainer = document.getElementById('confirmationContainer');
+        confirmationContainer.style.display = 'none'; // hide confirmation container
+    }
+
+    function submitForm() {
+        var form = document.getElementById('deleteForm');
+        form.submit(); // submit the form
+    }
+
 
     function toggleEditForm() {
 

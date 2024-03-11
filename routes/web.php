@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function (){
          */
         Route::get('/profile', [UserController::class, 'show'])->name('profile.show');
 
+        Route::delete('/profile/{user}', [UserController::class, 'delete'])->name('profile.delete');
 
 
         Route::get('/email/verify', [VerificationController::class, 'verify'])
@@ -53,7 +54,10 @@ Route::middleware('auth')->group(function (){
 
 
         Route::post('/change-password', [UserController::class, 'changePassword'])->name('change.password');
-        Route::post('/change-name', [UserController::class, 'change'])->name('change.name');
+        Route::post('/change-name', [UserController::class, 'changeName'])->name('change.name');
+
+
+
 
     }
     );
@@ -190,11 +194,11 @@ Route::middleware('role:admin')->group(function (){
                 return $uploadController->upload($request, $storageLocation);
             })->name('upload.higiene');
 
-            Route::post('/upload/lino', function (Request $request) {
-                $storageLocation = 'Lino';
+            Route::post('/upload/lean', function (Request $request) {
+                $storageLocation = 'Lean';
                 $uploadController = new UploadController();
                 return $uploadController->upload($request, $storageLocation);
-            })->name('upload.lino');
+            })->name('upload.lean');
 
             Route::post('/upload/qcdd', function (Request $request) {
                 $storageLocation = 'QCDD';

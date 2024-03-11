@@ -124,6 +124,7 @@
     <h1>Register</h1>
 
     <form method="POST" action="{{ route('register') }}">
+
         @csrf
 
         <div class="form-group">
@@ -156,6 +157,7 @@
         </div>
 
         <button type="submit" class="btn btn-danger">Register</button>
+
     </form>
 
     <div class="text-center mt-3">

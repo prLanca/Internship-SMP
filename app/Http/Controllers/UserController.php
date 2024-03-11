@@ -41,6 +41,22 @@ class UserController extends Controller
     }
 
     /**
+     * Remove user from database.
+     */
+    public function delete(User $user)
+    {
+        // Ensure the user is authorized to delete their own account
+        if ($user->id !== auth()->user()->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $user->delete();
+
+        // Redirect to a suitable route after deletion
+        return redirect()->route('profile.show');
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -110,14 +126,6 @@ class UserController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
-    {
-        $user->delete();
-        return redirect()->route('users.index');
-    }
 
     public function destroy_admin(User $user)
     {

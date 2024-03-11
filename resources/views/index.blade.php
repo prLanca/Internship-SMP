@@ -253,9 +253,9 @@
             </div>
         </div>
 
-        <div class="screen touch-screen" onclick="showContent('lino')">
+        <div class="screen touch-screen" onclick="showContent('lean')">
             <div class="screen-content">
-                Lino
+                Lean
             </div>
         </div>
 
@@ -1550,13 +1550,13 @@
 
     </div>
 
-    <div id="lino" class="content">
+    <div id="lean" class="content">
 
         @auth
 
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
-                <form id="linoForm" action="{{ route('admin.upload.lino') }}" method="POST" enctype="multipart/form-data">
+                <form id="leanForm" action="{{ route('admin.upload.lean') }}" method="POST" enctype="multipart/form-data">
 
                     @csrf
                     <label class="file-drop-area" id="fileDropArea">
@@ -1567,7 +1567,7 @@
 
                         </div>
 
-                        <input type="file" class="file-input" name="files[]" id="fileInput" multiple onchange="displaySelectedFiles(this, 'lino')">
+                        <input type="file" class="file-input" name="files[]" id="fileInput" multiple onchange="displaySelectedFiles(this, 'lean')">
 
                         <span class="file-label">Click to Upload a file</span>
 
@@ -1578,7 +1578,7 @@
 
                     <div class=" mt-4">
                         <!-- Container for file cards -->
-                        <div id="droppedFilesContainerlino" class="row">
+                        <div id="droppedFilesContainerlean" class="row">
 
                         </div>
 
@@ -1590,11 +1590,11 @@
                         </div>
 
                         <!-- Mostra erro apenas da sreen que deu o erro de upload -->
-                        @if(isset($errorMessage) && $screen == 'Lino')
+                        @if(isset($errorMessage) && $screen == 'Lean')
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtonlino" class="upload-button bg-danger" onclick="return handleUpload('linoForm', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtonlean" class="upload-button bg-danger" onclick="return handleUpload('leanForm', files)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -1605,24 +1605,24 @@
         @endauth
 
         @php
-            $linoFiles = Storage::disk('public')->files('Lino');
+            $leanFiles = Storage::disk('public')->files('Lean');
         @endphp
 
             <!-- File List Cards -->
 
         <h3 class="mt-4">Uploaded Files</h3>
 
-        @if(!is_null($linoFiles) && count($linoFiles) > 0)
+        @if(!is_null($leanFiles) && count($leanFiles) > 0)
 
             <div class="container-fluid mt-4 mb-4">
 
-                <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="lino">
+                <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="lean">
 
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="sort-select">Sort by:</label>
                     </div>
-                    <select class="custom-select" id="sort-select" data-container="lino">
+                    <select class="custom-select" id="sort-select" data-container="lean">
                         <option value="name" data-arrow="asc">Name</option>
                         <option value="date" data-arrow="asc">Upload Date</option>
                         <option value="format" data-arrow="asc">File Format</option>
@@ -1637,14 +1637,14 @@
             <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
 
-                <div class="row mt-2 file-card-container" id="lino">
+                <div class="row mt-2 file-card-container" id="lean">
 
                     @php
-                        $linoFiles = Storage::disk('public')->files('Lino');
+                        $leanFiles = Storage::disk('public')->files('Lean');
                         $rowCount = 0;
                     @endphp
 
-                    @foreach($linoFiles as $index => $file)
+                    @foreach($leanFiles as $index => $file)
                         @if($rowCount % 6 == 0)
                         @endif
 
