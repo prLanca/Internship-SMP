@@ -296,38 +296,6 @@
 
                         <div class="col-md-6">
 
-                            <!-- delete profile -->
-                            <div class="card">
-
-                                <div class="card-header" style="background-color: #b40000; color: white">
-                                    <h5 class="mb-0">Delete Profile</h5>
-                                </div>
-
-                                <div class="card-body">
-
-                                    <button type="button" class="btn btn-danger" onclick="showConfirmation()">Delete Profile</button>
-
-                                    <div id="confirmationContainer" class="confirmation-container">
-                                        <div class="confirmation-message">
-                                            <p>Are you sure you want to delete your profile?</p>
-                                            <button type="submit" class="btn btn-danger" onclick="submitForm()">Confirm</button>
-                                            <button type="button" class="btn btn-secondary" onclick="hideConfirmation()">Cancel</button>
-                                        </div>
-                                    </div>
-
-                                    <form id="deleteForm" action="{{ route('profile.delete', ['user' => auth()->user()->id]) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-6">
-
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="mb-0">Change Password</h5>
@@ -364,6 +332,41 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <div class="col-md-6">
+
+                            <!-- delete profile -->
+                            <div class="card">
+
+                                <div class="card-header" style="background-color: #b40000; color: white">
+                                    <h5 class="mb-0">Delete Profile</h5>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <button type="button" class="btn btn-danger" onclick="showConfirmation()">Delete Profile</button>
+
+                                    <div id="confirmationContainer" class="confirmation-container">
+                                        <div class="confirmation-message">
+                                            <p>Are you sure you want to delete your profile?</p>
+                                            <button type="submit" class="btn btn-danger" onclick="submitForm()">Confirm</button>
+                                            <button type="button" class="btn btn-secondary" onclick="hideConfirmation()">Cancel</button>
+                                        </div>
+                                    </div>
+
+                                    <form id="deleteForm" action="{{ route('profile.delete', ['user' => auth()->user()->id]) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
                     </div>
                 </div>
             </div>
