@@ -156,11 +156,17 @@ class UserController extends Controller
         $user->name = $request->input('new-name');
         $user->save();
 
-        return redirect()->back()->with('success', 'Name changed successfully.');
+        return redirect()->back()->with('success-name', 'Name changed successfully.');
     }
 
     public function changePassword(Request $request)
     {
+
+        $request->validate([
+            'current-password' => 'required',
+            'new-password' => 'required|min:8',
+        ]);
+
         $user = Auth::user();
 
         // Verifica se a senha atual fornecida pelo usuário é correta

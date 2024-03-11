@@ -242,9 +242,11 @@
                                         <button class="edit-button" id="edit-btn" onclick="toggleEditForm()">Edit</button>
 
                                     </div>
+
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
@@ -256,6 +258,7 @@
                             </div>
 
                         </div>
+
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header">
@@ -273,6 +276,8 @@
                                     <h5 class="mb-0">Email Verification</h5>
                                 </div>
                                 <div class="card-body">
+
+
                                     @if (!$user->hasVerifiedEmail())
                                         <p class="mb-2">
                                             <i class="fa fa-exclamation-circle text-danger"></i> <!-- Font Awesome icon -->
@@ -301,6 +306,13 @@
                                     <h5 class="mb-0">Change Password</h5>
                                 </div>
                                 <div class="card-body">
+
+                                    @if(session('success'))
+                                        <div class="alert alert-success">
+                                            {{ session('success') }}
+                                        </div>
+                                    @endif
+
                                     <form action="{{ route('change.password') }}" method="POST" id="change-password-form">
                                         @csrf
 
