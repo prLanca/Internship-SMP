@@ -3025,7 +3025,7 @@
                 card.innerHTML =
                     `
                 <div class="d-flex justify-content-end"> <!-- Align delete button to the right -->
-                    
+
                 </div>
                 <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
                     <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
