@@ -191,6 +191,53 @@
                 display: none;
             }
 
+
+            .uploader-checkboxes-box {
+                border: 1px solid #ced4da; /* Border color */
+                border-radius: 10px; /* Rounded corners */
+                padding: 20px; /* Padding */
+                background-color: #f8f9fa; /* Background color */
+
+                max-height: 16vh; /* Maximum height */
+                overflow-y: auto; /* Add scrollbar when needed */
+            }
+
+            .uploader-checkboxes-title {
+                margin-top: 0;
+                margin-bottom: 10px;
+                color: #495057; /* Text color */
+            }
+
+            .uploader-checkboxes {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .uploader-checkboxes .btn {
+                cursor: pointer;
+            }
+
+            .uploader-checkboxes .btn input[type="checkbox"] {
+                position: absolute;
+                clip: rect(0, 0, 0, 0);
+                pointer-events: none;
+            }
+
+            .uploader-checkboxes .btn input[type="checkbox"] + label {
+                margin-bottom: 0;
+            }
+
+            .uploader-checkboxes .btn input[type="checkbox"]:checked + label {
+                background-color: #007bff;
+                color: #fff;
+                border-color: #007bff;
+            }
+
+            .uploader-checkboxes .btn-group > .btn {
+                position: relative;
+            }
+
         </style>
 
     </head>
@@ -355,6 +402,36 @@
 
             <div class="container-fluid mt-4 mb-4">
 
+                <div class="container-fluid mt-4 mb-4">
+
+                    <div class="uploader-checkboxes-box mb-4">
+
+                        <h4 class="uploader-checkboxes-title">Uploaded By</h4>
+
+                        <div class="uploader-checkboxes btn-group" role="group" aria-label="Uploader checkboxes" data-container="injecao">
+                            @php
+                                $uploaders = [];
+                            @endphp
+                            @foreach($injecaoFiles as $file)
+                                @php
+                                    $uploaderId = explode('_', pathinfo($file, PATHINFO_FILENAME))[0];
+                                    $uploaderName = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+                                @endphp
+                                @if(!in_array($uploaderName, $uploaders))
+                                    <label class="btn btn-outline-primary rounded">
+                                        <input type="checkbox" class="uploader-checkbox" value="{{ $uploaderName }}" data-container="injecao"> {{ $uploaderName }}
+                                    </label>
+                                    @php
+                                        $uploaders[] = $uploaderName;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+
+
                 <input type="text" id="file-search" class="form-control mb-2" data-container="injecao" placeholder="Search by filename">
 
                 <div class="input-group mb-3">
@@ -394,7 +471,9 @@
                                 <div class="card-title-container">
 
                                     <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+
+                                        {{ substr(strrchr($file, "_"), 1) }}
+
                                     </h5>
 
                                     <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
@@ -404,6 +483,8 @@
                             </div>
 
                             <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Uploaded By: {{ explode('_', pathinfo($file, PATHINFO_FILENAME))[1] }}</p>
 
                                 <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
 
@@ -533,6 +614,33 @@
 
         @if(!is_null($pinturaFiles) && count($pinturaFiles) > 0)
 
+
+                <div class="container-fluid mt-4 mb-4">
+                    <div class="uploader-checkboxes-box mb-4">
+                        <h4 class="uploader-checkboxes-title">Uploaded By</h4>
+                        <div class="uploader-checkboxes btn-group" role="group" aria-label="Uploader checkboxes" data-container="pintura">
+                            @php
+                                $uploaders = [];
+                            @endphp
+                            @foreach($pinturaFiles as $file)
+                                @php
+                                    $uploaderId = explode('_', pathinfo($file, PATHINFO_FILENAME))[0];
+                                    $uploaderName = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+                                @endphp
+                                @if(!in_array($uploaderName, $uploaders))
+                                    <label class="btn btn-outline-primary rounded">
+                                        <input type="checkbox" class="uploader-checkbox" value="{{ $uploaderName }}" data-container="pintura"> {{ $uploaderName }}
+                                    </label>
+                                    @php
+                                        $uploaders[] = $uploaderName;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+
             <div class="container-fluid mt-4 mb-4">
 
                 <input type="text" id="file-search" class="form-control mb-2" data-container="pintura" placeholder="Search by filename">
@@ -574,7 +682,7 @@
                                 <div class="card-title-container">
 
                                     <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                        {{ substr(strrchr($file, "_"), 1) }}
                                     </h5>
 
                                     <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
@@ -584,6 +692,9 @@
                             </div>
 
                             <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Uploaded By: {{ explode('_', pathinfo($file, PATHINFO_FILENAME))[1] }}</p>
+
 
                                 <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
 
@@ -713,6 +824,31 @@
 
         @if(!is_null($montagemFiles) && count($montagemFiles) > 0)
 
+                <div class="container-fluid mt-4 mb-4">
+                    <div class="uploader-checkboxes-box mb-4">
+                        <h4 class="uploader-checkboxes-title">Uploaded By</h4>
+                        <div class="uploader-checkboxes btn-group" role="group" aria-label="Uploader checkboxes" data-container="montagem">
+                            @php
+                                $uploaders = [];
+                            @endphp
+                            @foreach($montagemFiles as $file)
+                                @php
+                                    $uploaderId = explode('_', pathinfo($file, PATHINFO_FILENAME))[0];
+                                    $uploaderName = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+                                @endphp
+                                @if(!in_array($uploaderName, $uploaders))
+                                    <label class="btn btn-outline-primary rounded">
+                                        <input type="checkbox" class="uploader-checkbox" value="{{ $uploaderName }}" data-container="montagem"> {{ $uploaderName }}
+                                    </label>
+                                    @php
+                                        $uploaders[] = $uploaderName;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
             <div class="container-fluid mt-4 mb-4">
 
                 <input type="text" id="file-search" class="form-control mb-2" data-container="montagem" placeholder="Search by filename">
@@ -755,7 +891,7 @@
                                 <div class="card-title-container">
 
                                     <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                        {{ substr(strrchr($file, "_"), 1) }}
                                     </h5>
 
                                     <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
@@ -765,6 +901,8 @@
                             </div>
 
                             <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Uploaded By: {{ explode('_', pathinfo($file, PATHINFO_FILENAME))[1] }}</p>
 
                                 <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
 
@@ -894,6 +1032,31 @@
 
         @if(!is_null($manutencaoFiles) && count($manutencaoFiles) > 0)
 
+                <div class="container-fluid mt-4 mb-4">
+                    <div class="uploader-checkboxes-box mb-4">
+                        <h4 class="uploader-checkboxes-title">Uploaded By</h4>
+                        <div class="uploader-checkboxes btn-group" role="group" aria-label="Uploader checkboxes" data-container="manutencao">
+                            @php
+                                $uploaders = [];
+                            @endphp
+                            @foreach($manutencaoFiles as $file)
+                                @php
+                                    $uploaderId = explode('_', pathinfo($file, PATHINFO_FILENAME))[0];
+                                    $uploaderName = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+                                @endphp
+                                @if(!in_array($uploaderName, $uploaders))
+                                    <label class="btn btn-outline-primary rounded">
+                                        <input type="checkbox" class="uploader-checkbox" value="{{ $uploaderName }}" data-container="manutencao"> {{ $uploaderName }}
+                                    </label>
+                                    @php
+                                        $uploaders[] = $uploaderName;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
             <div class="container-fluid mt-4 mb-4">
 
                 <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="manutencao">
@@ -935,7 +1098,7 @@
                                 <div class="card-title-container">
 
                                     <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                        {{ substr(strrchr($file, "_"), 1) }}
                                     </h5>
 
                                     <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
@@ -945,6 +1108,8 @@
                             </div>
 
                             <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Uploaded By: {{ explode('_', pathinfo($file, PATHINFO_FILENAME))[1] }}</p>
 
                                 <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
 
@@ -1074,6 +1239,31 @@
 
         @if(!is_null($qualidadeFiles) && count($qualidadeFiles) > 0)
 
+                <div class="container-fluid mt-4 mb-4">
+                    <div class="uploader-checkboxes-box mb-4">
+                        <h4 class="uploader-checkboxes-title">Uploaded By</h4>
+                        <div class="uploader-checkboxes btn-group" role="group" aria-label="Uploader checkboxes" data-container="qualidade">
+                            @php
+                                $uploaders = [];
+                            @endphp
+                            @foreach($qualidadeFiles as $file)
+                                @php
+                                    $uploaderId = explode('_', pathinfo($file, PATHINFO_FILENAME))[0];
+                                    $uploaderName = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+                                @endphp
+                                @if(!in_array($uploaderName, $uploaders))
+                                    <label class="btn btn-outline-primary rounded">
+                                        <input type="checkbox" class="uploader-checkbox" value="{{ $uploaderName }}" data-container="qualidade"> {{ $uploaderName }}
+                                    </label>
+                                    @php
+                                        $uploaders[] = $uploaderName;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
             <div class="container-fluid mt-4 mb-4">
 
                 <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="qualidade">
@@ -1115,7 +1305,7 @@
                                 <div class="card-title-container">
 
                                     <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                        {{ substr(strrchr($file, "_"), 1) }}
                                     </h5>
 
                                     <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
@@ -1125,6 +1315,8 @@
                             </div>
 
                             <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Uploaded By: {{ explode('_', pathinfo($file, PATHINFO_FILENAME))[1] }}</p>
 
                                 <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
 
@@ -1254,7 +1446,32 @@
 
         @if(!is_null($engenhariaFiles) && count($engenhariaFiles) > 0)
 
-            <div class="container-fluid mt-4 mb-4">
+                <div class="container-fluid mt-4 mb-4">
+                    <div class="uploader-checkboxes-box mb-4">
+                        <h4 class="uploader-checkboxes-title">Uploaded By</h4>
+                        <div class="uploader-checkboxes btn-group" role="group" aria-label="Uploader checkboxes" data-container="engenharia">
+                            @php
+                                $uploaders = [];
+                            @endphp
+                            @foreach($engenhariaFiles as $file)
+                                @php
+                                    $uploaderId = explode('_', pathinfo($file, PATHINFO_FILENAME))[0];
+                                    $uploaderName = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+                                @endphp
+                                @if(!in_array($uploaderName, $uploaders))
+                                    <label class="btn btn-outline-primary rounded">
+                                        <input type="checkbox" class="uploader-checkbox" value="{{ $uploaderName }}" data-container="engenharia"> {{ $uploaderName }}
+                                    </label>
+                                    @php
+                                        $uploaders[] = $uploaderName;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid mt-4 mb-4">
 
                 <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="engenharia">
 
@@ -1276,7 +1493,6 @@
 
             <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
-
                 <div class="row mt-2 file-card-container" id="engenharia">
 
                     @php
@@ -1295,7 +1511,7 @@
                                 <div class="card-title-container">
 
                                     <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                        {{ substr(strrchr($file, "_"), 1) }}
                                     </h5>
 
                                     <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
@@ -1305,6 +1521,8 @@
                             </div>
 
                             <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Uploaded By: {{ explode('_', pathinfo($file, PATHINFO_FILENAME))[1] }}</p>
 
                                 <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
 
@@ -1434,7 +1652,33 @@
 
         @if(!is_null($higieneFiles) && count($higieneFiles) > 0)
 
-            <div class="container-fluid mt-4 mb-4">
+                <div class="container-fluid mt-4 mb-4">
+                    <div class="uploader-checkboxes-box mb-4">
+                        <h4 class="uploader-checkboxes-title">Uploaded By</h4>
+                        <div class="uploader-checkboxes btn-group" role="group" aria-label="Uploader checkboxes" data-container="higiene">
+                            @php
+                                $uploaders = [];
+                            @endphp
+                            @foreach($higieneFiles as $file)
+                                @php
+                                    $uploaderId = explode('_', pathinfo($file, PATHINFO_FILENAME))[0];
+                                    $uploaderName = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+                                @endphp
+                                @if(!in_array($uploaderName, $uploaders))
+                                    <label class="btn btn-outline-primary rounded">
+                                        <input type="checkbox" class="uploader-checkbox" value="{{ $uploaderName }}" data-container="higiene"> {{ $uploaderName }}
+                                    </label>
+                                    @php
+                                        $uploaders[] = $uploaderName;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="container-fluid mt-4 mb-4">
 
                 <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="higiene">
 
@@ -1475,7 +1719,7 @@
                                 <div class="card-title-container">
 
                                     <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                        {{ substr(strrchr($file, "_"), 1) }}
                                     </h5>
 
                                     <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
@@ -1485,6 +1729,8 @@
                             </div>
 
                             <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Uploaded By: {{ explode('_', pathinfo($file, PATHINFO_FILENAME))[1] }}</p>
 
                                 <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
 
@@ -1614,7 +1860,33 @@
 
         @if(!is_null($leanFiles) && count($leanFiles) > 0)
 
-            <div class="container-fluid mt-4 mb-4">
+                <div class="container-fluid mt-4 mb-4">
+                    <div class="uploader-checkboxes-box mb-4">
+                        <h4 class="uploader-checkboxes-title">Uploaded By</h4>
+                        <div class="uploader-checkboxes btn-group" role="group" aria-label="Uploader checkboxes" data-container="lean">
+                            @php
+                                $uploaders = [];
+                            @endphp
+                            @foreach($leanFiles as $file)
+                                @php
+                                    $uploaderId = explode('_', pathinfo($file, PATHINFO_FILENAME))[0];
+                                    $uploaderName = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+                                @endphp
+                                @if(!in_array($uploaderName, $uploaders))
+                                    <label class="btn btn-outline-primary rounded">
+                                        <input type="checkbox" class="uploader-checkbox" value="{{ $uploaderName }}" data-container="lean"> {{ $uploaderName }}
+                                    </label>
+                                    @php
+                                        $uploaders[] = $uploaderName;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="container-fluid mt-4 mb-4">
 
                 <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="lean">
 
@@ -1655,7 +1927,7 @@
                                 <div class="card-title-container">
 
                                     <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                        {{ substr(strrchr($file, "_"), 1) }}
                                     </h5>
 
                                     <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
@@ -1665,6 +1937,8 @@
                             </div>
 
                             <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Uploaded By: {{ explode('_', pathinfo($file, PATHINFO_FILENAME))[1] }}</p>
 
                                 <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
 
@@ -1794,7 +2068,33 @@
 
         @if(!is_null($qcddFiles) && count($qcddFiles) > 0)
 
-            <div class="container-fluid mt-4 mb-4">
+                <div class="container-fluid mt-4 mb-4">
+                    <div class="uploader-checkboxes-box mb-4">
+                        <h4 class="uploader-checkboxes-title">Uploaded By</h4>
+                        <div class="uploader-checkboxes btn-group" role="group" aria-label="Uploader checkboxes" data-container="qcdd">
+                            @php
+                                $uploaders = [];
+                            @endphp
+                            @foreach($qcddFiles as $file)
+                                @php
+                                    $uploaderId = explode('_', pathinfo($file, PATHINFO_FILENAME))[0];
+                                    $uploaderName = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+                                @endphp
+                                @if(!in_array($uploaderName, $uploaders))
+                                    <label class="btn btn-outline-primary rounded">
+                                        <input type="checkbox" class="uploader-checkbox" value="{{ $uploaderName }}" data-container="qcdd"> {{ $uploaderName }}
+                                    </label>
+                                    @php
+                                        $uploaders[] = $uploaderName;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="container-fluid mt-4 mb-4">
 
                 <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="qcdd">
 
@@ -1835,7 +2135,7 @@
                                 <div class="card-title-container">
 
                                     <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                        {{ substr(strrchr($file, "_"), 1) }}
                                     </h5>
 
                                     <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
@@ -1845,6 +2145,8 @@
                             </div>
 
                             <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Uploaded By: {{ explode('_', pathinfo($file, PATHINFO_FILENAME))[1] }}</p>
 
                                 <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
 
@@ -1974,7 +2276,33 @@
 
         @if(!is_null($rhFiles) && count($rhFiles) > 0)
 
-            <div class="container-fluid mt-4 mb-4">
+                <div class="container-fluid mt-4 mb-4">
+                    <div class="uploader-checkboxes-box mb-4">
+                        <h4 class="uploader-checkboxes-title">Uploaded By</h4>
+                        <div class="uploader-checkboxes btn-group" role="group" aria-label="Uploader checkboxes" data-container="rh">
+                            @php
+                                $uploaders = [];
+                            @endphp
+                            @foreach($rhFiles as $file)
+                                @php
+                                    $uploaderId = explode('_', pathinfo($file, PATHINFO_FILENAME))[0];
+                                    $uploaderName = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+                                @endphp
+                                @if(!in_array($uploaderName, $uploaders))
+                                    <label class="btn btn-outline-primary rounded">
+                                        <input type="checkbox" class="uploader-checkbox" value="{{ $uploaderName }}" data-container="rh"> {{ $uploaderName }}
+                                    </label>
+                                    @php
+                                        $uploaders[] = $uploaderName;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="container-fluid mt-4 mb-4">
 
                 <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="rh">
 
@@ -2015,7 +2343,7 @@
                                 <div class="card-title-container">
 
                                     <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                        {{ substr(strrchr($file, "_"), 1) }}
                                     </h5>
 
                                     <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
@@ -2025,6 +2353,8 @@
                             </div>
 
                             <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Uploaded By: {{ explode('_', pathinfo($file, PATHINFO_FILENAME))[1] }}</p>
 
                                 <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
 
@@ -2154,7 +2484,33 @@
 
         @if(!is_null($emptyFiles) && count($emptyFiles) > 0)
 
-            <div class="container-fluid mt-4 mb-4">
+                <div class="container-fluid mt-4 mb-4">
+                    <div class="uploader-checkboxes-box mb-4">
+                        <h4 class="uploader-checkboxes-title">Uploaded By</h4>
+                        <div class="uploader-checkboxes btn-group" role="group" aria-label="Uploader checkboxes" data-container="empty">
+                            @php
+                                $uploaders = [];
+                            @endphp
+                            @foreach($emptyFiles as $file)
+                                @php
+                                    $uploaderId = explode('_', pathinfo($file, PATHINFO_FILENAME))[0];
+                                    $uploaderName = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+                                @endphp
+                                @if(!in_array($uploaderName, $uploaders))
+                                    <label class="btn btn-outline-primary rounded">
+                                        <input type="checkbox" class="uploader-checkbox" value="{{ $uploaderName }}" data-container="empty"> {{ $uploaderName }}
+                                    </label>
+                                    @php
+                                        $uploaders[] = $uploaderName;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="container-fluid mt-4 mb-4">
 
                 <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="empty">
 
@@ -2195,7 +2551,7 @@
                                 <div class="card-title-container">
 
                                     <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                        {{ substr(strrchr($file, "_"), 1) }}
                                     </h5>
 
                                     <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
@@ -2205,6 +2561,8 @@
                             </div>
 
                             <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Uploaded By: {{ explode('_', pathinfo($file, PATHINFO_FILENAME))[1] }}</p>
 
                                 <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
 
@@ -2334,7 +2692,32 @@
 
         @if(!is_null($empty2Files) && count($empty2Files) > 0)
 
-            <div class="container-fluid mt-4 mb-4">
+                <div class="container-fluid mt-4 mb-4">
+                    <div class="uploader-checkboxes-box mb-4">
+                        <h4 class="uploader-checkboxes-title">Uploaded By</h4>
+                        <div class="uploader-checkboxes btn-group" role="group" aria-label="Uploader checkboxes" data-container="empty2">
+                            @php
+                                $uploaders = [];
+                            @endphp
+                            @foreach($empty2Files as $file)
+                                @php
+                                    $uploaderId = explode('_', pathinfo($file, PATHINFO_FILENAME))[0];
+                                    $uploaderName = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+                                @endphp
+                                @if(!in_array($uploaderName, $uploaders))
+                                    <label class="btn btn-outline-primary rounded">
+                                        <input type="checkbox" class="uploader-checkbox" value="{{ $uploaderName }}" data-container="empty2"> {{ $uploaderName }}
+                                    </label>
+                                    @php
+                                        $uploaders[] = $uploaderName;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-fluid mt-4 mb-4">
 
                 <input type="text" id="file-search" class="form-control mb-2" placeholder="Search by filename" data-container="empty2">
 
@@ -2375,7 +2758,7 @@
                                 <div class="card-title-container">
 
                                     <h5 class="card-title mb-1" style="white-space: nowrap; overflow: hidden; text-overflow:ellipsis;">
-                                        {{ pathinfo($file, PATHINFO_FILENAME) }}
+                                        {{ substr(strrchr($file, "_"), 1) }}
                                     </h5>
 
                                     <h6 style="color: grey">.{{ pathinfo($file, PATHINFO_EXTENSION) }}</h6>
@@ -2385,6 +2768,8 @@
                             </div>
 
                             <div class="card-body d-flex flex-column justify-content-end">
+
+                                <p class="card-text" style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Uploaded By: {{ explode('_', pathinfo($file, PATHINFO_FILENAME))[1] }}</p>
 
                                 <p class="card-text" style="margin-bottom: 0">Uploaded At: {{ date('Y-m-d H:i:s', Storage::disk('public')->lastModified($file)) }}</p>
 
@@ -2943,6 +3328,52 @@
         });
 
         <!-- ################################ End File Sort ################################ -->
+
+        <!-- ################################## Filter file by name of uploaded by ################################ -->
+
+        // Get all checkboxes for uploader's name
+        const uploaderCheckboxes = document.querySelectorAll('.uploader-checkbox');
+
+        // Add event listener to each checkbox
+        uploaderCheckboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                const checkedUploaders = Array.from(uploaderCheckboxes)
+                    .filter(checkbox => checkbox.checked)
+                    .map(checkbox => checkbox.value.toLowerCase());
+
+                // Get the ID of the container to filter
+                const containerId = checkbox.getAttribute('data-container');
+
+                // Get the container element by its ID
+                const container = document.getElementById(containerId);
+
+                // Get all file cards within the specified container
+                const fileCards = container.querySelectorAll('.file-card');
+
+                // Iterate over file cards within the container
+                fileCards.forEach(function(fileCard) {
+                    const uploaderName = fileCard.querySelector('.card-body .card-text').textContent.trim().toLowerCase().split(':')[1].trim();
+                    const shouldShow = checkedUploaders.length === 0 || checkedUploaders.some(uploader => uploaderName.includes(uploader));
+                    fileCard.style.display = shouldShow ? '' : 'none';
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('.uploader-checkbox');
+
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        this.parentNode.classList.add('active');
+                    } else {
+                        this.parentNode.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        <!-- ################################ End Filter file by name of uploaded by ############################## -->
 
     </script>
 

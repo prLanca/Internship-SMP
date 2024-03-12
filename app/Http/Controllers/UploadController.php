@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use function Laravel\Prompts\alert;
@@ -29,10 +30,10 @@ class UploadController extends Controller
             $manutencaoToggled = $request->input('manutencao_toggled', false);
             $engenhariaToggled = $request->input('engenharia_toggled', false);
             $higieneToggled = $request->input('higiene_toggled', false);
-            $linoToggled = $request->input('lino_toggled', false);
+            $leanToggled = $request->input('lean_toggled', false);
             $rhToggled = $request->input('rh_toggled', false);
-            $emptyToggled = $request->input('empy_toggled', false);
-            $empty2Toggled = $request->input('empy2_toggled', false);
+            $emptyToggled = $request->input('empty_toggled', false);
+            $empty2Toggled = $request->input('empty2_toggled', false);
 
 
             if ($request->hasFile('files')) {
@@ -40,9 +41,22 @@ class UploadController extends Controller
                     // Define the destination directory based on the screen
                     $destinationDirectory = public_path('storage/' . $screen);
 
-                    // Move the uploaded file to the destination directory
-                    $fileName = $file->getClientOriginalName(); // Generate a unique filename
+                    // Check if the user is authenticated
+                    if (Auth::check()) {
+                        // Get the authenticated user's name
+                        $userId = Auth::user()->id;
+                        $uploaderName = Auth::user()->name;
+                    } else {
+                        // If the user is not authenticated, use a default name or handle the situation accordingly
+                        $uploaderName = 'Anonymous';
+                    }
+
+                    // Generate a unique filename with the uploader's name
+                    $fileName = $userId . '_' . $uploaderName . '_' . $file->getClientOriginalName();
+
                     $file->move($destinationDirectory, $fileName);
+
+
                 }
 
                 // Return a success response with toggled sections
@@ -57,7 +71,7 @@ class UploadController extends Controller
                         'manutencao_toggled' => $manutencaoToggled,
                         'engenharia_toggled' => $engenhariaToggled,
                         'higiene_toggled' => $higieneToggled,
-                        'lino_toggled' => $linoToggled,
+                        'lean_toggled' => $leanToggled,
                         'rh_toggled' => $rhToggled,
                         'empty_toggled' => $emptyToggled,
                         'empty2_toggled' => $empty2Toggled,
@@ -82,7 +96,7 @@ class UploadController extends Controller
                         'manutencao_toggled' => $manutencaoToggled,
                         'engenharia_toggled' => $engenhariaToggled,
                         'higiene_toggled' => $higieneToggled,
-                        'lino_toggled' => $linoToggled,
+                        'lean_toggled' => $leanToggled,
                         'rh_toggled' => $rhToggled,
                         'empty_toggled' => $emptyToggled,
                         'empty2_toggled' => $empty2Toggled,
