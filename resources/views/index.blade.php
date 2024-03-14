@@ -3032,21 +3032,30 @@
                 // Card content
                 card.innerHTML =
                     `
-        <div class="d-flex justify-content-end"> <!-- Align delete button to the right -->
-                    <button type="button" style="color: grey; text-decoration: none;" class="btn btn-link delete-btn position-absolute mt-0 delbuttoncard" onclick="deleteDisplayedFile('${index}', '${screenContext}')">&times;</button>
+                    <div class="d-flex justify-content-end"> <!-- Align delete button to the right -->
 
-                </div>
-                <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
-                    <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
-                        <!-- Add the icon here -->
-                        <p class="card-text mb-0">${getFileFormatIcon(getFileExtension(file.name))}</p>
+                        <button type="button" style="color: grey; text-decoration: none;" class="btn btn-link delete-btn position-absolute mt-0 delbuttoncard" onclick="deleteDisplayedFile('${index}', '${screenContext}')">&times;</button>
+
                     </div>
-                    <div class="card-body m-0 p-1 text-center" style="max-width: 18vh">
-                        <h6 class="card-title mb-1" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</h6>
-                        <p class="card-text mb-0">${formatFileSize(file.size)}</p>
+
+                    <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
+
+                        <div class="upload-preview-wrapper d-flex justify-content-center align-items-center mb-2" style="height: 6vh; width: 18vh; overflow: hidden;"> <!-- Fixed height wrapper -->
+
+                            <!-- Add the icon here -->
+                            <p class="card-text mb-0">${getFileFormatIcon(getFileExtension(file.name))}</p>
+
+                        </div>
+
+                        <div class="card-body m-0 p-1 text-center" style="max-width: 18vh">
+
+                            <h6 class="card-title mb-1" style="font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</h6>
+                            <p class="card-text mb-0">${formatFileSize(file.size)}</p>
+
+                        </div>
+
                     </div>
-                </div>
-    `;
+                `;
 
                 // Append card to the container
                 droppedFilesContainer.appendChild(card);
@@ -3054,14 +3063,21 @@
 
             // Show upload button
             const uploadButton = document.getElementById('uploadButton' + screenContext);
+
             const simplehr = document.getElementById('simplehr');
+
             if (files.length > 0) {
+
                 uploadButton.style.display = 'block';
                 simplehr.style.display = 'block';
+
             } else {
+
                 uploadButton.style.display = 'none';
                 simplehr.style.display = 'none';
+
             }
+            
         }
 
         // Function to get file extension from file name
