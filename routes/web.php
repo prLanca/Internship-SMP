@@ -128,6 +128,8 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 
 
+
+
 Auth::routes(['verify' => true]);
 
 /*
@@ -149,8 +151,6 @@ Route::middleware('role:admin')->group(function (){
             Route::post('/delete/file', [UploadController::class, 'deleteFile'])->name('delete.file');
 
             Route::match(['post', 'delete'], '/delete/{userid}', [DashboardController::class, 'delete'])->name('users.delete');
-
-
 
             Route::post('/upload/Injecao', function (Request $request) {
                 $storageLocation = 'Injecao';

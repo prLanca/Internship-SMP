@@ -380,7 +380,7 @@
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtoninjecao" class="upload-button bg-danger" onclick="return handleUpload('injecaoForm', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtoninjecao" class="upload-button bg-danger" onclick="return handleUpload('injecaoForm', previewedFiles)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -594,7 +594,7 @@
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtonpintura" class="upload-button bg-danger" onclick="return handleUpload('pinturaForm', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtonpintura" class="upload-button bg-danger" onclick="return handleUpload('pinturaForm', previewedFiles)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -804,7 +804,7 @@
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtonmontagem" class="upload-button bg-danger" onclick="return handleUpload('montagemForm', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtonmontagem" class="upload-button bg-danger" onclick="return handleUpload('montagemForm', previewedFiles)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -1012,7 +1012,7 @@
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtonmanutencao" class="upload-button bg-danger" onclick="return handleUpload('manutencaoForm', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtonmanutencao" class="upload-button bg-danger" onclick="return handleUpload('manutencaoForm', previewedFiles)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -1219,7 +1219,7 @@
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtonqualidade" class="upload-button bg-danger" onclick="return handleUpload('qualidadeForm', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtonqualidade" class="upload-button bg-danger" onclick="return handleUpload('qualidadeForm', previewedFiles)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -1426,7 +1426,7 @@
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtonengenharia" class="upload-button bg-danger" onclick="return handleUpload('engenhariaForm', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtonengenharia" class="upload-button bg-danger" onclick="return handleUpload('engenhariaForm', previewedFiles)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -1632,7 +1632,7 @@
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtonhigiene" class="upload-button bg-danger" onclick="return handleUpload('higieneForm', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtonhigiene" class="upload-button bg-danger" onclick="return handleUpload('higieneForm', previewedFiles)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -1840,7 +1840,7 @@
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtonlean" class="upload-button bg-danger" onclick="return handleUpload('leanForm', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtonlean" class="upload-button bg-danger" onclick="return handleUpload('leanForm', previewedFiles)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -2048,7 +2048,7 @@
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtonqcdd" class="upload-button bg-danger" onclick="return handleUpload('qcddForm', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtonqcdd" class="upload-button bg-danger" onclick="return handleUpload('qcddForm', previewedFiles)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -2256,7 +2256,7 @@
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtonrh" class="upload-button bg-danger" onclick="return handleUpload('rhForm', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtonrh" class="upload-button bg-danger" onclick="return handleUpload('rhForm', previewedFiles)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -2464,7 +2464,7 @@
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtonempty" class="upload-button bg-danger" onclick="return handleUpload('emptyForm', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtonempty" class="upload-button bg-danger" onclick="return handleUpload('emptyForm', previewedFiles)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -2672,7 +2672,7 @@
                             <div class="error-message">{{ $errorMessage }}</div>
                         @endif
 
-                        <button id="uploadButtonempty2" class="upload-button bg-danger" onclick="return handleUpload('empty2Form', files)" style="display: none;">Upload</button>
+                        <button id="uploadButtonempty2" class="upload-button bg-danger" onclick="return handleUpload('empty2Form', previewedFiles)" style="display: none;">Upload</button>
 
                     </div>
 
@@ -2988,18 +2988,20 @@
             displayDroppedFiles(files, screenContext);
         }
 
+        let previewedFiles = []; // Array to store the files that have been previewed
+
         function displayDroppedFiles(files, screenContext) {
-
-            console.log('Screen context:', screenContext); // Debugging statement
-
+            // Get the dropped files container using the screenContext
             const droppedFilesContainer = document.getElementById('droppedFilesContainer' + screenContext);
-            console.log('Dropped files container:', droppedFilesContainer); // Debugging statement
 
             // Clear previous files from the container
             droppedFilesContainer.innerHTML = '';
 
+            // Reset previewedFiles array
+            previewedFiles = [];
+
             // Display file cards with improved design and margin between them
-            Array.from(files).forEach((file, index) => {
+            files.forEach((file, index) => {
                 // Create card container
                 const card = document.createElement('div');
                 card.classList.add('card', 'mb-3', 'rounded', 'shadow', 'ml-1', 'mr-1'); // Add Bootstrap classes for card, margin, rounded corners, and shadow
@@ -3021,10 +3023,17 @@
                     }
                 }
 
+                // Add the file to the previewedFiles array
+                previewedFiles.push({
+                    name: file.name,
+                    size: file.size
+                });
+
                 // Card content
                 card.innerHTML =
                     `
-                <div class="d-flex justify-content-end"> <!-- Align delete button to the right -->
+        <div class="d-flex justify-content-end"> <!-- Align delete button to the right -->
+                    <button type="button" style="color: grey; text-decoration: none;" class="btn btn-link delete-btn position-absolute mt-0 delbuttoncard" onclick="deleteDisplayedFile('${index}', '${screenContext}')">&times;</button>
 
                 </div>
                 <div class="card-body d-flex flex-column ${isSupportedFileType ? 'bg-light' : 'bg-gradient-warning'}">
@@ -3037,17 +3046,17 @@
                         <p class="card-text mb-0">${formatFileSize(file.size)}</p>
                     </div>
                 </div>
-            `;
+    `;
 
                 // Append card to the container
                 droppedFilesContainer.appendChild(card);
             });
 
-            // Show upload button if there are files
+            // Show upload button
             const uploadButton = document.getElementById('uploadButton' + screenContext);
             const simplehr = document.getElementById('simplehr');
-            uploadButton.style.display = files.length > 0 ? 'block' : 'none';
-            simplehr.style.display = files.length > 0 ? 'block' : 'none';
+            uploadButton.style.display = 'block';
+            simplehr.style.display = 'block';
         }
 
         // Function to get file extension from file name
@@ -3083,6 +3092,8 @@
             }
         }
 
+        /*
+
         function deleteDisplayedFile(index, screenContext) {
             console.log('Deleting file at index:', index); // Debugging statement
 
@@ -3116,8 +3127,36 @@
             input.parentNode.replaceChild(newInput, input);
         }
 
+        */
 
+        let deletedFilesIndexes = [];
 
+        function deleteDisplayedFile(index, screenContext) {
+            // Remove the file from the previewedFiles array
+            previewedFiles.splice(index, 1);
+
+            console.log(previewedFiles); // Debugging statement
+
+            // Redisplay the files with the updated array
+            displayDroppedFiles(previewedFiles, screenContext);
+        }
+
+        function handleUpload(formId, previewedFiles) {
+            const form = document.getElementById(formId);
+
+            // Create a hidden input field to store the filenames
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'previewedFiles';
+            hiddenInput.value = JSON.stringify(previewedFiles);
+
+            // Append the hidden input field to the form
+            form.appendChild(hiddenInput);
+
+            // Submit the form
+            form.submit();
+        }
+        
         <!-- ############################## End File Display before uplaoding ############################# -->
 
         <!-- ################################## File Upload ################################## -->

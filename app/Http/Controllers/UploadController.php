@@ -37,26 +37,50 @@ class UploadController extends Controller
 
 
             if ($request->hasFile('files')) {
-                foreach ($request->file('files') as $file) {
-                    // Define the destination directory based on the screen
-                    $destinationDirectory = public_path('storage/' . $screen);
 
-                    // Check if the user is authenticated
-                    if (Auth::check()) {
-                        // Get the authenticated user's name
-                        $userId = Auth::user()->id;
-                        $uploaderName = Auth::user()->name;
-                    } else {
-                        // If the user is not authenticated, use a default name or handle the situation accordingly
-                        $uploaderName = 'Anonymous';
+                // Define the destination directory based on the screen
+                $destinationDirectory = public_path('storage/' . $screen);
+
+                // Check if the user is authenticated
+                if (Auth::check()) {
+                    // Get the authenticated user's name
+                    $userId = Auth::user()->id;
+                    $uploaderName = Auth::user()->name;
+                } else {
+                    // If the user is not authenticated, use a default name or handle the situation accordingly
+                    $uploaderName = 'Anonymous';
+                }
+
+                // Get the filenames of the files in the preview
+                $previewedFiles = $request->input('previewedFiles', []);
+
+                // Decode the JSON string into an array of objects
+                $filesArray = json_decode($previewedFiles);
+
+                // Extract just the "name" attribute from each item
+                $fileNames = array_map(function($file) {
+                    return $file->name;
+                }, $filesArray);
+
+                // Get all the uploaded files
+                $uploadedFiles = $request->file('files');
+
+                // Initialize an array to store the content of the corresponding files
+                $correspondingFilesContent = [];
+
+                // Loop through each uploaded file
+                foreach ($uploadedFiles as $uploadedFile) {
+                    // Get the filename of the uploaded file
+                    $uploadedFileName = $uploadedFile->getClientOriginalName();
+
+                    // Check if the uploaded file's name is in the previewedFiles array
+                    if (in_array($uploadedFileName, $fileNames)) {
+                        // Generate unique filename
+                        $fileName = $userId . '_' . $uploaderName . '_' . $uploadedFileName;
+
+                        // Move the uploaded file to the destination directory with the unique filename
+                        $uploadedFile->move($destinationDirectory, $fileName);
                     }
-
-                    // Generate a unique filename with the uploader's name
-                    $fileName = $userId . '_' . $uploaderName . '_' . $file->getClientOriginalName();
-
-                    $file->move($destinationDirectory, $fileName);
-
-
                 }
 
                 // Return a success response with toggled sections
@@ -77,7 +101,6 @@ class UploadController extends Controller
                         'empty2_toggled' => $empty2Toggled,
 
                     ]);
-
 
             } else {
 
@@ -132,6 +155,7 @@ class UploadController extends Controller
             // If invalid file path, redirect with an error message
             return redirect()->route('index')->with('error', 'Invalid file path.');
         }
+
     }
 
 }
