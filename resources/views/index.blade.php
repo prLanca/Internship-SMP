@@ -3055,8 +3055,13 @@
             // Show upload button
             const uploadButton = document.getElementById('uploadButton' + screenContext);
             const simplehr = document.getElementById('simplehr');
-            uploadButton.style.display = 'block';
-            simplehr.style.display = 'block';
+            if (files.length > 0) {
+                uploadButton.style.display = 'block';
+                simplehr.style.display = 'block';
+            } else {
+                uploadButton.style.display = 'none';
+                simplehr.style.display = 'none';
+            }
         }
 
         // Function to get file extension from file name
@@ -3156,7 +3161,7 @@
             // Submit the form
             form.submit();
         }
-        
+
         <!-- ############################## End File Display before uplaoding ############################# -->
 
         <!-- ################################## File Upload ################################## -->
