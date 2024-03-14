@@ -17,7 +17,7 @@ class UploadController extends Controller
 
             // Validate the uploaded files
             $request->validate([
-                'files.*' => 'required|file|mimes:pdf,xlsx,xlsm,ppt,pptx,xls,docx|max:102400' // 100MB file size limit
+                'files.*' => 'required|file|max:102400' // 100MB file size limit
             ], [
                 'files.*.mimes' => 'The uploaded file must be a PDF, Excel, Word, or PowerPoint.', // Custom error message
             ]);
@@ -70,18 +70,64 @@ class UploadController extends Controller
 
                 // Loop through each uploaded file
                 foreach ($uploadedFiles as $uploadedFile) {
+
+                    $validator = \Validator::make(['file' => $uploadedFile], [
+                        'file' => 'required|file|mimes:pdf,xlsx,xlsm,ppt,pptx,xls,docx, doc|max:102400' // Allowed file types: PDF, Excel, Word, PowerPoint
+                    ]);
+
+                    // Check if validation fails
+                    if ($validator->fails()) {
+                        // If validation fails, continue to the next file
+                        continue;
+                    }
+
                     // Get the filename of the uploaded file
                     $uploadedFileName = $uploadedFile->getClientOriginalName();
 
                     // Check if the uploaded file's name is in the previewedFiles array
                     if (in_array($uploadedFileName, $fileNames)) {
-                        // Generate unique filename
-                        $fileName = $userId . '_' . $uploaderName . '_' . $uploadedFileName;
 
-                        // Move the uploaded file to the destination directory with the unique filename
+                        //generate unique filename
+                        $fileName = $userId . '_' . $uploaderName . '_' . $uploadedFile->getClientOriginalName();
+
                         $uploadedFile->move($destinationDirectory, $fileName);
+
                     }
                 }
+
+                /*
+                foreach ($request->file('files') as $file) {
+
+                    if (in_array($file->getClientOriginalName(), $request->input('deletedFiles', []))) {
+                        continue;
+                    }
+
+
+
+                    // Get the filenames of the files to be uploaded
+                    $fileNames = $request->input('fileNames');
+
+                    // Define the destination directory based on the screen
+                    $destinationDirectory = public_path('storage/' . $screen);
+
+                    // Check if the user is authenticated
+                    if (Auth::check()) {
+                        // Get the authenticated user's name
+                        $userId = Auth::user()->id;
+                        $uploaderName = Auth::user()->name;
+                    } else {
+                        // If the user is not authenticated, use a default name or handle the situation accordingly
+                        $uploaderName = 'Anonymous';
+                    }
+
+                    // Generate a unique filename with the uploader's name
+                    $fileName = $userId . '_' . $uploaderName . '_' . $file->getClientOriginalName();
+
+                    $file->move($destinationDirectory, $fileName);
+
+                }
+
+                */
 
                 // Return a success response with toggled sections
                 return redirect()->route('index', ['screen' => $screen])
@@ -101,6 +147,7 @@ class UploadController extends Controller
                         'empty2_toggled' => $empty2Toggled,
 
                     ]);
+
 
             } else {
 
@@ -155,7 +202,6 @@ class UploadController extends Controller
             // If invalid file path, redirect with an error message
             return redirect()->route('index')->with('error', 'Invalid file path.');
         }
-
     }
 
 }

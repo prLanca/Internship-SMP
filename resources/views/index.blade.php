@@ -3077,7 +3077,7 @@
                 simplehr.style.display = 'none';
 
             }
-            
+
         }
 
         // Function to get file extension from file name
