@@ -83,6 +83,10 @@ class DashboardController extends Controller
             return response()->json(['error' => 'User not found'], 404);
         }
 
+        if ($user->id === 1) {
+            return redirect()->route('admin.dashboard')->withErrors(['error' => 'Cannot update the default admin user']);
+        }
+
         // Update user data
         $user->update([
             'name' => $request->name,
@@ -115,6 +119,13 @@ class DashboardController extends Controller
         if (!$user) {
             // Handle case where user is not found
             return response()->json(['error' => 'User not found'], 404);
+        }
+
+        if ($user->id === 1) {
+
+            // Handle case where user is not found
+            return redirect()->route('admin.dashboard')->with('error', 'Cannot delete the default admin user');
+
         }
 
         // Perform deletion logic here

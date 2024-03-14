@@ -194,7 +194,7 @@
     <div class="row">
 
         <div class="col-md-3">
-            <div class="card profile-header text-center">
+            <div class="card profile-header text-center mb-2">
                 <div class="profile-image">
                     <!-- Add your profile image here -->
                     <img src="{{ asset('img/profile/profiledefault.png') }}" class="img-fluid rounded-circle" alt="Profile Image">
@@ -205,9 +205,14 @@
                     <p class="mb-0">Member since: {{ $user->created_at->format('M d, Y') }}</p>
                 </div>
             </div>
+
+            @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+
         </div>
-
-
 
         <div class="col-md-9">
             <div class="card profile-info">

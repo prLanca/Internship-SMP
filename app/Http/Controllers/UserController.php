@@ -50,6 +50,10 @@ class UserController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
+        if (Auth::user()->id === 1) {
+            return redirect()->back()->with('error', 'Cannot delete the Administrator');
+        }
+
         $user->delete();
 
         // Redirect to a suitable route after deletion
@@ -152,6 +156,10 @@ class UserController extends Controller
             'new-name' => 'required|string|max:255',
         ]);
 
+        if (Auth::user()->id === 1) {
+            return redirect()->back()->with('error', 'Cannot change the username of Administrator');
+        }
+
         $user = Auth::user();
         $user->name = $request->input('new-name');
         $user->save();
@@ -169,11 +177,16 @@ class UserController extends Controller
 
         $user = Auth::user();
 
+        if ($user->id === 1) {
+            return redirect()->back()->with('error', 'Cannot change the password of Administrator');
+        }
+
         // Verifica se a senha atual fornecida pelo usuário é correta
         if (Hash::check($request->input('current-password'), $user->password)) {
             // Senha atual correta
             $request->validate([
                 'new-password' => 'required',
+                'confirm-password' => 'required|same:new-password',
             ]);
 
             $user->password = bcrypt($request->input('new-password'));
@@ -185,9 +198,5 @@ class UserController extends Controller
             return redirect()->back()->withErrors(['current-password' => 'The current password is incorrect.']);
         }
     }
-
-
-
-
 
 }

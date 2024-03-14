@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
@@ -18,7 +19,16 @@ class RegisterController extends Controller
     public function register(Request $request){
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    if (Str::contains($value, ['Admin', 'Administrator'])) {
+                        $fail($attribute . ' cannot contain "Admin" or "Administrator".');
+                    }
+                },
+            ],
             'email' => [
                 'required',
                 'string',
@@ -28,6 +38,12 @@ class RegisterController extends Controller
             ],
             'password' => 'required|string|min:8|confirmed',
         ]);
+
+        if ($validator->fails() || $request->input('name') === 'Administrator') {
+            return redirect()->route('register')
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         if ($validator->fails()) {
             return redirect()->route('register')

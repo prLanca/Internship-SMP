@@ -40,12 +40,12 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background-color: #ffffff;
+                background-color: rgba(0, 0, 0, 0.4); /* Adjust the opacity here */
                 border: 2px solid #ff0000;
                 border-radius: 10px;
                 margin: 5px;
                 cursor: pointer;
-                transition: border-color 0.3s, transform 0.3s, background-color 0.2s; /* Add transition for border color, background color, and transform */
+                transition: border-color 0.3s, transform 0.3s, background-color 0.2s;  /* Add transition for border color, background color, and transform */
             }
 
             .screen:hover {
@@ -64,8 +64,6 @@
             .content {
                 display: none;
             }
-
-
 
             .error-message {
                 text-align: center;
@@ -258,73 +256,74 @@
 
     <div class="row">
 
-        <div class="screen touch-screen" onclick="showContent('injecao')">
+        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('injecao')">
             <div class="screen-content">
                 Injeção
             </div>
         </div>
 
-        <div class="screen touch-screen" onclick="showContent('pintura')">
+
+        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('pintura')">
             <div class="screen-content">
                 Pintura
             </div>
         </div>
 
-        <div class="screen touch-screen" onclick="showContent('montagem')">
+        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('montagem')">
             <div class="screen-content">
                 Montagem
             </div>
         </div>
 
-        <div class="screen touch-screen" onclick="showContent('qualidade')">
+        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('qualidade')">
             <div class="screen-content">
                 Qualidade
             </div>
         </div>
 
-        <div class="screen touch-screen" onclick="showContent('manutencao')">
+        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('manutencao')">
             <div class="screen-content">
                 Manutenção
             </div>
         </div>
 
-        <div class="screen touch-screen" onclick="showContent('engenharia')">
+        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('engenharia')">
             <div class="screen-content">
                 Engenharia
             </div>
         </div>
 
-        <div class="screen touch-screen" onclick="showContent('higiene')">
+        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('higiene')">
             <div class="screen-content">
                 Higiene e Segurança
             </div>
         </div>
 
-        <div class="screen touch-screen" onclick="showContent('lean')">
+        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('lean')">
             <div class="screen-content">
                 Lean
             </div>
         </div>
 
-        <div class="screen touch-screen" onclick="showContent('qcdd')">
+        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('qcdd')">
             <div class="screen-content">
                 QCDD
             </div>
         </div>
 
-        <div class="screen touch-screen" onclick="showContent('rh')">
+        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('rh')">
             <div class="screen-content">
                 Recursos Humanos
             </div>
         </div>
 
-        <div class="screen touch-screen" onclick="showContent('empty')">
+        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('empty')">
             <div class="screen-content">
                 Empty
             </div>
         </div>
 
-        <div class="screen touch-screen" onclick="showContent('empty2')">
+        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('empty2')">
             <div class="screen-content">
                 Empty2
             </div>

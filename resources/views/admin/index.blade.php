@@ -187,34 +187,50 @@
                                     </thead>
                                     <tbody>
                                     @foreach($users as $user)
+
                                         <tr>
+
                                             <form action="{{ route('admin.users.update') }}" method="POST" class="d-inline">
+
                                                 @csrf
                                                 @method('PUT')
+
                                                 <input type="hidden" name="user_id" value="{{$user->id}}">
+
                                                 <td>{{$user->id}}</td>
                                                 <td><input type="text" class="form-control" name="name" value="{{$user->name}}" readonly></td>
                                                 <td><input type="email" class="form-control" name="email" value="{{$user->email}}" readonly></td>
                                                 <td>
+
                                                     <select class="form-control role-select" name="role" @if(!empty($user->id)) disabled @endif>
+
                                                         <option value="admin" @if($user->hasRole('admin')) selected @endif>Admin</option>
                                                         <option value="worker" @if($user->hasRole('worker')) selected @endif>Worker</option>
                                                         <option value="viewer" @if($user->hasRole('viewer')) selected @endif>Viewer</option>
+
                                                     </select>
+
                                                 </td>
+
                                                 <td class="button-container">
+
                                                     <button type="button" class="btn btn-success edit-btn" data-target="role-select"><i class="fas fa-edit"></i></button>
                                                     <button type="submit" class="btn btn-primary save-btn" style="display: none;"><i class="fa fa-save"></i></button>
 
                                             </form>
+
                                             <form action="{{ route('admin.users.delete', ['userid' => $user->id]) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
                                                     <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                             </form>
+
                                         </tr>
+
                                     @endforeach
+
                                     </tbody>
+
                                 </table>
 
                                 <!-- ########################################## End All users table ########################################## -->

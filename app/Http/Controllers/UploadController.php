@@ -72,7 +72,7 @@ class UploadController extends Controller
                 foreach ($uploadedFiles as $uploadedFile) {
 
                     $validator = \Validator::make(['file' => $uploadedFile], [
-                        'file' => 'required|file|mimes:pdf,xlsx,xlsm,ppt,pptx,xls,docx, doc|max:102400' // Allowed file types: PDF, Excel, Word, PowerPoint
+                        'file' => 'required|file|mimes:pdf,xlsx,xlsm,ppt,pptx,xls,docx,doc|max:102400' // Allowed file types: PDF, Excel, Word, PowerPoint
                     ]);
 
                     // Check if validation fails
