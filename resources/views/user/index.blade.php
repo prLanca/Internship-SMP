@@ -14,7 +14,8 @@
 
         /* Custom styles */
         .profile-header {
-            background-color: #dc3545; /* Red background color */
+
+            background-color: #b40000; /* Red background color */
             color: #fff;
             padding: 20px;
         }
@@ -41,13 +42,6 @@
 
         .profile-info .card-body {
             padding: 15px;
-        }
-
-
-        .profile-header {
-            background-color: #b40000; /* Blue background color */
-            color: #fff;
-            padding: 20px;
         }
 
         .profile-image img {
@@ -191,9 +185,7 @@
 <body>
 
 <div class="container-fluid">
-    <div class="row">
 
-        <div class="col-md-3">
             <div class="card profile-header text-center mb-2">
                 <div class="profile-image">
                     <!-- Add your profile image here -->
@@ -212,14 +204,17 @@
                 </div>
             @endif
 
-        </div>
 
-        <div class="col-md-9">
+
             <div class="card profile-info">
                 <div class="card-body">
                     <h4>User Information</h4>
                     <div class="row">
+
+
+
                         <div class="col-md-6">
+
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="mb-0">Name</h5>
@@ -250,61 +245,6 @@
 
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Email</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>{{ $user->email }}</p>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Role</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>{{ $user->roles()->first()->name }}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Email Verification</h5>
-                                </div>
-                                <div class="card-body">
-
-
-                                    @if (!$user->hasVerifiedEmail())
-                                        <p class="mb-2">
-                                            <i class="fa fa-exclamation-circle text-danger"></i> <!-- Font Awesome icon -->
-                                            {{ __('Please verify your email address.') }}
-                                        </p>
-
-                                        <p class="mt-4 mb-1">
-                                            {{ __('If you did not receive the email') }}
-                                        </p>
-
-                                        <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                                            @csrf
-                                            <button type="submit" class="btn btn-primary">{{ __('Resend Verification Email') }}</button>
-                                        </form>
-                                    @else
-                                        <p class="text-success mb-0">{{ __('Your email has been verified.') }}</p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
 
                             <div class="card">
                                 <div class="card-header">
@@ -348,10 +288,61 @@
 
                                 </div>
                             </div>
+
                         </div>
 
-
                         <div class="col-md-6">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Email</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>{{ $user->email }}</p>
+                                </div>
+                            </div>
+
+
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Email Verification</h5>
+                                    </div>
+                                    <div class="card-body">
+
+
+                                        @if (!$user->hasVerifiedEmail())
+                                            <p class="mb-2">
+                                                <i class="fa fa-exclamation-circle text-danger"></i> <!-- Font Awesome icon -->
+                                                {{ __('Please verify your email address.') }}
+                                            </p>
+
+                                            <p class="mt-4 mb-1">
+                                                {{ __('If you did not receive the email') }}
+                                            </p>
+
+                                            <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary">{{ __('Resend Verification Email') }}</button>
+                                            </form>
+                                        @else
+                                            <p class="text-success mb-0">{{ __('Your email has been verified.') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+
+
+
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Role</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>{{ $user->roles()->first()->name }}</p>
+                                </div>
+                            </div>
+
 
                             <!-- delete profile -->
                             <div class="card">
@@ -383,13 +374,12 @@
 
                         </div>
 
-
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+
+
 
 </body>
 
