@@ -21,7 +21,7 @@ class AdminUserSeeder extends Seeder
             $admin = User::create([
                 'name' => 'Administrator',
                 'email' => 'admin@motherson.com',
-                'password' => Hash::make('eGj,jO{1Jc8nP0P?OC.x'), // You should hash the password for security
+                'password' => Hash::make('123'), // You should hash the password for security
             ]);
 
             // Get the ID of the 'admin' role from the pivot table

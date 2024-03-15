@@ -6,15 +6,8 @@
     <title>Motherson Portal</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('path/to/reveal.js/dist/reveal.css') }}">
-    <link rel="stylesheet" href="{{ asset('path/to/reveal.js/dist/theme/white.css') }}">
 
     <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
-
-    <script src="{{ asset('path/to/reveal.js/dist/reveal.js') }}"></script>
-    <script>
-        Reveal.initialize();
-    </script>
 
     <style>
 

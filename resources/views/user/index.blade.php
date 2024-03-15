@@ -248,6 +248,16 @@
 
                             <div class="card">
                                 <div class="card-header">
+                                    <h5 class="mb-0">Email</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>{{ $user->email }}</p>
+                                </div>
+                            </div>
+
+
+                            <div class="card">
+                                <div class="card-header">
                                     <h5 class="mb-0">Change Password</h5>
                                 </div>
                                 <div class="card-body">
@@ -295,14 +305,15 @@
 
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="mb-0">Email</h5>
+                                    <h5 class="mb-0">Role</h5>
                                 </div>
                                 <div class="card-body">
-                                    <p>{{ $user->email }}</p>
+                                    <p>{{ $user->roles()->first()->name }}</p>
                                 </div>
                             </div>
 
 
+                            @if($user->name != 'Administrator')
 
                                 <div class="card">
                                     <div class="card-header">
@@ -331,17 +342,9 @@
                                     </div>
                                 </div>
 
+                            @endif
 
 
-
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Role</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>{{ $user->roles()->first()->name }}</p>
-                                </div>
-                            </div>
 
 
                             <!-- delete profile -->

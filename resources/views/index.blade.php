@@ -236,6 +236,99 @@
                 position: relative;
             }
 
+
+
+            #loadingContainer {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+                display: none;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999; /* Ensure it's above other content */
+            }
+
+            #loadingMessage {
+                background-color: #ffffff;
+                padding: 20px;
+                border-radius: 10px;
+                text-align: center;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+            }
+
+            #loadingMessage p {
+                margin: 0; /* Remove default margin */
+            }
+
+
+            .ap {
+                width: 2em;
+                height: 4em;
+            }
+
+            .ap__ring {
+                transition: stroke 0.3s;
+            }
+
+            .ap__worm1,
+            .ap__worm2 {
+                animation-duration: 3s;
+                animation-iteration-count: infinite;
+            }
+
+            .ap__worm1 {
+                animation-name: worm1;
+            }
+            .ap__worm2 {
+                animation-name: worm2;
+                visibility: hidden;
+            }
+
+            /* Animations */
+            @keyframes worm1 {
+                from {
+                    animation-timing-function: ease-in-out;
+                    stroke-dashoffset: -87.96;
+                }
+                20% {
+                    animation-timing-function: ease-in;
+                    stroke-dashoffset: 0;
+                }
+                60% {
+                    stroke-dashoffset: -791.68;
+                    visibility: visible;
+                }
+                60.1%,
+                to {
+                    stroke-dashoffset: -791.68;
+                    visibility: hidden;
+                }
+            }
+            @keyframes worm2 {
+                from,
+                60% {
+                    stroke-dashoffset: -87.96;
+                    visibility: hidden;
+                }
+                60.1% {
+                    animation-timing-function: cubic-bezier(0,0,0.5,0.75);
+                    stroke-dashoffset: -87.96;
+                    visibility: visible;
+                }
+                77% {
+                    animation-timing-function: cubic-bezier(0.5,0.25,0.5,0.88);
+                    stroke-dashoffset: -340;
+                    visibility: visible;
+                }
+                to {
+                    stroke-dashoffset: -669.92;
+                    visibility: visible;
+                }
+            }
+
         </style>
 
     </head>
@@ -332,6 +425,34 @@
     </div>
 
     <!-- ########################################## End Screens ########################################## -->
+
+
+    <div id="loadingContainer">
+        <div id="loadingMessage">
+            <p>Please wait until the files are uploaded</p>
+            <p>Please dont refresh the page</p>
+
+            <!-- spinner of loading -->
+            <svg class="ap" viewBox="0 0 128 256" width="50px" height="50px" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="ap-grad1" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="hsl(0, 90%, 55%)" /> <!-- Red -->
+                        <stop offset="100%" stop-color="hsl(5, 90%, 55%)" /> <!-- Slightly different tone of red -->
+                    </linearGradient>
+                    <linearGradient id="ap-grad2" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="hsl(0, 90%, 55%)" /> <!-- Red -->
+                        <stop offset="50%" stop-color="hsl(5, 90%, 55%)" /> <!-- Slightly different tone of red -->
+                        <stop offset="100%" stop-color="hsl(10, 90%, 55%)" /> <!-- Another slightly different tone of red -->
+                    </linearGradient>
+                </defs>
+                <circle class="ap__ring" r="56" cx="64" cy="192" fill="none" stroke="#ddd" stroke-width="16" stroke-linecap="round" />
+                <circle class="ap__worm1" r="56" cx="64" cy="192" fill="none" stroke="url(#ap-grad1)" stroke-width="16" stroke-linecap="round" stroke-dasharray="87.96 263.89" />
+                <path class="ap__worm2" d="M120,192A56,56,0,0,1,8,192C8,161.07,16,8,64,8S120,161.07,120,192Z" fill="none" stroke="url(#ap-grad2)" stroke-width="16" stroke-linecap="round" stroke-dasharray="87.96 494" />
+            </svg>
+
+        </div>
+    </div>
+
 
     <!-- ######################################## Screens Content ######################################## -->
 
@@ -517,7 +638,13 @@
 
                                 @auth
 
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @php
+
+                                        $username = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+
+                                    @endphp
+
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->name === $username)
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
@@ -727,7 +854,13 @@
 
                                 @auth
 
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @php
+
+                                        $username = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+
+                                    @endphp
+
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->name === $username)
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
@@ -935,7 +1068,13 @@
 
                                 @auth
 
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @php
+
+                                        $username = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+
+                                    @endphp
+
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->name === $username)
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
@@ -1142,7 +1281,13 @@
 
                                 @auth
 
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @php
+
+                                        $username = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+
+                                    @endphp
+
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->name === $username)
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
@@ -1349,7 +1494,13 @@
 
                                 @auth
 
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @php
+
+                                        $username = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+
+                                    @endphp
+
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->name === $username)
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
@@ -1555,7 +1706,13 @@
 
                                 @auth
 
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @php
+
+                                        $username = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+
+                                    @endphp
+
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->name === $username)
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
@@ -1763,7 +1920,13 @@
 
                                 @auth
 
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @php
+
+                                        $username = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+
+                                    @endphp
+
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->name === $username)
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
@@ -1971,7 +2134,13 @@
 
                                 @auth
 
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @php
+
+                                        $username = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+
+                                    @endphp
+
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->name === $username)
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
@@ -2179,7 +2348,13 @@
 
                                 @auth
 
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @php
+
+                                        $username = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+
+                                    @endphp
+
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->name === $username)
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
@@ -2387,7 +2562,13 @@
 
                                 @auth
 
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @php
+
+                                        $username = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+
+                                    @endphp
+
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->name === $username)
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
@@ -2595,7 +2776,13 @@
 
                                 @auth
 
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @php
+
+                                        $username = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+
+                                    @endphp
+
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->name === $username)
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
@@ -2802,7 +2989,13 @@
 
                                 @auth
 
-                                    @if(auth()->user()->hasRole('admin'))
+                                    @php
+
+                                        $username = explode('_', pathinfo($file, PATHINFO_FILENAME))[1];
+
+                                    @endphp
+
+                                    @if(auth()->user()->hasRole('admin') || auth()->user()->name === $username)
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
@@ -2850,7 +3043,6 @@
     <!-- #################################### End Preview Screens PDF #################################### -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-    <script src="{{ asset('path/to/reveal.js/dist/reveal.js') }}"></script>
 
     <script>
 
@@ -3062,6 +3254,12 @@
 
             // Show upload button
             const uploadButton = document.getElementById('uploadButton' + screenContext);
+            const loadingContainer= document.getElementById('loadingContainer'); // Replace 'loadingDiv' with the ID of your loading div
+
+            uploadButton.addEventListener('click', function() {
+                // Show the loading div
+                loadingContainer.style.display = 'flex';
+            });
 
             const simplehr = document.getElementById('simplehr');
 

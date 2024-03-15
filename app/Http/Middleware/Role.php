@@ -16,7 +16,8 @@ class Role
     public function handle(Request $request, Closure $next): Response
     {
 
-        if(!auth()->user()->hasRole('admin')){
+        if (!auth()->user()->hasRole('admin') && !auth()->user()->hasRole('worker')) {
+            // Redirect users without the required roles to the appropriate route
             return redirect()->route('index');
         }
 

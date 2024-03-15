@@ -42,7 +42,6 @@ Route::middleware('auth')->group(function (){
 
         Route::delete('/profile/{user}', [UserController::class, 'delete'])->name('profile.delete');
 
-
         Route::get('/email/verify', [VerificationController::class, 'verify'])
             ->middleware(['auth', 'signed', 'throttle:6,1'])
             ->name('verification.verify');
@@ -51,16 +50,13 @@ Route::middleware('auth')->group(function (){
             ->middleware(['auth', 'throttle:6,1'])
             ->name('verification.resend');
 
-
-
         Route::post('/change-password', [UserController::class, 'changePassword'])->name('change.password');
         Route::post('/change-name', [UserController::class, 'changeName'])->name('change.name');
 
-
-
-
     }
+
     );
+
 });
 
 /*
@@ -127,9 +123,6 @@ Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->na
 Route::post('/register', [RegisterController::class, 'register']);
 
 
-
-
-
 Auth::routes(['verify' => true]);
 
 /*
@@ -138,7 +131,9 @@ Auth::routes(['verify' => true]);
 |--------------------------------------------------------------------------
  */
 Route::middleware('role:admin')->group(function (){
+
     Route::prefix('/admin')->group(function (){
+
         Route::name('admin.')->group(function (){
 
             /* Dashboard */
@@ -151,6 +146,7 @@ Route::middleware('role:admin')->group(function (){
             Route::post('/delete/file', [UploadController::class, 'deleteFile'])->name('delete.file');
 
             Route::match(['post', 'delete'], '/delete/{userid}', [DashboardController::class, 'delete'])->name('users.delete');
+
 
             Route::post('/upload/Injecao', function (Request $request) {
                 $storageLocation = 'Injecao';
@@ -224,17 +220,14 @@ Route::middleware('role:admin')->group(function (){
                 return $uploadController->upload($request, $storageLocation);
             })->name('upload.empty2');
 
+
         }
 
         );
+
     });
+
 });
-
-
-
-
-
-
 
 
 

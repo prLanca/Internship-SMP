@@ -129,27 +129,6 @@ class UserController extends Controller
         return response()->json(['success' => true]);
     }
 
-
-
-    public function destroy_admin(User $user)
-    {
-        if (Auth::user()->id == $user->id){
-            return redirect()->route('admin.users')->with('error', trans('validation_user.cannot_delete_own_user'));
-        }
-
-        if ($user->hasRole('admin') && Auth::user()->hasRole('admin')){
-            return redirect()->route('admin.users')->with('error', trans('validation_user.cannot_delete_admin'));
-        }
-
-        if($user->hasRole('superuser')){
-            return redirect()->route('admin.users')->with('error', trans('validation_user.cannot_delete_superuser'));
-        }
-
-        $user->delete();
-        return redirect()->route('admin.users');
-    }
-
-
     public function changeName(Request $request)
     {
         $request->validate([
@@ -162,6 +141,11 @@ class UserController extends Controller
 
         $user = Auth::user();
         $user->name = $request->input('new-name');
+
+        if (stripos($user->name, 'administrator') !== false || stripos($user->name, 'admin') !== false) {
+            return redirect()->back()->with('error', 'Cannot change the username containing Administrator or admin.');
+        }
+
         $user->save();
 
         return redirect()->back()->with('success-name', 'Name changed successfully.');
