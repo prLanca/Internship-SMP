@@ -329,6 +329,12 @@
                 }
             }
 
+            .selected {
+                outline: 2px solid #007bff; /* Add an outline to indicate selection */
+                position: relative;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow effect */
+            }
+
         </style>
 
     </head>
@@ -426,6 +432,7 @@
 
     <!-- ########################################## End Screens ########################################## -->
 
+    <!-- ######################################## Loading Container ######################################## -->
 
     <div id="loadingContainer">
         <div id="loadingMessage">
@@ -453,6 +460,7 @@
         </div>
     </div>
 
+    <!-- ######################################## End Loading Container ######################################## -->
 
     <!-- ######################################## Screens Content ######################################## -->
 
@@ -568,10 +576,13 @@
                     </div>
                 </div>
 
+                <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
+                    <button type="submit" class="btn btn-danger delete-btn mt-1" onclick="prepareDelete(this)" style="display: none;">Delete Selected Files</button>
+                </div>
+
             </div>
 
-            <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
-
+                <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
 
                 <div class="row mt-2 file-card-container" id="injecao">
 
@@ -584,7 +595,9 @@
                         @if($rowCount % 6 == 0)
                         @endif
 
-                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
+
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this)">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -626,6 +639,8 @@
 
                             </div>
 
+                            </div>
+
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
@@ -648,7 +663,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger  btn-block delete-btn mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -3631,6 +3646,49 @@
         });
 
         <!-- ################################ End Filter file by name of uploaded by ############################## -->
+
+        <!-- ################################## Delete Selected Files ################################## -->
+
+        let selectedFiles = [];
+
+        function toggleSelection(card) {
+            // Toggle the 'selected' class of the card
+            card.classList.toggle('selected');
+
+            // Toggle selection status in the selectedFiles array
+            const fileId = card.dataset.fileId;
+            const index = selectedFiles.indexOf(fileId);
+
+            if (index === -1) {
+                selectedFiles.push(fileId); // File not selected, so add it to the selectedFiles array
+            } else {
+                selectedFiles.splice(index, 1); // File already selected, so remove it from the selectedFiles array
+            }
+
+            console.log('Selected files:', selectedFiles); // Log the selected files array
+
+            // Show or hide the "Delete Selected" button based on the number of selected files
+            const deleteButton = document.querySelector('.delete-btn');
+            if (selectedFiles.length > 0) {
+                deleteButton.style.display = 'block'; // Show the button
+            } else {
+                deleteButton.style.display = 'none'; // Hide the button
+            }
+        }
+
+
+        function prepareDelete() {
+            selectedFiles.forEach((fileId, index) => {
+                const deleteButton = document.querySelector(`.delete-btn[data-file-id="${fileId}"]`);
+                if (deleteButton) {
+                    setTimeout(() => {
+                        deleteButton.click(); // Trigger the click event on the delete button
+                    }, index * 10); // Delay each click by 100 milliseconds
+                }
+            });
+        }
+
+        <!-- ################################ End Delete Selected Files ################################## -->
 
     </script>
 
