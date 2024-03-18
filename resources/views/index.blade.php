@@ -3683,7 +3683,7 @@
                 if (deleteButton) {
                     setTimeout(() => {
                         deleteButton.click(); // Trigger the click event on the delete button
-                    }, index * 10); // Delay each click by 100 milliseconds
+                    }, index * 50); // Delay each click by 100 milliseconds
                 }
             });
         }
