@@ -138,8 +138,6 @@
             }
         }
 
-
-
         .confirmation-container {
             position: fixed;
             top: 0;
@@ -211,8 +209,6 @@
                     <h4>User Information</h4>
                     <div class="row">
 
-
-
                         <div class="col-md-6">
 
                             <div class="card">
@@ -256,48 +252,52 @@
                             </div>
 
 
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">Change Password</h5>
+                            @if($user->name != 'Administrator')
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Change Password</h5>
+                                    </div>
+                                    <div class="card-body">
+
+                                        @if(session('success'))
+                                            <div class="alert alert-success">
+                                                {{ session('success') }}
+                                            </div>
+                                        @endif
+
+                                        <form action="{{ route('change.password') }}" method="POST" id="change-password-form">
+                                            @csrf
+
+                                            <div class="form-group">
+                                                <label for="current-password">Current Password</label>
+                                                <input type="password" class="form-control" id="current-password" name="current-password" required>
+                                                @error('current-password')
+                                                <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="new-password">New Password</label>
+                                                <input type="password" class="form-control" id="new-password" name="new-password" required>
+                                                @error('new-password')
+                                                <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="confirm-password">Confirm New Password</label>
+                                                <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
+                                                @error('confirm-password')
+                                                <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Change Password</button>
+
+                                        </form>
+
+                                    </div>
                                 </div>
-                                <div class="card-body">
 
-                                    @if(session('success'))
-                                        <div class="alert alert-success">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
-
-                                    <form action="{{ route('change.password') }}" method="POST" id="change-password-form">
-                                        @csrf
-
-                                        <div class="form-group">
-                                            <label for="current-password">Current Password</label>
-                                            <input type="password" class="form-control" id="current-password" name="current-password" required>
-                                            @error('current-password')
-                                            <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="new-password">New Password</label>
-                                            <input type="password" class="form-control" id="new-password" name="new-password" required>
-                                            @error('new-password')
-                                            <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="confirm-password">Confirm New Password</label>
-                                            <input type="password" class="form-control" id="confirm-password" name="confirm-password" required>
-                                            @error('confirm-password')
-                                            <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Change Password</button>
-
-                                    </form>
-
-                                </div>
-                            </div>
+                            @endif
 
                         </div>
 
