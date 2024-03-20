@@ -558,8 +558,6 @@
                     </div>
                 </div>
 
-
-
                 <input type="text" id="file-search" class="form-control mb-2" data-container="injecao" placeholder="Search by filename">
 
                 <div class="input-group mb-3">
@@ -577,7 +575,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
-                    <button type="submit" class="btn btn-danger delete-btn mt-1" onclick="prepareDelete(this)" style="display: none;">Delete Selected Files</button>
+                    <button type="submit" class="btn btn-danger del-sel-btn-Injecao mt-1" onclick="prepareDelete('Injecao')" style="display: none;">Delete Selected Files</button>
                 </div>
 
             </div>
@@ -597,7 +595,7 @@
 
                         <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this)">
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Injecao')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -663,7 +661,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger  btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-Injecao mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -800,6 +798,11 @@
                     </div>
                 </div>
 
+                <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
+                    <button type="submit" class="btn btn-danger del-sel-btn-Pintura mt-1" onclick="prepareDelete('Pintura')" style="display: none;">Delete Selected Files</button>
+
+                </div>
+
             </div>
 
             <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
@@ -816,7 +819,9 @@
                         @if($rowCount % 6 == 0)
                         @endif
 
-                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
+
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Pintura')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -857,6 +862,8 @@
 
                             </div>
 
+                            </div>
+
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
@@ -879,7 +886,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-Pintura mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -1016,6 +1023,10 @@
                     </div>
                 </div>
 
+                <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
+                    <button type="submit" class="btn btn-danger del-sel-btn-Montagem mt-1" onclick="prepareDelete('Montagem')" style="display: none;">Delete Selected Files</button>
+                </div>
+
             </div>
 
             <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
@@ -1031,7 +1042,9 @@
                         @if($rowCount % 6 == 0)
                         @endif
 
-                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
+
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Montagem')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1071,6 +1084,8 @@
 
                             </div>
 
+                            </div>
+
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
@@ -1093,7 +1108,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-Montagem mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -1228,6 +1243,10 @@
                     </div>
                 </div>
 
+                <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
+                    <button type="submit" class="btn btn-danger del-sel-btn-Manutencao mt-1" onclick="prepareDelete('Manutencao')" style="display: block;">Delete Selected Files</button>
+                </div>
+
             </div>
 
             <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
@@ -1244,7 +1263,9 @@
                         @if($rowCount % 6 == 0)
                         @endif
 
-                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
+
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Manutencao')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1284,6 +1305,8 @@
 
                             </div>
 
+                            </div>
+
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
@@ -1306,7 +1329,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-Manutencao mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -1441,6 +1464,10 @@
                     </div>
                 </div>
 
+                <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
+                    <button type="submit" class="btn btn-danger del-sel-btn-Qualidade mt-1" onclick="prepareDelete('Qualidade')" style="display: block;">Delete Selected Files</button>
+                </div>
+
             </div>
 
             <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
@@ -1457,7 +1484,9 @@
                         @if($rowCount % 6 == 0)
                         @endif
 
-                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
+
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Qualidade')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1497,6 +1526,8 @@
 
                             </div>
 
+                            </div>
+
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
@@ -1519,7 +1550,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-Qualidade mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -1654,6 +1685,10 @@
                     </div>
                 </div>
 
+                <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
+                    <button type="submit" class="btn btn-danger del-sel-btn-Engenharia mt-1" onclick="prepareDelete('Engenharia')" style="display: block;">Delete Selected Files</button>
+                </div>
+
             </div>
 
             <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
@@ -1669,7 +1704,9 @@
                         @if($rowCount % 6 == 0)
                         @endif
 
-                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
+
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Engenharia')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1709,6 +1746,8 @@
 
                             </div>
 
+                            </div>
+
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
@@ -1731,7 +1770,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-Engenharia mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -1867,6 +1906,10 @@
                     </div>
                 </div>
 
+                    <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
+                        <button type="submit" class="btn btn-danger del-sel-btn-Higiene mt-1" onclick="prepareDelete('Higiene')" style="display: none;">Delete Selected Files</button>
+                    </div>
+
             </div>
 
             <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
@@ -1883,7 +1926,9 @@
                         @if($rowCount % 6 == 0)
                         @endif
 
-                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
+
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Higiene')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1923,6 +1968,8 @@
 
                             </div>
 
+                            </div>
+
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
@@ -1945,7 +1992,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-Higiene mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -2081,6 +2128,10 @@
                     </div>
                 </div>
 
+                    <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
+                        <button type="submit" class="btn btn-danger del-sel-btn-Lean mt-1" onclick="prepareDelete('Lean')" style="display: none;">Delete Selected Files</button>
+                    </div>
+
             </div>
 
             <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
@@ -2097,7 +2148,9 @@
                         @if($rowCount % 6 == 0)
                         @endif
 
-                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
+
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Lean')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2137,6 +2190,8 @@
 
                             </div>
 
+                            </div>
+
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
@@ -2159,7 +2214,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-Lean mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -2295,6 +2350,10 @@
                     </div>
                 </div>
 
+                    <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
+                        <button type="submit" class="btn btn-danger del-sel-btn-qcdd mt-1" onclick="prepareDelete('QCDD')" style="display: none;">Delete Selected Files</button>
+                    </div>
+
             </div>
 
             <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
@@ -2311,7 +2370,9 @@
                         @if($rowCount % 6 == 0)
                         @endif
 
-                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
+
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'QCDD')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2351,6 +2412,8 @@
 
                             </div>
 
+                            </div>
+
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
@@ -2373,7 +2436,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-QCDD mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -2509,6 +2572,10 @@
                     </div>
                 </div>
 
+                    <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
+                        <button type="submit" class="btn btn-danger del-sel-btn-RH mt-1" onclick="prepareDelete('RH')" style="display: none;">Delete Selected Files</button>
+                    </div>
+
             </div>
 
             <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
@@ -2525,7 +2592,9 @@
                         @if($rowCount % 6 == 0)
                         @endif
 
-                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
+
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'RH')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2565,6 +2634,8 @@
 
                             </div>
 
+                            </div>
+
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
@@ -2587,7 +2658,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-RH mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -2723,6 +2794,10 @@
                     </div>
                 </div>
 
+                    <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
+                        <button type="submit" class="btn btn-danger del-sel-btn-Empty mt-1" onclick="prepareDelete('Empty')" style="display: none;">Delete Selected Files</button>
+                    </div>
+
             </div>
 
             <div class="container-fluid scrollable-div m-1" style="max-height: 68vh; overflow-y: auto;">
@@ -2739,7 +2814,9 @@
                         @if($rowCount % 6 == 0)
                         @endif
 
-                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
+
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2779,6 +2856,8 @@
 
                             </div>
 
+                            </div>
+
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
@@ -2801,7 +2880,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-Empty1 mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -2934,6 +3013,11 @@
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary sort-arrow" type="button"><i class="fas fa-chevron-up"></i></button>
                     </div>
+
+                </div>
+
+                <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
+                    <button type="submit" class="btn btn-danger del-sel-btn-Empty2 mt-1" onclick="prepareDelete('Empty2')" style="display: none;">Delete Selected Files</button>
                 </div>
 
             </div>
@@ -2952,7 +3036,9 @@
                         @if($rowCount % 6 == 0)
                         @endif
 
-                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh">
+                        <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
+
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty2')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2992,6 +3078,8 @@
 
                             </div>
 
+                            </div>
+
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
@@ -3014,7 +3102,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" class="btn btn-danger btn-block delete-btn mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-Empty2 mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -3651,7 +3739,7 @@
 
         let selectedFiles = [];
 
-        function toggleSelection(card) {
+        function toggleSelection(card, screenContext) {
             // Toggle the 'selected' class of the card
             card.classList.toggle('selected');
 
@@ -3665,25 +3753,31 @@
                 selectedFiles.splice(index, 1); // File already selected, so remove it from the selectedFiles array
             }
 
+            console.log('screenContext:', screenContext); // Log the screen context for debugging
+
+            // Show the delete button if any files are selected
+            const deleteButton = document.querySelector(`.del-sel-btn-${screenContext}`);
+
+            if (selectedFiles.length > 0) {
+                deleteButton.style.display = 'block';
+            } else {
+                deleteButton.style.display = 'none';
+            }
+
             console.log('Selected files:', selectedFiles); // Log the selected files array
 
-            // Show or hide the "Delete Selected" button based on the number of selected files
-            const deleteButton = document.querySelector('.delete-btn');
-            if (selectedFiles.length > 0) {
-                deleteButton.style.display = 'block'; // Show the button
-            } else {
-                deleteButton.style.display = 'none'; // Hide the button
-            }
         }
 
+        function prepareDelete(screenContext) {
 
-        function prepareDelete() {
+            console.log('Screen Context:', screenContext); // Log the screen context for debugging
+
             selectedFiles.forEach((fileId, index) => {
-                const deleteButton = document.querySelector(`.delete-btn[data-file-id="${fileId}"]`);
+                const deleteButton = document.querySelector(`.delete-btn-${screenContext}[data-file-id="${fileId}"]`);
                 if (deleteButton) {
                     setTimeout(() => {
                         deleteButton.click(); // Trigger the click event on the delete button
-                    }, index * 50); // Delay each click by 100 milliseconds
+                    }, index * 50); // Delay each click by 50 milliseconds
                 }
             });
         }
