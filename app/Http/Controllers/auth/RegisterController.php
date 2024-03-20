@@ -24,7 +24,7 @@ class RegisterController extends Controller
                 'string',
                 'max:255',
                 function ($attribute, $value, $fail) {
-                    if (Str::contains($value, ['Admin', 'Administrator'])) {
+                    if (Str::contains($value, ['Admin', 'admin'])) {
                         $fail($attribute . ' cannot contain "Admin" or "Administrator".');
                     }
                 },

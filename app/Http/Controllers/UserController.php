@@ -51,7 +51,7 @@ class UserController extends Controller
         }
 
         if (Auth::user()->id === 1) {
-            return redirect()->back()->with('error', 'Cannot delete the Administrator');
+            return redirect()->back()->with('error', 'Can not delete the Administrator');
         }
 
         $user->delete();
@@ -136,14 +136,14 @@ class UserController extends Controller
         ]);
 
         if (Auth::user()->id === 1) {
-            return redirect()->back()->with('error', 'Cannot change the username of Administrator');
+            return redirect()->back()->with('error', 'Can not change the username of Administrator');
         }
 
         $user = Auth::user();
         $user->name = $request->input('new-name');
 
         if (stripos($user->name, 'administrator') !== false || stripos($user->name, 'admin') !== false) {
-            return redirect()->back()->with('error', 'Cannot change the username containing Administrator or admin.');
+            return redirect()->back()->with('error', 'Can not change the username containing Administrator or admin.');
         }
 
         $user->save();
@@ -162,7 +162,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         if ($user->id === 1) {
-            return redirect()->back()->with('error', 'Cannot change the password of Administrator');
+            return redirect()->back()->with('error', 'Can not change the password of Administrator');
         }
 
         // Verifica se a senha atual fornecida pelo usuário é correta
