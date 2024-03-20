@@ -40,7 +40,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background-color: rgba(0, 0, 0, 0.4); /* Adjust the opacity here */
+                background-color: rgba(0, 0, 0, 0.3); /* Adjust the opacity here */
                 border: 2px solid #ff0000;
                 border-radius: 10px;
                 margin: 5px;
@@ -55,10 +55,33 @@
             }
 
             .screen-content {
-                font-size: 24px; /* Adjust font size as needed */
+                color: white;
+                font-size: 32px; /* Adjust font size as needed */
+                font-weight: bold;
                 text-align: center;
+                text-shadow: 2px 2px 4px #000000;
+                z-index: 1; /* Ensure content is above overlay */
             }
 
+            .screen-overlay {
+                position: relative; /* Required for absolute positioning of overlay */
+            }
+
+            .screen-overlay::after {
+                content: ''; /* Required for pseudo-element */
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(255, 0, 0, 0.5); /* Red overlay with 50% opacity */
+                pointer-events: none; /* Allow clicks to pass through overlay to underlying elements */
+            }
+
+            .disabled {
+                pointer-events: none; /* Disable pointer events */
+                opacity: 0.5; /* Adjust opacity to indicate disabled state */
+            }
 
             /* Hide content initially */
             .content {
@@ -356,7 +379,6 @@
                 font-size: 24px; /* Font size of the heading */
             }
 
-
         </style>
 
     </head>
@@ -377,74 +399,74 @@
 
     <div class="row">
 
-        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('injecao')">
+        <div class="screen touch-screen screen-overlay" style="background-image: url('{{ asset('img/screens/ScreensDemo.jpg') }}'); background-size: cover; background-position: center;" onclick="showContent('injecao')">
             <div class="screen-content">
                 Injeção
             </div>
         </div>
 
 
-        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('pintura')">
+        <div class="screen touch-screen screen-overlay" style="background-image: url('{{ asset('img/screens/ScreensDemo.jpg') }}'); background-size: cover; background-position: center;" onclick="showContent('pintura')">
             <div class="screen-content">
                 Pintura
             </div>
         </div>
 
-        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('montagem')">
+        <div class="screen touch-screen screen-overlay" style="background-image: url('{{ asset('img/screens/ScreensDemo.jpg') }}'); background-size: cover; background-position: center;" onclick="showContent('montagem')">
             <div class="screen-content">
                 Montagem
             </div>
         </div>
 
-        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('qualidade')">
+        <div class="screen touch-screen screen-overlay" style="background-image: url('{{ asset('img/screens/ScreensDemo.jpg') }}'); background-size: cover; background-position: center;" onclick="showContent('qualidade')">
             <div class="screen-content">
                 Qualidade
             </div>
         </div>
 
-        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('manutencao')">
+        <div class="screen touch-screen screen-overlay" style="background-image: url('{{ asset('img/screens/ScreensDemo.jpg') }}'); background-size: cover; background-position: center;" onclick="showContent('manutencao')">
             <div class="screen-content">
                 Manutenção
             </div>
         </div>
 
-        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('engenharia')">
+        <div class="screen touch-screen screen-overlay" style="background-image: url('{{ asset('img/screens/ScreensDemo.jpg') }}'); background-size: cover; background-position: center;" onclick="showContent('engenharia')">
             <div class="screen-content">
                 Engenharia
             </div>
         </div>
 
-        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('higiene')">
+        <div class="screen touch-screen screen-overlay" style="background-image: url('{{ asset('img/screens/ScreensDemo.jpg') }}'); background-size: cover; background-position: center;" onclick="showContent('higiene')">
             <div class="screen-content">
                 Higiene e Segurança
             </div>
         </div>
 
-        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('lean')">
+        <div class="screen touch-screen screen-overlay" style="background-image: url('{{ asset('img/screens/ScreensDemo.jpg') }}'); background-size: cover; background-position: center;" onclick="showContent('lean')">
             <div class="screen-content">
                 Lean
             </div>
         </div>
 
-        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('qcdd')">
+        <div class="screen touch-screen screen-overlay" style="background-image: url('{{ asset('img/screens/ScreensDemo.jpg') }}'); background-size: cover; background-position: center;" onclick="showContent('qcdd')">
             <div class="screen-content">
                 QCDD
             </div>
         </div>
 
-        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('rh')">
+        <div class="screen touch-screen screen-overlay" style="background-image: url('{{ asset('img/screens/ScreensDemo.jpg') }}'); background-size: cover; background-position: center;" onclick="showContent('rh')">
             <div class="screen-content">
                 Recursos Humanos
             </div>
         </div>
 
-        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('empty')">
+        <div class="screen touch-screen screen-overlay disabled" style="background-image: url('{{ asset('img/screens/ScreensDemo.jpg') }}'); background-size: cover; background-position: center;" onclick="showContent('empty')">
             <div class="screen-content">
                 Empty
             </div>
         </div>
 
-        <div class="screen touch-screen" style="background-image: url('{{ asset('img/logo.png') }}'); background-size: cover; background-position: center;" onclick="showContent('empty2')">
+        <div class="screen touch-screen screen-overlay disabled" style="background-image: url('{{ asset('img/screens/ScreensDemo.jpg') }}'); background-size: cover; background-position: center;" onclick="showContent('empty2')">
             <div class="screen-content">
                 Empty2
             </div>
@@ -2464,7 +2486,7 @@
 
                         <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'QCDD')">
+                            <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'qcdd')">
 
                             <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
