@@ -490,7 +490,6 @@
 
         @auth
 
-
             <!-- Header section -->
             <div class="header-titles mb-4" style="border-radius: 15px">
                 <div class="header-content">

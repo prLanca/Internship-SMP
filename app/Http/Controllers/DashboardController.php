@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $users = User::all();
 
         // Define the directories you want to count files from
-        $directories = ['Injecao', 'Pintura', 'Montagem', 'Qualidade', 'Manutencao', 'Engenharia', 'Higene', 'Lean', 'QCDD', 'RH', 'Empty', 'Empty2'];
+        $directories = ['Injecao', 'Pintura', 'Montagem', 'Qualidade', 'Manutencao', 'Engenharia', 'Higiene', 'Lean', 'QCDD', 'RH', 'Empty', 'Empty2'];
 
         // Define an array to store file counts for each directory
         $fileInfo = [];
