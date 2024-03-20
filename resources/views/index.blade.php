@@ -335,6 +335,28 @@
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow effect */
             }
 
+
+
+            .header-titles {
+                background-color: #b40000; /* Background color of the header */
+                color: #fff; /* Text color */
+                padding: 20px; /* Padding around the header content */
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Box shadow for a subtle elevation effect */
+                display: flex;
+                align-items: center;
+            }
+
+            .header-content {
+                max-width: 960px; /* Max width of the header content */
+                margin: 0 auto; /* Center the header content horizontally */
+            }
+
+            .header h1 {
+                margin: 0; /* Remove default margin for the heading */
+                font-size: 24px; /* Font size of the heading */
+            }
+
+
         </style>
 
     </head>
@@ -467,6 +489,14 @@
     <div id="injecao" class="content">
 
         @auth
+
+
+            <!-- Header section -->
+            <div class="header-titles mb-4" style="border-radius: 15px">
+                <div class="header-content">
+                    <h1>Injeção</h1> <!-- Replace "Screen Name" with the actual screen name -->
+                </div>
+            </div>
 
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
@@ -693,6 +723,13 @@
 
         @auth
 
+            <!-- Header section -->
+            <div class="header-titles mb-4" style="border-radius: 15px">
+                <div class="header-content">
+                    <h1>Pintura</h1> <!-- Replace "Screen Name" with the actual screen name -->
+                </div>
+            </div>
+
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
                 <form id="pinturaForm" action="{{ route('admin.upload.pintura') }}" method="POST" enctype="multipart/form-data">
@@ -918,6 +955,13 @@
 
         @auth
 
+            <!-- Header section -->
+            <div class="header-titles mb-4" style="border-radius: 15px">
+                <div class="header-content">
+                    <h1>Montagem</h1> <!-- Replace "Screen Name" with the actual screen name -->
+                </div>
+            </div>
+
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
                 <form id="montagemForm" action="{{ route('admin.upload.montagem') }}" method="POST" enctype="multipart/form-data">
@@ -1140,6 +1184,13 @@
 
         @auth
 
+            <!-- Header section -->
+            <div class="header-titles mb-4" style="border-radius: 15px">
+                <div class="header-content">
+                    <h1>Manutenção</h1> <!-- Replace "Screen Name" with the actual screen name -->
+                </div>
+            </div>
+
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
                 <form id="manutencaoForm" action="{{ route('admin.upload.manutencao') }}" method="POST" enctype="multipart/form-data">
@@ -1244,7 +1295,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
-                    <button type="submit" class="btn btn-danger del-sel-btn-Manutencao mt-1" onclick="prepareDelete('Manutencao')" style="display: block;">Delete Selected Files</button>
+                    <button type="submit" class="btn btn-danger del-sel-btn-Manutencao mt-1" onclick="prepareDelete('Manutencao')" style="display: none;">Delete Selected Files</button>
                 </div>
 
             </div>
@@ -1361,6 +1412,13 @@
 
         @auth
 
+            <!-- Header section -->
+            <div class="header-titles mb-4" style="border-radius: 15px">
+                <div class="header-content">
+                    <h1>Qualidade</h1> <!-- Replace "Screen Name" with the actual screen name -->
+                </div>
+            </div>
+
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
                 <form id="qualidadeForm" action="{{ route('admin.upload.qualidade') }}" method="POST" enctype="multipart/form-data">
@@ -1465,7 +1523,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
-                    <button type="submit" class="btn btn-danger del-sel-btn-Qualidade mt-1" onclick="prepareDelete('Qualidade')" style="display: block;">Delete Selected Files</button>
+                    <button type="submit" class="btn btn-danger del-sel-btn-Qualidade mt-1" onclick="prepareDelete('Qualidade')" style="display: none;">Delete Selected Files</button>
                 </div>
 
             </div>
@@ -1580,6 +1638,13 @@
 
     <div id="engenharia" class="content">
 
+        <!-- Header section -->
+        <div class="header-titles mb-4" style="border-radius: 15px">
+            <div class="header-content">
+                <h1>Engenharia</h1> <!-- Replace "Screen Name" with the actual screen name -->
+            </div>
+        </div>
+
         @auth
 
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
@@ -1686,7 +1751,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end"> <!-- Add this div for positioning the button to the right -->
-                    <button type="submit" class="btn btn-danger del-sel-btn-Engenharia mt-1" onclick="prepareDelete('Engenharia')" style="display: block;">Delete Selected Files</button>
+                    <button type="submit" class="btn btn-danger del-sel-btn-Engenharia mt-1" onclick="prepareDelete('Engenharia')" style="display: none;">Delete Selected Files</button>
                 </div>
 
             </div>
@@ -1801,6 +1866,13 @@
     <div id="higiene" class="content">
 
         @auth
+
+            <!-- Header section -->
+            <div class="header-titles mb-4" style="border-radius: 15px">
+                <div class="header-content">
+                    <h1>Higiene e Segurança</h1> <!-- Replace "Screen Name" with the actual screen name -->
+                </div>
+            </div>
 
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
@@ -2024,6 +2096,13 @@
 
         @auth
 
+            <!-- Header section -->
+            <div class="header-titles mb-4" style="border-radius: 15px">
+                <div class="header-content">
+                    <h1>Lean</h1> <!-- Replace "Screen Name" with the actual screen name -->
+                </div>
+            </div>
+
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
                 <form id="leanForm" action="{{ route('admin.upload.lean') }}" method="POST" enctype="multipart/form-data">
@@ -2245,6 +2324,13 @@
     <div id="qcdd" class="content">
 
         @auth
+
+            <!-- Header section -->
+            <div class="header-titles mb-4" style="border-radius: 15px">
+                <div class="header-content">
+                    <h1>QCDD</h1> <!-- Replace "Screen Name" with the actual screen name -->
+                </div>
+            </div>
 
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
@@ -2468,6 +2554,13 @@
 
         @auth
 
+            <!-- Header section -->
+            <div class="header-titles mb-4" style="border-radius: 15px">
+                <div class="header-content">
+                    <h1>Recursos Humanos</h1> <!-- Replace "Screen Name" with the actual screen name -->
+                </div>
+            </div>
+
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
                 <form id="rhForm" action="{{ route('admin.upload.rh') }}" method="POST" enctype="multipart/form-data">
@@ -2690,6 +2783,13 @@
 
         @auth
 
+            <!-- Header section -->
+            <div class="header-titles mb-4" style="border-radius: 15px">
+                <div class="header-content">
+                    <h1>Empty</h1> <!-- Replace "Screen Name" with the actual screen name -->
+                </div>
+            </div>
+
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
                 <form id="emptyForm" action="{{ route('admin.upload.empty') }}" method="POST" enctype="multipart/form-data">
@@ -2880,7 +2980,7 @@
                                         <form action="{{ route('admin.delete.file') }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="filePath" value="{{ $file }}">
-                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-Empty1 mt-1">Delete</button>
+                                            <button type="submit" data-file-id="{{ $index }}" class="btn btn-danger btn-block delete-btn-Empty mt-1">Delete</button>
                                         </form>
                                     @endif
 
@@ -2911,6 +3011,13 @@
     <div id="empty2" class="content">
 
         @auth
+
+            <!-- Header section -->
+            <div class="header-titles mb-4" style="border-radius: 15px">
+                <div class="header-content">
+                    <h1>Empty2</h1> <!-- Replace "Screen Name" with the actual screen name -->
+                </div>
+            </div>
 
             @if(auth()->user()->hasRole('worker') || auth()->user()->hasRole('admin'))
 
@@ -3164,8 +3271,12 @@
             var content = document.getElementById(contentId);
             if (content) {
                 content.style.display = 'block';
+
+                /*
                 // Update URL with content ID
                 window.location.hash = '#' + contentId;
+                */
+
                 // Display back button
                 document.getElementById('backButton').style.display = 'block';
 
@@ -3219,9 +3330,6 @@
             screens.forEach(function(screen) {
                 screen.style.display = 'flex';
             });
-
-            // Update URL to remove the content ID
-            history.pushState(null, null, window.location.pathname);
 
             // Clear the stored screen state
             localStorage.removeItem('currentScreen');
@@ -3677,8 +3785,6 @@
                 if (arrow === 'desc') {
                     files = files.toArray().reverse();
                 }
-
-                console.log("Sorted Files:", files);
 
                 // Re-append the sorted file cards back to the file-card-container
                 fileCardContainer.empty().append(files);
