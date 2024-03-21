@@ -932,8 +932,15 @@
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
-                                    <!-- Display preview button for PDF files -->
-                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
+
+
                                 @else
                                     <!-- Display download button for other file types -->
                                     <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
@@ -1161,8 +1168,15 @@
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
-                                    <!-- Display preview button for PDF files -->
-                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
+
+
                                 @else
                                     <!-- Display download button for other file types -->
                                     <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
@@ -1389,8 +1403,15 @@
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
-                                    <!-- Display preview button for PDF files -->
-                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
+
+
                                 @else
                                     <!-- Display download button for other file types -->
                                     <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
@@ -1617,8 +1638,15 @@
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
-                                    <!-- Display preview button for PDF files -->
-                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
+
+
                                 @else
                                     <!-- Display download button for other file types -->
                                     <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
@@ -1844,8 +1872,15 @@
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
-                                    <!-- Display preview button for PDF files -->
-                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
+
+
                                 @else
                                     <!-- Display download button for other file types -->
                                     <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
@@ -2073,8 +2108,15 @@
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
-                                    <!-- Display preview button for PDF files -->
-                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
+
+
                                 @else
                                     <!-- Display download button for other file types -->
                                     <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
@@ -2302,8 +2344,15 @@
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
-                                    <!-- Display preview button for PDF files -->
-                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
+
+
                                 @else
                                     <!-- Display download button for other file types -->
                                     <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
@@ -2531,8 +2580,15 @@
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
-                                    <!-- Display preview button for PDF files -->
-                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
+
+
                                 @else
                                     <!-- Display download button for other file types -->
                                     <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
@@ -2760,8 +2816,15 @@
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
-                                    <!-- Display preview button for PDF files -->
-                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
+
+
                                 @else
                                     <!-- Display download button for other file types -->
                                     <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
@@ -2989,8 +3052,15 @@
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
-                                    <!-- Display preview button for PDF files -->
-                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
+
+
                                 @else
                                     <!-- Display download button for other file types -->
                                     <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
@@ -3218,8 +3288,15 @@
                             <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
                                 @if($extension == 'pdf')
-                                    <!-- Display preview button for PDF files -->
-                                    <button type="button" class="btn btn-success btn-block preview-btn" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
+
+
                                 @else
                                     <!-- Display download button for other file types -->
                                     <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
