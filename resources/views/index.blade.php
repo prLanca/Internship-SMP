@@ -1405,11 +1405,11 @@
 
                                 @if(auth()->user()->hasRole('admin'))
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Montagem')">
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Manutencao')">
 
                                 @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Montagem')">
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Manutencao')">
 
                                 @else
 
