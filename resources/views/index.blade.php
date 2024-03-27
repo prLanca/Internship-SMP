@@ -379,6 +379,27 @@
                     font-size: 24px; /* Font size of the heading */
                 }
 
+
+                #closePreview {
+
+                    background-color: #f44336; /* Red background */
+                    border: none; /* Remove borders */
+                    color: white; /* White text */
+                    padding: 6px 14px; /* Padding around text */
+                    text-align: center; /* Center the text */
+                    text-decoration: none; /* Remove underline */
+                    display: inline-block;
+                    font-size: 16px;
+                    margin: 5vh 2vh;
+                    cursor: pointer;
+                    border-radius: 15px; /* Make it circular */
+                    transition: background-color 0.3s ease; /* Smooth transition */
+                }
+
+                #closePreview:hover {
+                    background-color: #d32f2f; /* Darker red on hover */
+                }
+
             </style>
 
         </head>
@@ -692,20 +713,12 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    @if($extension == 'pdf')
-
                                         <div style="display: flex;">
                                             <!-- Display preview button for PDF files -->
-                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
+                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Injecao', '{{ basename($file) }}')">Preview</button>
                                             <!-- Display download button for PDF files -->
                                             <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
                                         </div>
-
-
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
 
                                     @auth
 
@@ -931,20 +944,12 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    @if($extension == 'pdf')
-
-                                        <div style="display: flex;">
-                                            <!-- Display preview button for PDF files -->
-                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                            <!-- Display download button for PDF files -->
-                                            <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
-                                        </div>
-
-
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Pintura', '{{ basename($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
 
                                     @auth
 
@@ -1167,20 +1172,12 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    @if($extension == 'pdf')
-
-                                        <div style="display: flex;">
-                                            <!-- Display preview button for PDF files -->
-                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                            <!-- Display download button for PDF files -->
-                                            <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
-                                        </div>
-
-
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Montagem', '{{ basename($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
 
                                     @auth
 
@@ -1402,20 +1399,12 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    @if($extension == 'pdf')
-
-                                        <div style="display: flex;">
-                                            <!-- Display preview button for PDF files -->
-                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                            <!-- Display download button for PDF files -->
-                                            <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
-                                        </div>
-
-
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Manutencao', '{{ basename($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
 
                                     @auth
 
@@ -1637,20 +1626,12 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    @if($extension == 'pdf')
-
-                                        <div style="display: flex;">
-                                            <!-- Display preview button for PDF files -->
-                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                            <!-- Display download button for PDF files -->
-                                            <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
-                                        </div>
-
-
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Qualidade', '{{ basename($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
 
                                     @auth
 
@@ -1871,20 +1852,12 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    @if($extension == 'pdf')
-
-                                        <div style="display: flex;">
-                                            <!-- Display preview button for PDF files -->
-                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                            <!-- Display download button for PDF files -->
-                                            <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
-                                        </div>
-
-
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Engenharia', '{{ basename($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
 
                                     @auth
 
@@ -2107,20 +2080,12 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    @if($extension == 'pdf')
-
-                                        <div style="display: flex;">
-                                            <!-- Display preview button for PDF files -->
-                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                            <!-- Display download button for PDF files -->
-                                            <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
-                                        </div>
-
-
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Higiene', '{{ basename($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
 
                                     @auth
 
@@ -2343,20 +2308,12 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    @if($extension == 'pdf')
-
-                                        <div style="display: flex;">
-                                            <!-- Display preview button for PDF files -->
-                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                            <!-- Display download button for PDF files -->
-                                            <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
-                                        </div>
-
-
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Lean', '{{ basename($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
 
                                     @auth
 
@@ -2579,20 +2536,12 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    @if($extension == 'pdf')
-
-                                        <div style="display: flex;">
-                                            <!-- Display preview button for PDF files -->
-                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                            <!-- Display download button for PDF files -->
-                                            <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
-                                        </div>
-
-
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('QCDD', '{{ basename($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
 
                                     @auth
 
@@ -2815,20 +2764,12 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    @if($extension == 'pdf')
-
-                                        <div style="display: flex;">
-                                            <!-- Display preview button for PDF files -->
-                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                            <!-- Display download button for PDF files -->
-                                            <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
-                                        </div>
-
-
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('RH', '{{ basename($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
 
                                     @auth
 
@@ -3051,21 +2992,12 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    @if($extension == 'pdf')
-
-                                        <div style="display: flex;">
-                                            <!-- Display preview button for PDF files -->
-                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                            <!-- Display download button for PDF files -->
-                                            <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
-                                        </div>
-
-
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
-
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Empty', '{{ basename($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
                                     @auth
 
                                         @php
@@ -3287,20 +3219,12 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    @if($extension == 'pdf')
-
-                                        <div style="display: flex;">
-                                            <!-- Display preview button for PDF files -->
-                                            <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('{{ Storage::url($file) }}')">Preview</button>
-                                            <!-- Display download button for PDF files -->
-                                            <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
-                                        </div>
-
-
-                                    @else
-                                        <!-- Display download button for other file types -->
-                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary btn-block" download>Download</a>
-                                    @endif
+                                    <div style="display: flex;">
+                                        <!-- Display preview button for PDF files -->
+                                        <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Empty2', '{{ basename($file) }}')">Preview</button>
+                                        <!-- Display download button for PDF files -->
+                                        <a href="{{ Storage::url($file) }}" class="btn btn-primary" style="flex: 1;" download>Download</a>
+                                    </div>
 
                                     @auth
 
@@ -3346,20 +3270,51 @@
 
         <!-- ###################################### Preview Screens PDF ###################################### -->
 
-        <!-- Modal for file preview -->
+        <!--
         <div id="previewModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closePreview()">&times;</span>
                 <iframe id="previewFrame" frameborder="0" width="1920vh" height="900vh"></iframe>
-                <div id="excelPreview"></div> <!-- Place to display Excel content -->
+                <div id="excelPreview"></div>
             </div>
+        </div>
+        -->
+
+        <div id="closepreview" style="display: none; z-index: 9999;">
+            <button id="closePreview" onclick="closePreview()" style="position: fixed; top: 4vh; right: 1px; z-index: 10000;">X</button>
         </div>
 
         <!-- #################################### End Preview Screens PDF #################################### -->
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
+        <script src="{{ asset('assets/dist/pspdfkit.js') }}"></script>
+
         <script>
+
+
+            /*
+
+            // Assuming you have the department and file name
+            var department = "Injecao"; // Example department
+            var fileName = "1_Administrator_Indicadores CP7 e Audit1.pdf"; // Example file name
+
+            // Construct the file path
+            var filePath = "/storage/" + department + "/" + fileName;
+
+            // Load the file into PSPDFKit
+            PSPDFKit.load({
+                container: "#pspdfkit",
+                document: filePath
+            })
+                .then(function(instance) {
+                    console.log("PSPDFKit loaded", instance);
+                })
+                .catch(function(error) {
+                    console.error(error.message);
+                });
+
+           */
 
             let files = [];
 
@@ -3444,6 +3399,8 @@
 
             <!-- ############################### File PDF Preview ############################### -->
 
+
+            /*
             // Function to Preview the pdf file
             function openPreview(url) {
                 if (url.toLowerCase().endsWith('.pdf')) {
@@ -3460,12 +3417,68 @@
                     alert('Preview is not available for this file type.');
                 }
             }
+            */
 
+            let pspdfkitInstance = null;
+
+            function openPreview(screenContext, fileName) {
+                // Construct the file path using the screenContext
+                var filePath = "/storage/" + screenContext + "/" + fileName;
+
+                // Show the close button
+                var closeButtonDiv = document.getElementById('closepreview');
+                closeButtonDiv.style.display = 'block';
+
+                // Create a new container for the preview
+                var previewContainer = document.createElement('div');
+                previewContainer.id = 'pspdfkitPreviewContainer';
+                previewContainer.style.position = 'fixed';
+                previewContainer.style.top = '0';
+                previewContainer.style.left = '0';
+                previewContainer.style.width = '100%';
+                previewContainer.style.height = '100%';
+                previewContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                previewContainer.style.display = 'block';
+                previewContainer.style.zIndex = '9998';
+
+                // Append the new container to the body
+                document.body.appendChild(previewContainer);
+
+                // Load the document into PSPDFKit
+                PSPDFKit.load({
+                    licenseKey: 'mi-70AVvl5Adl4hsEzzrLawm7RUdJ1jb42CjHIhRTTX9OF5xqnfuBauVLb4M8SnL4g7b43zqxSsUqpixOSNkAVRrUkGXc12i9QxBrH8R7xJO7hhKcG3sDlFumCEb6FqFb7oVefIUwnxFdY51cDRAox4g9lqVLv6P1MeA0rx3mBfzqrjutDwlONuVqBIkkWKY8wJevUbyv0mgkUg',
+                    container: "#pspdfkitPreviewContainer",
+                    document: filePath
+                })
+                    .then(function(instance) {
+                        console.log("Document loaded", instance);
+                    })
+                    .catch(function(error) {
+                        console.error("Error loading document:", error);
+                    });
+            }
+
+            function closePreview() {
+                // Find the preview container and remove it from the DOM
+                var previewContainer = document.getElementById('pspdfkitPreviewContainer');
+                if (previewContainer) {
+                    document.body.removeChild(previewContainer);
+
+                    // Hide the close button
+                    var closeButtonDiv = document.getElementById('closepreview');
+                    closeButtonDiv.style.display = 'none';
+                }
+            }
+
+
+            /*
             // Function to display PowerPoint presentations
             function closePreview() {
                 document.getElementById('previewModal').style.display = 'none';
                 document.getElementById('previewFrame').src = '';
             }
+            */
+
 
             document.addEventListener('DOMContentLoaded', function() {
 
