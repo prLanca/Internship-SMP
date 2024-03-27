@@ -400,6 +400,18 @@
                     background-color: #d32f2f; /* Darker red on hover */
                 }
 
+                .file-card {
+                    background: #efefef; /* White background */
+                }
+
+                .card-body {
+                    background: white !important;
+                }
+
+                .card-footer {
+                    background: #efefef;
+                }
+
             </style>
 
         </head>
@@ -667,7 +679,19 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Injecao')">
+                                @if(auth()->user()->hasRole('admin'))
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Injecao')">
+
+                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Injecao')">
+
+                                @else
+
+                                <div style="border-radius: 15px 15px 0 0;">
+
+                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -899,7 +923,19 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Pintura')">
+                                @if(auth()->user()->hasRole('admin'))
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Pintura')">
+
+                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Pintura')">
+
+                                @else
+
+                                    <div style="border-radius: 15px 15px 0 0;">
+
+                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1128,7 +1164,19 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Montagem')">
+                                @if(auth()->user()->hasRole('admin'))
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Montagem')">
+
+                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Montagem')">
+
+                                @else
+
+                                    <div style="border-radius: 15px 15px 0 0;">
+
+                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1355,7 +1403,19 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Manutencao')">
+                                @if(auth()->user()->hasRole('admin'))
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Montagem')">
+
+                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Montagem')">
+
+                                @else
+
+                                    <div style="border-radius: 15px 15px 0 0;">
+
+                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1582,7 +1642,19 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Qualidade')">
+                                @if(auth()->user()->hasRole('admin'))
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Qualidade')">
+
+                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Qualidade')">
+
+                                @else
+
+                                    <div style="border-radius: 15px 15px 0 0;">
+
+                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1808,7 +1880,19 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Engenharia')">
+                                @if(auth()->user()->hasRole('admin'))
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Engenharia')">
+
+                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Engenharia')">
+
+                                @else
+
+                                    <div style="border-radius: 15px 15px 0 0;">
+
+                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2036,7 +2120,19 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Higiene')">
+                                @if(auth()->user()->hasRole('admin'))
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Higiene')">
+
+                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Higiene')">
+
+                                @else
+
+                                    <div style="border-radius: 15px 15px 0 0;">
+
+                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2264,7 +2360,19 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Lean')">
+                                @if(auth()->user()->hasRole('admin'))
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Lean')">
+
+                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Lean')">
+
+                                @else
+
+                                    <div style="border-radius: 15px 15px 0 0;">
+
+                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2492,7 +2600,19 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'qcdd')">
+                                @if(auth()->user()->hasRole('admin'))
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'qcdd')">
+
+                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'qcdd')">
+
+                                @else
+
+                                    <div style="border-radius: 15px 15px 0 0;">
+
+                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2720,7 +2840,19 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'RH')">
+                                @if(auth()->user()->hasRole('admin'))
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'RH')">
+
+                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'RH')">
+
+                                @else
+
+                                    <div style="border-radius: 15px 15px 0 0;">
+
+                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2948,7 +3080,19 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty')">
+                                @if(auth()->user()->hasRole('admin'))
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty')">
+
+                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty')">
+
+                                @else
+
+                                    <div style="border-radius: 15px 15px 0 0;">
+
+                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -3175,7 +3319,19 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty2')">
+                                @if(auth()->user()->hasRole('admin'))
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty2')">
+
+                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
+
+                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty2')">
+
+                                @else
+
+                                    <div style="border-radius: 15px 15px 0 0;">
+
+                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
