@@ -700,7 +700,7 @@
                                             <img src="{{asset('img/format_icons/pdf.png')}}" alt="pdf" style="max-height: 25px;">
                                         @elseif($extension == 'doc' || $extension == 'docx')
                                             <img src="{{asset('img/format_icons/word.png')}}" alt="word" style="max-height: 25px;">
-                                        @elseif($extension == 'xls' || $extension == 'xlsx')
+                                        @elseif($extension == 'xls' || $extension == 'xlsx' || $extension == 'xlsm')
                                             <img src="{{asset('img/format_icons/excel.png')}}" alt="excel" style="max-height: 25px;">
                                         @else
                                             <img src="{{asset('img/format_icons/powerpoint.png')}}" alt="powerpoint" style="max-height: 25px;">
@@ -3631,7 +3631,8 @@
                         return '<img src="{{ asset("img/format_icons/word.png") }}" alt="DOCX" style="width: 30px; height: 30px;">'; // DOCX file icon
                     case 'xlsx':
                     case 'xlsm':
-                        return '<img src="{{ asset("img/format_icons/excel.png") }}" alt="XLSX" style="width: 30px; height: 30px;">'; // XLSX and XLSM file icon
+                    case 'xls':
+                        return '<img src="{{ asset("img/format_icons/excel.png") }}" alt="XLSXM" style="width: 30px; height: 30px;">'; // XLSX and XLSM file icon
                     case 'pptx':
                         return '<img src="{{ asset("img/format_icons/powerpoint.png") }}" alt="PPTX" style="width: 30px; height: 30px;">'; // PPTX file icon
                     default:
