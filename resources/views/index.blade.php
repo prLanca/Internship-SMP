@@ -223,6 +223,15 @@
                     overflow-y: auto; /* Add scrollbar when needed */
                 }
 
+                .uploader-checkboxes .btn:hover,
+                .uploader-checkboxes .btn:focus {
+
+                    background-color: inherit;
+                    color: inherit;
+                    border-color: inherit;
+                    
+                }
+
                 .uploader-checkboxes-title {
                     margin-top: 0;
                     margin-bottom: 10px;
@@ -258,8 +267,6 @@
                 .uploader-checkboxes .btn-group > .btn {
                     position: relative;
                 }
-
-
 
                 #loadingContainer {
                     position: fixed;
