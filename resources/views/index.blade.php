@@ -401,7 +401,7 @@
                 }
 
                 .file-card {
-                    background: #efefef; /* White background */
+                    background: #f6f6f6; /* White background */
                 }
 
                 .card-body {
@@ -409,7 +409,7 @@
                 }
 
                 .card-footer {
-                    background: #efefef;
+                    background: #f6f6f6;
                 }
 
             </style>
