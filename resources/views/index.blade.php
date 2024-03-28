@@ -229,7 +229,7 @@
                     background-color: inherit;
                     color: inherit;
                     border-color: inherit;
-                    
+
                 }
 
                 .uploader-checkboxes-title {
@@ -417,6 +417,12 @@
 
                 .card-footer {
                     background: #f6f6f6;
+                }
+
+                .footer-btn {
+                    
+                    justify-content: center;
+
                 }
 
             </style>
@@ -742,9 +748,9 @@
 
                                 </div>
 
-                                <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
+                                <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px;"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                        <div style="display: flex;">
+                                        <div class="footer-btn" style="display: flex;">
                                             <!-- Display preview button for PDF files -->
                                             <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Injecao', '{{ basename($file) }}')">Preview</button>
                                             <!-- Display download button for PDF files -->
@@ -987,7 +993,7 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    <div style="display: flex;">
+                                    <div class="footer-btn" style="display: flex;">
                                         <!-- Display preview button for PDF files -->
                                         <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Pintura', '{{ basename($file) }}')">Preview</button>
                                         <!-- Display download button for PDF files -->
@@ -1227,7 +1233,7 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    <div style="display: flex;">
+                                    <div class="footer-btn" style="display: flex;">
                                         <!-- Display preview button for PDF files -->
                                         <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Montagem', '{{ basename($file) }}')">Preview</button>
                                         <!-- Display download button for PDF files -->
@@ -1466,7 +1472,7 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    <div style="display: flex;">
+                                    <div class="footer-btn" style="display: flex;">
                                         <!-- Display preview button for PDF files -->
                                         <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Manutencao', '{{ basename($file) }}')">Preview</button>
                                         <!-- Display download button for PDF files -->
@@ -1705,7 +1711,7 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    <div style="display: flex;">
+                                    <div class="footer-btn" style="display: flex;">
                                         <!-- Display preview button for PDF files -->
                                         <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Qualidade', '{{ basename($file) }}')">Preview</button>
                                         <!-- Display download button for PDF files -->
@@ -1943,7 +1949,7 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    <div style="display: flex;">
+                                    <div class="footer-btn" style="display: flex;">
                                         <!-- Display preview button for PDF files -->
                                         <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Engenharia', '{{ basename($file) }}')">Preview</button>
                                         <!-- Display download button for PDF files -->
@@ -2183,7 +2189,7 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    <div style="display: flex;">
+                                    <div class="footer-btn" style="display: flex;">
                                         <!-- Display preview button for PDF files -->
                                         <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Higiene', '{{ basename($file) }}')">Preview</button>
                                         <!-- Display download button for PDF files -->
@@ -2423,7 +2429,7 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    <div style="display: flex;">
+                                    <div class="footer-btn" style="display: flex;">
                                         <!-- Display preview button for PDF files -->
                                         <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Lean', '{{ basename($file) }}')">Preview</button>
                                         <!-- Display download button for PDF files -->
@@ -2663,7 +2669,7 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    <div style="display: flex;">
+                                    <div class="footer-btn" style="display: flex;">
                                         <!-- Display preview button for PDF files -->
                                         <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('QCDD', '{{ basename($file) }}')">Preview</button>
                                         <!-- Display download button for PDF files -->
@@ -2903,7 +2909,7 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    <div style="display: flex;">
+                                    <div class="footer-btn" style="display: flex;">
                                         <!-- Display preview button for PDF files -->
                                         <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('RH', '{{ basename($file) }}')">Preview</button>
                                         <!-- Display download button for PDF files -->
@@ -3143,7 +3149,7 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    <div style="display: flex;">
+                                    <div class="footer-btn" style="display: flex;">
                                         <!-- Display preview button for PDF files -->
                                         <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Empty', '{{ basename($file) }}')">Preview</button>
                                         <!-- Display download button for PDF files -->
@@ -3382,7 +3388,7 @@
 
                                 <div class="card-footer justify-content-center" style="border-radius: 0 0 15px 15px"> <!-- Add justify-content-center to align the buttons in the center -->
 
-                                    <div style="display: flex;">
+                                    <div class="footer-btn" style="display: flex;">
                                         <!-- Display preview button for PDF files -->
                                         <button type="button" class="btn btn-success" style="flex: 1; margin-right: 5px;" onclick="openPreview('Empty2', '{{ basename($file) }}')">Preview</button>
                                         <!-- Display download button for PDF files -->
