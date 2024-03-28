@@ -420,7 +420,7 @@
                 }
 
                 .footer-btn {
-                    
+
                     justify-content: center;
 
                 }
@@ -692,19 +692,14 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                @if(auth()->user()->hasRole('admin'))
+                                @php
+                                    $isAdmin = auth()->user()->hasRole('admin');
+                                    $isWorker = auth()->user()->hasRole('worker');
+                                    $fileNameParts = explode('_', pathinfo($file, PATHINFO_FILENAME));
+                                    $isFileOwner = ($isWorker && $fileNameParts[1] === auth()->user()->name);
+                                @endphp
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Injecao')">
-
-                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
-
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Injecao')">
-
-                                @else
-
-                                <div style="border-radius: 15px 15px 0 0;">
-
-                                @endif
+                                <div style="border-radius: 15px 15px 0 0; cursor: @if($isAdmin || ($isWorker && $isFileOwner)) pointer @else default @endif" @if($isAdmin || ($isWorker && $isFileOwner)) data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Injecao')" @endif>
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -936,19 +931,15 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                @if(auth()->user()->hasRole('admin'))
+                                @php
+                                    $isAdmin = auth()->user()->hasRole('admin');
+                                    $isWorker = auth()->user()->hasRole('worker');
+                                    $fileNameParts = explode('_', pathinfo($file, PATHINFO_FILENAME));
+                                    $isFileOwner = ($isWorker && $fileNameParts[1] === auth()->user()->name);
+                                @endphp
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Pintura')">
+                                <div style="border-radius: 15px 15px 0 0; cursor: @if($isAdmin || ($isWorker && $isFileOwner)) pointer @else default @endif" @if($isAdmin || ($isWorker && $isFileOwner)) data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Pintura')" @endif>
 
-                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
-
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Pintura')">
-
-                                @else
-
-                                    <div style="border-radius: 15px 15px 0 0;">
-
-                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1177,19 +1168,15 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                @if(auth()->user()->hasRole('admin'))
+                                @php
+                                    $isAdmin = auth()->user()->hasRole('admin');
+                                    $isWorker = auth()->user()->hasRole('worker');
+                                    $fileNameParts = explode('_', pathinfo($file, PATHINFO_FILENAME));
+                                    $isFileOwner = ($isWorker && $fileNameParts[1] === auth()->user()->name);
+                                @endphp
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Montagem')">
+                                <div style="border-radius: 15px 15px 0 0; cursor: @if($isAdmin || ($isWorker && $isFileOwner)) pointer @else default @endif" @if($isAdmin || ($isWorker && $isFileOwner)) data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Montagem')" @endif>
 
-                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
-
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Montagem')">
-
-                                @else
-
-                                    <div style="border-radius: 15px 15px 0 0;">
-
-                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1416,19 +1403,15 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                @if(auth()->user()->hasRole('admin'))
+                                @php
+                                    $isAdmin = auth()->user()->hasRole('admin');
+                                    $isWorker = auth()->user()->hasRole('worker');
+                                    $fileNameParts = explode('_', pathinfo($file, PATHINFO_FILENAME));
+                                    $isFileOwner = ($isWorker && $fileNameParts[1] === auth()->user()->name);
+                                @endphp
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Manutencao')">
+                                <div style="border-radius: 15px 15px 0 0; cursor: @if($isAdmin || ($isWorker && $isFileOwner)) pointer @else default @endif" @if($isAdmin || ($isWorker && $isFileOwner)) data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Manutencao')" @endif>
 
-                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
-
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Manutencao')">
-
-                                @else
-
-                                    <div style="border-radius: 15px 15px 0 0;">
-
-                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1655,19 +1638,15 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                @if(auth()->user()->hasRole('admin'))
+                                @php
+                                    $isAdmin = auth()->user()->hasRole('admin');
+                                    $isWorker = auth()->user()->hasRole('worker');
+                                    $fileNameParts = explode('_', pathinfo($file, PATHINFO_FILENAME));
+                                    $isFileOwner = ($isWorker && $fileNameParts[1] === auth()->user()->name);
+                                @endphp
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Qualidade')">
+                                <div style="border-radius: 15px 15px 0 0; cursor: @if($isAdmin || ($isWorker && $isFileOwner)) pointer @else default @endif" @if($isAdmin || ($isWorker && $isFileOwner)) data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Qualidade')" @endif>
 
-                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
-
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Qualidade')">
-
-                                @else
-
-                                    <div style="border-radius: 15px 15px 0 0;">
-
-                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -1893,19 +1872,14 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                @if(auth()->user()->hasRole('admin'))
+                                @php
+                                    $isAdmin = auth()->user()->hasRole('admin');
+                                    $isWorker = auth()->user()->hasRole('worker');
+                                    $fileNameParts = explode('_', pathinfo($file, PATHINFO_FILENAME));
+                                    $isFileOwner = ($isWorker && $fileNameParts[1] === auth()->user()->name);
+                                @endphp
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Engenharia')">
-
-                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
-
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Engenharia')">
-
-                                @else
-
-                                    <div style="border-radius: 15px 15px 0 0;">
-
-                                @endif
+                                <div style="border-radius: 15px 15px 0 0; cursor: @if($isAdmin || ($isWorker && $isFileOwner)) pointer @else default @endif" @if($isAdmin || ($isWorker && $isFileOwner)) data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Engenharia')" @endif>
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2133,19 +2107,15 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                @if(auth()->user()->hasRole('admin'))
+                                @php
+                                    $isAdmin = auth()->user()->hasRole('admin');
+                                    $isWorker = auth()->user()->hasRole('worker');
+                                    $fileNameParts = explode('_', pathinfo($file, PATHINFO_FILENAME));
+                                    $isFileOwner = ($isWorker && $fileNameParts[1] === auth()->user()->name);
+                                @endphp
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Higiene')">
+                                <div style="border-radius: 15px 15px 0 0; cursor: @if($isAdmin || ($isWorker && $isFileOwner)) pointer @else default @endif" @if($isAdmin || ($isWorker && $isFileOwner)) data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Higiene')" @endif>
 
-                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
-
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Higiene')">
-
-                                @else
-
-                                    <div style="border-radius: 15px 15px 0 0;">
-
-                                @endif
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2373,19 +2343,14 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                @if(auth()->user()->hasRole('admin'))
+                                @php
+                                    $isAdmin = auth()->user()->hasRole('admin');
+                                    $isWorker = auth()->user()->hasRole('worker');
+                                    $fileNameParts = explode('_', pathinfo($file, PATHINFO_FILENAME));
+                                    $isFileOwner = ($isWorker && $fileNameParts[1] === auth()->user()->name);
+                                @endphp
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Lean')">
-
-                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
-
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Lean')">
-
-                                @else
-
-                                    <div style="border-radius: 15px 15px 0 0;">
-
-                                @endif
+                                <div style="border-radius: 15px 15px 0 0; cursor: @if($isAdmin || ($isWorker && $isFileOwner)) pointer @else default @endif" @if($isAdmin || ($isWorker && $isFileOwner)) data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Lean')" @endif>
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2613,19 +2578,14 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                @if(auth()->user()->hasRole('admin'))
+                                @php
+                                    $isAdmin = auth()->user()->hasRole('admin');
+                                    $isWorker = auth()->user()->hasRole('worker');
+                                    $fileNameParts = explode('_', pathinfo($file, PATHINFO_FILENAME));
+                                    $isFileOwner = ($isWorker && $fileNameParts[1] === auth()->user()->name);
+                                @endphp
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'qcdd')">
-
-                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
-
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'qcdd')">
-
-                                @else
-
-                                    <div style="border-radius: 15px 15px 0 0;">
-
-                                @endif
+                                <div style="border-radius: 15px 15px 0 0; cursor: @if($isAdmin || ($isWorker && $isFileOwner)) pointer @else default @endif" @if($isAdmin || ($isWorker && $isFileOwner)) data-file-id="{{ $index }}" onclick="toggleSelection(this, 'QCDD')" @endif>
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -2853,19 +2813,14 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                @if(auth()->user()->hasRole('admin'))
+                                @php
+                                    $isAdmin = auth()->user()->hasRole('admin');
+                                    $isWorker = auth()->user()->hasRole('worker');
+                                    $fileNameParts = explode('_', pathinfo($file, PATHINFO_FILENAME));
+                                    $isFileOwner = ($isWorker && $fileNameParts[1] === auth()->user()->name);
+                                @endphp
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'RH')">
-
-                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
-
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'RH')">
-
-                                @else
-
-                                    <div style="border-radius: 15px 15px 0 0;">
-
-                                @endif
+                                <div style="border-radius: 15px 15px 0 0; cursor: @if($isAdmin || ($isWorker && $isFileOwner)) pointer @else default @endif" @if($isAdmin || ($isWorker && $isFileOwner)) data-file-id="{{ $index }}" onclick="toggleSelection(this, 'RH')" @endif>
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -3093,19 +3048,14 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                @if(auth()->user()->hasRole('admin'))
+                                @php
+                                    $isAdmin = auth()->user()->hasRole('admin');
+                                    $isWorker = auth()->user()->hasRole('worker');
+                                    $fileNameParts = explode('_', pathinfo($file, PATHINFO_FILENAME));
+                                    $isFileOwner = ($isWorker && $fileNameParts[1] === auth()->user()->name);
+                                @endphp
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty')">
-
-                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
-
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty')">
-
-                                @else
-
-                                    <div style="border-radius: 15px 15px 0 0;">
-
-                                @endif
+                                <div style="border-radius: 15px 15px 0 0; cursor: @if($isAdmin || ($isWorker && $isFileOwner)) pointer @else default @endif" @if($isAdmin || ($isWorker && $isFileOwner)) data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty')" @endif>
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
@@ -3332,19 +3282,14 @@
 
                             <div class="card file-card flex-fill position-relative m-2" style="border-radius: 15px; max-width: 26vh;">
 
-                                @if(auth()->user()->hasRole('admin'))
+                                @php
+                                    $isAdmin = auth()->user()->hasRole('admin');
+                                    $isWorker = auth()->user()->hasRole('worker');
+                                    $fileNameParts = explode('_', pathinfo($file, PATHINFO_FILENAME));
+                                    $isFileOwner = ($isWorker && $fileNameParts[1] === auth()->user()->name);
+                                @endphp
 
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty2')">
-
-                                @elseif(auth()->user()->hasRole('worker') && explode('_', pathinfo($file, PATHINFO_FILENAME))[1] === auth()->user()->name)
-
-                                    <div style="border-radius: 15px 15px 0 0; cursor: pointer" data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty2')">
-
-                                @else
-
-                                    <div style="border-radius: 15px 15px 0 0;">
-
-                                @endif
+                                <div style="border-radius: 15px 15px 0 0; cursor: @if($isAdmin || ($isWorker && $isFileOwner)) pointer @else default @endif" @if($isAdmin || ($isWorker && $isFileOwner)) data-file-id="{{ $index }}" onclick="toggleSelection(this, 'Empty2')" @endif>
 
                                 <div class="card-header" style="height: 8vh; border-radius: 15px 15px 0 0">
 
