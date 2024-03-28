@@ -18,11 +18,11 @@
     @else
 
         <!DOCTYPE html>
-        <html>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+        <html lang='en'>
 
         <head>
+
+            <title>Motherson Portal</title>
 
             <style>
 
@@ -3399,8 +3399,6 @@
         </div>
 
         <!-- #################################### End Preview Screens PDF #################################### -->
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 
         <script src="{{ asset('assets/dist/pspdfkit.js') }}"></script>
 
